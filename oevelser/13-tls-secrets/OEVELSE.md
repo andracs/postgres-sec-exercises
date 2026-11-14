@@ -40,8 +40,13 @@ PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=studiebase
 **Tjek:** virker fordi certifikatet har CN=localhost. Prøv `sslmode=verify-full` uden rootcert — det fejler (ukendt CA).
 
 ### 4. Kræv TLS for ALLE forbindelser i pg_hba.conf
+Find først den rigtige sti i stedet for at gætte (stien ændrer sig mellem PostgreSQL-versioner):
 ```bash
-docker compose exec postgres bash -c "sed -i '1i hostnossl all all 0.0.0.0/0 reject' /var/lib/postgresql/data/pg_hba.conf && psql -U studie -d studiebase -c 'SELECT pg_reload_conf();'"
+docker compose exec postgres psql -U studie -d studiebase -c "SHOW hba_file; SHOW data_directory;"
+```
+Indsæt så reglen øverst i den viste pg_hba.conf (første match vinder):
+```bash
+docker compose exec postgres bash -c "HBA=$(psql -U studie -d studiebase -tA -c 'SHOW hba_file;') && sed -i '1i hostnossl all all 0.0.0.0/0 reject' "$HBA" && psql -U studie -d studiebase -c 'SELECT pg_reload_conf();'"
 ```
 Test at en forbindelse uden TLS nu afvises:
 ```bash
@@ -56,12 +61,15 @@ cat .gitignore
 git status --short                     # certs/ og secrets/ må ikke dukke op
 ```
 
-### 6. Roter password (secret-rotation)
+### 6. Roter password (secret-rotation) — uden at slette datavolumenet
+`POSTGRES_PASSWORD_FILE` læses kun ved første initialisering af en tom volumen, så ved rotation ændrer man password i den kørende database:
+```sql
+ALTER USER studie PASSWORD 'nyt-robust-password';
+```
+Opdater også secret-filen, så næste friske `docker compose up -d` på nyt volumen får samme password:
 ```bash
-echo "nyt-$(openssl rand -base64 12)" > secrets/db_password.txt
-docker compose down -v && docker compose up -d   # nyt volumen = nyt password ved init
-docker compose exec postgres pg_isready -U studie
-PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=studiebase user=studie sslmode=require" -c "SELECT current_user;"
+echo 'nyt-robust-password' > secrets/db_password.txt
+PGPASSWORD='nyt-robust-password' psql "host=localhost dbname=studiebase user=studie sslmode=require" -c "SELECT current_user;"
 ```
 
 ## Refleksion

@@ -38,7 +38,7 @@ Containeren starter med en **sulten** konfiguration (se `command:` i `docker-com
 docker compose exec postgres pgbench -U studie -i -s 30 studiebase
 ```
 
-Dette tager typisk 1-3 minutter. Til sidst står der `done.` og tabellerne `pgbench_accounts`, `pgbench_branches`, `pgbench_tellers` og `pgbench_history` er oprettet.
+Dette tager typisk 1-3 minutter. Har du under 4 GB RAM fri, brug i stedet skala 10 (`pgbench -U studie -i -s 10 studiebase`, ca. 130 MB) — øvelsen virker også der. Til sidst står der `done.` og tabellerne `pgbench_accounts`, `pgbench_branches`, `pgbench_tellers` og `pgbench_history` er oprettet.
 
 **Bemærk:** Data ligger i Docker-volumenet `pgdata` og overlever `docker compose down`. Kør kun `-i` én gang. Skal du starte helt forfra, brug `docker compose down -v` (sletter dataene).
 
@@ -68,10 +68,12 @@ Notér de nuværende værdier. Baseline er sat bevidst lavt: typisk `16MB`, `64k
 `work_mem` styrer, hvor meget hukommelse en enkelt sortering/hash må bruge, før den spilder til disk. Test det med `EXPLAIN ANALYZE` i psql:
 
 ```sql
-EXPLAIN ANALYZE SELECT aid, abalance FROM pgbench_accounts ORDER BY abalance DESC LIMIT 10;
+EXPLAIN ANALYZE SELECT aid, abalance FROM pgbench_accounts ORDER BY abalance DESC;
 ```
 
-Kig på linjen `Sort Method:` i outputtet. Med `work_mem=64kB` sorteres der med **external merge Disk** (langsomt). Notér `Execution Time`.
+Kig på linjen `Sort Method:` i outputtet. Med `work_mem=64kB` sorteres alle 3 mio. rækker — og sorteringen **spilder til disk** (`external merge Disk`). Notér `Execution Time`.
+
+**Bemærk:** Fjern `LIMIT 10`! Med LIMIT ville planlæggeren vælge top-N heapsort, der kun holder 10 rækker i hukommelsen — så ville du slet ikke se disk-spill.
 
 ### 5. Justér konfigurationen
 Rediger `docker-compose.yml` og find afsnittet under `command:`. Ændr følgende parametre:
@@ -104,7 +106,7 @@ Sammenlign TPS-værdierne fra trin 2 og 6. Beregn forbedringsprocenten:
 ```
 Forbedring (%) = ((Ny TPS - Baseline TPS) / Baseline TPS) * 100
 ```
-Med et arbejdssæt på ca. 400 MB og `shared_buffers` fra 16MB til 512MB bør du kunne se en tydelig forbedring. Den nøjagtige gevinst afhænger af din maskine (disk-type, RAM, cache) — det er netop derfor man måler.
+Med et arbejdssæt på ca. 400 MB og `shared_buffers` fra 16MB til 512MB kan du typisk se en målbar forbedring. Den præcise gevinst afhænger helt af din maskine (disk-type, RAM, page cache) — derfor måler vi i stedet for at gætte, og du må ikke forvente et bestemt tal.
 
 ### 8. Prøv at skrue for højt
 Ændr `shared_buffers=8GB` (for højt for en container med 4 GB). Genstart:
@@ -132,5 +134,6 @@ Gendan de fungerende indstillinger fra trin 5.
 - `shared_buffers` skal dimensioneres efter datastørrelsen — tuning af et datasæt, der allerede passer i RAM, ændrer intet
 - `work_mem` ses direkte i `EXPLAIN`-output som Sort Method: external merge Disk vs. quicksort Memory
 - `effective_cache_size` er et hint til planlæggeren, ikke allokeret hukommelse
+- `shared_buffers` er Postgres' egen cache i RAM; resten af maskinens RAM går til operativsystemets page cache, som også cacher datafiler — derfor kan en query være hurtig uden at ramme `shared_buffers`, og derfor bør du køre hver måling flere gange
 - Performance-tuning skal altid baseres på målinger, ikke antagelser
 - For høje hukommelsesindstillinger kan føre til, at Postgres ikke starter

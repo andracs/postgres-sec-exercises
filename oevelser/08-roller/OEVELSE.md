@@ -58,9 +58,27 @@ Test igen med `SET ROLE app_skriver;` — UPDATE fejler nu.
 ALTER TABLE hemmelig_data ENABLE ROW LEVEL SECURITY;
 CREATE POLICY ejer_policy ON hemmelig_data
     USING (ejer = current_user);
+```
+Positiv test (SET ROLE er OK til hurtig test):
+```sql
 SET ROLE app_laeser;
-SELECT * FROM hemmelig_data;   -- ser kun rækker hvor ejer = 'app_laeser' (ingen)
+SELECT * FROM hemmelig_data;   -- ser KUN sine egne 2 rækker (ejer='app_laeser'), ikke andres
 RESET ROLE;
+```
+
+### 6b. Test med en RIGTIG forbindelse som app_laeser (ikke kun SET ROLE)
+```bash
+# fra hosten (psql installeret) — password står i init.sql
+PGPASSWORD=laeser123 psql -h localhost -p 5432 -U app_laeser -d studiebase -c "SELECT navn, ejer FROM hemmelig_data;"
+# prøv at skrive:
+PGPASSWORD=laeser123 psql -h localhost -U app_laeser -d studiebase -c "INSERT INTO hemmelig_data (navn, hemmelighed, ejer) VALUES ('x','y','z');"
+```
+**Tjek:** SELECT viser kun app_laesers egne rækker (RLS); INSERT fejler med `permission denied` (mangler tabel-privilegium).
+
+### 6c. Superbruger og RLS
+```sql
+SELECT * FROM hemmelig_data;  -- som studie (superuser): ser ALLE rækker — superusers omgår RLS
+ALTER TABLE hemmelig_data FORCE ROW LEVEL SECURITY;  -- tvinger RLS også for ejeren/superuser
 ```
 
 ### 7. Se hvad hver rolle må på tabellen
@@ -71,6 +89,7 @@ WHERE table_name = 'hemmelig_data' ORDER BY grantee, privilege_type;
 
 ## Refleksion
 
+0. Tabelprivilegier (GRANT) bestemmer HVAD en rolle må (SELECT/INSERT...), RLS bestemmer HVILKE rækker — og en superuser omgår RLS, medmindre tabellen har `FORCE ROW LEVEL SECURITY`.
 1. Hvorfor er "mindst mulig adgang" (least privilege) vigtigt?
 2. Hvad er forskellen på `GRANT ... TO rolle` og `SET ROLE`?
 3. Hvornår er Row Level Security bedre end et almindeligt view?

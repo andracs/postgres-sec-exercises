@@ -18,6 +18,9 @@ CREATE TABLE kunder (
     saldo NUMERIC(10,2) DEFAULT 0.00
 );
 
+-- Slå autovacuum fra for tabellen, så den ikke selv kører ANALYZE midt i øvelsen
+ALTER TABLE kunder SET (autovacuum_enabled = off);
+
 -- Opret indeks på status og aldersgruppe
 CREATE INDEX idx_kunder_status ON kunder(status);
 CREATE INDEX idx_kunder_aldersgruppe ON kunder(aldersgruppe);
