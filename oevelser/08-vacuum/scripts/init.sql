@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret en tabel til at generere dead tuples
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS bloat_test;
+
 CREATE TABLE bloat_test (
     id SERIAL PRIMARY KEY,
     data VARCHAR(100),
@@ -12,7 +15,7 @@ CREATE TABLE bloat_test (
 );
 
 -- Seed med 1 million rækker
-SET seed = 42;
+SET seed = 0.42;
 
 INSERT INTO bloat_test (data, counter)
 SELECT 

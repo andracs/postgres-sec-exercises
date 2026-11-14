@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret en stor tabel til at simulere langkørende queries
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS store_data;
+
 CREATE TABLE store_data (
     id SERIAL PRIMARY KEY,
     data_value VARCHAR(100),
@@ -12,7 +15,7 @@ CREATE TABLE store_data (
 );
 
 -- Seed data med fast seed for determinisme
-SET seed = 42;
+SET seed = 0.42;
 
 -- 5.000.000 rækker for at gøre queries langsomme
 INSERT INTO store_data (data_value, numero, gruppe)

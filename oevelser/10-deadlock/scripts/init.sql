@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret en tabel til deadlock test
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS konto_deadlock;
+
 CREATE TABLE konto_deadlock (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(100) NOT NULL,

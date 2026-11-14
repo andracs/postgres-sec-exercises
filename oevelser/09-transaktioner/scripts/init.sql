@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret konti-tabel til isolationsniveau test
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS transaktion_log, konti;
+
 CREATE TABLE konti (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(100) NOT NULL,
