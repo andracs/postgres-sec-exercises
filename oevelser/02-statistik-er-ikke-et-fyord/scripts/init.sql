@@ -24,7 +24,7 @@ CREATE INDEX idx_kunder_status_aldersgruppe ON kunder(status, aldersgruppe);
 -- 90% aktiv, 10% inaktiv
 -- Aldersgrupper: '18-25', '26-35', '30-40', '41-50', '51-65', '65+'
 -- Brug fast seed for deterministisk output
-SET seed = 42;
+SET seed = 0.42;
 
 INSERT INTO kunder (navn, email, status, aldersgruppe, saldo)
 SELECT 

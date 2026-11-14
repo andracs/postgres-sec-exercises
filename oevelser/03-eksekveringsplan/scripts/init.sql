@@ -31,7 +31,7 @@ CREATE TABLE laan (
 );
 
 -- Seed data med fast seed for determinisme
-SET seed = 42;
+SET seed = 0.42;
 
 -- 10.000 forfattere
 INSERT INTO forfattere (navn, foedt, nationalitet)
@@ -69,7 +69,8 @@ FROM generate_series(1, 1000000) AS i;
 -- Opret indeks
 CREATE INDEX idx_boeger_forfatter ON boeger(forfatter_id);
 CREATE INDEX idx_laan_bog ON laan(bog_id);
-CREATE INDEX idx_laan_laan_dato ON laan(laan_dato);
+CREATE INDEX idx_laan_laa
+n_dato ON laan(laan_dato);
 
 -- VACUUM ANALYZE for at opdatere statistik
 VACUUM ANALYZE;
