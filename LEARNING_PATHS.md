@@ -40,6 +40,31 @@ Tre fokuserede stier gennem de 13 øvelser. Vælg efter niveau og interesse.
 
 ---
 
+
+---
+
+## Sti 4: PBA IT-sikkerhed (5 t i klassen + 3 t hjemme)
+**Fokus:** Sikkerhed i praksis for PBA IT-sikkerhed
+**Tid:** 5 t i klassen + 3 t hjemme
+
+**I klassen (5 t):**
+1. **01 - Benchmarking og hukommelseskonfiguration med pgbench** (45 min)
+2. **02 - Statistik og ANALYZE til bedre query-planer** (30 min)
+3. **03 - Læsning af eksekveringsplaner med EXPLAIN** (45 min)
+4. **04 - Indekser: hurtigere læsning, langsommere skrivning** (45 min)
+5. **07 - Logging og audit af databaseaktivitet** (45 min)
+6. **08 - Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)** (60 min)
+
+**Hjemme (3 t):**
+1. **09 - Transaktioner, isolation og savepoints** (60 min)
+2. **10 - Triggers og audit-log** (45 min)
+3. **11 - Kryptering med pgcrypto** (45 min)
+4. Start på **12 - Backup/PITR** og **13 - PostgreSQL Hardening** (30 min)
+
+Ugen efter: den afsluttende 60-minutters praktiske test (udleveres separat af underviseren).
+
+---
+
 ## Tips
 
 - Start hver øvelse med `docker compose up -d`, vent på `pg_isready`, og ryd op med `docker compose down -v` bagefter.

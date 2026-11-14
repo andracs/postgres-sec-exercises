@@ -71,21 +71,21 @@ Det er disse generelle kompetencer, vi træner.
 
 ## Øvelser
 
-| Nr | Titel | Niveau | Tid | Docker | Beskrivelse | Sikkerhedsaspekt |
-|----|-------|--------|-----|--------|-------------|------------------|
-| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-kanariefuglen/OEVELSE.md) | Let | 30-45 min | 🐳 | CIA-A · ressource/DoS | Performance-tuning med pgbench og konfiguration |
-| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Let | 30 min | 🐳 | — fundament | ANALYZE og query-planlægning |
-| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Let | 45 min | 🐳 | — fundament | EXPLAIN, seq scan, nested loop, hash join |
-| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksokonomi/OEVELSE.md) | Let | 45 min | 🐳 | CIA-A · skrive-DoS | Indekser, læse- vs skriveperformance |
-| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-datamodellering/OEVELSE.md) | Middel | 60 min | 🐳 | CIA-I · dataintegritet | Normalisering, denormalisering |
-| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU · overvågning | Overvågning af aktive forbindelser |
-| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU-2/AU-9 · audit & log | PostgreSQL-log, log_statement, fejlfinding |
-| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AC-3/AC-6 · least privilege, RLS | Roller, GRANT/REVOKE, Row Level Security |
-| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Middel | 60 min | 🐳 | CIA-I · NIST SI-7 (ACID) | ACID, isolationsniveauer, to sessioner |
-| 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU+SI · audit via triggers | Trigger-funktioner, BEFORE/AFTER |
-| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Middel | 45 min | 🐳 | CIA-C · NIST SC-28 (kryptering i hvile) | pgp_sym_encrypt, password-hash med crypt |
-| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Svær | 75 min | 🐳🐳 | NIST CP-9/CP-10 · backup/PITR (CIA-A) | pg_basebackup, WAL-arkivering, recovery_target_time |
-| 13 | [TLS på forbindelsen og secrets management](./oevelser/13-tls-secrets/OEVELSE.md) | Svær | 60 min | 🐳🐳 | NIST SC-8 TLS · IA-5 secrets (CIA-C) | SSL-certifikater, pg_hba hostnossl, Docker secrets |
+| Nr | Titel | Tier | Tid | Docker | Beskrivelse | Sikkerhedsaspekt |
+|----|-------|---------------|-----|--------|-------------|------------------|
+| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-kanariefuglen/OEVELSE.md) | Tier 1 · Begynder | 30-45 min | 🐳 | Performance-tuning med pgbench og konfiguration | CIA-A · ressource/DoS |
+| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Tier 1 · Begynder | 30 min | 🐳 | ANALYZE og query-planlægning | — fundament |
+| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | EXPLAIN, seq scan, nested loop, hash join | — fundament |
+| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksokonomi/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | Indekser, læse- vs skriveperformance | CIA-A · skrive-DoS |
+| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-datamodellering/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | Normalisering, denormalisering | CIA-I · dataintegritet |
+| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Overvågning af aktive forbindelser | NIST AU · overvågning |
+| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | PostgreSQL-log, log_statement, fejlfinding | NIST AU-2/AU-9 · audit & log |
+| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Roller, GRANT/REVOKE, Row Level Security | NIST AC-3/AC-6 · least privilege, RLS |
+| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner | CIA-I · NIST SI-7 (ACID) |
+| 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER | NIST AU+SI · audit via triggers |
+| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt | CIA-C · NIST SC-28 (kryptering i hvile) |
+| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Tier 3 · Ekspert | 75 min | 🐳🐳 | pg_basebackup, WAL-arkivering, recovery_target_time | NIST CP-9/CP-10 · backup/PITR (CIA-A) |
+| 13 | [PostgreSQL Hardening: Network Access, Authentication, TLS & Secrets](./oevelser/13-tls-secrets/OEVELSE.md) | Tier 3 · Ekspert | 60-90 min | 🐳🐳 | SSL-certifikater, pg_hba hostnossl, Docker secrets | NIST SC-8 TLS · IA-5 secrets (CIA-C) |
 
 *Sikkerhedsaspekt: CIA = fortrolighed (C), integritet (I), tilgængelighed (A). NIST henviser til kontrolfamilier i NIST SP 800-53: AU (audit/log), AC (adgangskontrol), SC (system & kommunikationsbeskyttelse), CP (beredskab/backup), SI (system- & informationsintegritet), IA (identifikation & autentifikation).*
 
@@ -108,6 +108,14 @@ flowchart LR
 | 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#sti-1-fundament) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 07 | ~4 t |
 | 🔒 | [Sti 2: Sikkerhed](./LEARNING_PATHS.md#sti-2-sikkerhed) | Alle | 07 · 08 · 10 · 11 · 13 | ~3,5 t |
 | ⚙️ | [Sti 3: Drift & data](./LEARNING_PATHS.md#sti-3-drift--data) | DBA'er / udviklere | 05 · 09 · 12 · 13 | ~4,5 t |
+
+
+### PBA IT-sikkerhed: anbefalet forløb (5 timer i klassen + 3 timer hjemme)
+
+- **I klassen (5 t):** 01 (45 min) · 02 (30 min) · 03 (45 min) · 04 (45 min) · 07 (45 min) · 08 (60 min)
+- **Hjemme (3 t):** 09 (60 min) · 10 (45 min) · 11 (45 min) · start på 12-13 (30 min)
+
+Se [LEARNING_PATHS.md](./LEARNING_PATHS.md#sti-4-pba-it-sikkerhed-5t-i-klassen--3t-hjemme).
 
 ## Brugsanvisning
 
