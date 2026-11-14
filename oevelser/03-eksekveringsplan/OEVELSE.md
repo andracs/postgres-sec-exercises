@@ -33,7 +33,13 @@ At lære at aflæse og forstå PostgreSQL eksekveringsplaner. Du vil oprette dat
 ## Opgaver
 
 ### 1. Opret testdata
-Seed-scriptet opretter automatisk tabellerne. Verificér:
+Seed-scriptet opretter automatisk tabellerne. 
+
+```sql
+\i /docker-entrypoint-initdb.d/01-init.sql
+```
+
+Verificér:
 ```sql
 SELECT count(*) FROM forfattere;
 SELECT count(*) FROM boeger;
