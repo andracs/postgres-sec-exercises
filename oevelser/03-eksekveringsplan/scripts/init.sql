@@ -6,6 +6,8 @@
 DROP TABLE IF EXISTS laan, boeger, forfattere;
 
 -- Opret forfattere-tabel
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+
 CREATE TABLE forfattere (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(100) NOT NULL,
@@ -60,13 +62,13 @@ SELECT
     50 + (random() * 450)::INTEGER
 FROM generate_series(1, 100000) AS i;
 
--- 1.000.000 laan-transaktioner
+-- 1.000.000 laan-transaktioner (laan_dato dækker 2020-01-01 .. 2023-12-31, så forespørgsler på 2023 giver resultater)
 INSERT INTO laan (bog_id, laaner_id, laan_dato, retur_dato)
 SELECT 
     floor(random() * 100000)::INTEGER + 1,
     floor(random() * 50000)::INTEGER + 1,
-    '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day',
-    '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day' + INTERVAL '14 days'
+    '2020-01-01'::TIMESTAMP + (random() * 1461)::INTEGER * INTERVAL '1 day',
+    '2020-01-01'::TIMESTAMP + (random() * 1461)::INTEGER * INTERVAL '1 day' + INTERVAL '14 days'
 FROM generate_series(1, 1000000) AS i;
 
 -- Opret indeks

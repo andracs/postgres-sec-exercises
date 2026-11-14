@@ -1,4 +1,4 @@
-# Øvelse 03: At læse en eksekveringsplan er at læse poesi
+# Øvelse 03: Læsning af eksekveringsplaner med EXPLAIN
 
 ## Formål
 At lære at aflæse og forstå PostgreSQL eksekveringsplaner. Du vil oprette data, der tvinger forskellige plan-typer (seq scan, nested loop, hash join, sort spill), og forudsige planen før du kører den.
@@ -54,19 +54,18 @@ EXPLAIN (ANALYZE, BUFFERS)
 SELECT * FROM laan WHERE EXTRACT(YEAR FROM laan_dato) = 2023;
 ```
 **Forudsigelse:** Sequential Scan (ingen indeks på EXTRACT-funktion)
-**Tjek:** Planen starter med "Seq Scan on laan"
+**Tjek:** Planen indeholder "Seq Scan on laan" (typisk som "Parallel Seq Scan")
 
 ### 3. Tving en Nested Loop Join
-Kør en query med en lille tabel og en stor tabel:
+Kør en query med en lille filtreret tabel og en stor tabel (alle navne er 'Forfatter N', så filtrer på id for at få et lille resultat):
 ```sql
--- Opret en lille filteret tabel først
 EXPLAIN (ANALYZE, BUFFERS)
 SELECT f.navn, b.titel 
 FROM forfattere f
 JOIN boeger b ON f.id = b.forfatter_id
-WHERE f.navn LIKE 'A%';
+WHERE f.id <= 100;
 ```
-**Forudsigelse:** Nested Loop (godt til små resultater)
+**Forudsigelse:** Nested Loop (godt til små resultater — her kun 100 forfattere)
 **Tjek:** Planen indeholder "Nested Loop"
 
 ### 4. Tving en Hash Join
@@ -82,23 +81,25 @@ WHERE l.laan_dato > '2023-01-01';
 **Tjek:** Planen indeholder "Hash Join"
 
 ### 5. Tving en Sort (med spill til disk)
-Sæt work_mem meget lavt og kør:
+Sæt work_mem meget lavt og kør. Bemærk to ting: PostgreSQL accepterer kun små 'kB' (ikke '64KB'), og sorter på den ikke-indekserede `laaner_id` — sortering på `laan_dato` ville bruge `idx_laan_laan_dato` og ikke spilde til disk:
 ```sql
-SET work_mem = '64KB';
+SET work_mem = '64kB';
 EXPLAIN (ANALYZE, BUFFERS)
-SELECT * FROM laan ORDER BY laan_dato, bog_id;
+SELECT * FROM laan ORDER BY laaner_id, bog_id;
 ```
 **Forudsigelse:** Sort med "external merge" (spill til disk)
-**Tjek:** Planen indeholder "Sort" med "Method: external merge"
+**Tjek:** Planen indeholder "Sort Method: external merge" og "temp read/written"
 
 ### 6. Tving en Merge Join
+Deaktivér de andre join-metoder, så planlæggeren må bruge Merge Join. Input bliver sorteret af indekserne (`forfattere_pkey` og `idx_boeger_forfatter`):
 ```sql
-SET work_mem = '64KB';
+SET work_mem = '64kB';
+SET enable_hashjoin = off;
+SET enable_nestloop = off;
 EXPLAIN (ANALYZE, BUFFERS)
 SELECT f.navn, b.titel
 FROM forfattere f
-JOIN boeger b ON f.id = b.forfatter_id
-ORDER BY f.navn, b.titel;
+JOIN boeger b ON f.id = b.forfatter_id;
 ```
 **Forudsigelse:** Merge Join (når input er sorteret)
 **Tjek:** Planen indeholder "Merge Join"

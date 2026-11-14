@@ -1,4 +1,4 @@
-# Facit: Øvelse 03 - At læse en eksekveringsplan er at læse poesi
+# Facit: Øvelse 03 - Læsning af eksekveringsplaner med EXPLAIN
 
 ## Forventede resultater
 
@@ -37,15 +37,15 @@ EXPLAIN (ANALYZE, BUFFERS)
 SELECT f.navn, b.titel 
 FROM forfattere f
 JOIN boeger b ON f.id = b.forfatter_id
-WHERE f.navn LIKE 'A%';
+WHERE f.id <= 100;
 ```
 
 **Forventet plan:**
 ```
 Nested Loop  (cost=4.30..123.45 rows=1000 width=132) (actual time=0.045..1.234 rows=987 loops=1)
   ->  Seq Scan on forfattere f  (cost=0.00..17.00 rows=1000 width=68) (actual time=0.012..0.345 rows=1000 loops=1)
-        Filter: (navn ~~ 'A%'::text)
-        Rows Removed by Filter: 9000
+        Filter: (id <= 100)
+        Rows Removed by Filter: 9900
   ->  Index Scan using idx_boeger_forfatter on boeger b  (cost=0.29..0.12 rows=10 width=64) (actual time=0.001..0.001 rows=10 loops=1000)
         Index Cond: (forfatter_id = f.id)
   Buffers: shared hit=45 read=12
@@ -55,7 +55,7 @@ Execution Time: 1.456 ms
 
 **Forklaring:**
 - `Nested Loop`: God til små ydre resultater
-- `Seq Scan on forfattere`: Scanner forfattere, filtrerer med LIKE 'A%' (ca. 1000 rækker)
+- `Seq Scan on forfattere`: Scanner forfattere, filtrerer med id <= 100 (100 forfattere)
 - `Index Scan on boeger`: For hver forfatter, finder bøger via indeks
 - Effektiv, når det ydre dataset er lille
 
@@ -92,9 +92,9 @@ Execution Time: 47.890 ms
 
 ### Trin 5: Sort med spill til disk
 ```sql
-SET work_mem = '64KB';
+SET work_mem = '64kB';
 EXPLAIN (ANALYZE, BUFFERS)
-SELECT * FROM laan ORDER BY laan_dato, bog_id;
+SELECT * FROM laan ORDER BY laaner_id, bog_id;
 ```
 
 **Forventet plan:**
@@ -110,19 +110,20 @@ Execution Time: 256.789 ms
 ```
 
 **Forklaring:**
-- `Sort Method: external merge`: Data spilles til disk, fordi work_mem er for lav (64KB)
+- `Sort Method: external merge`: Data spilles til disk, fordi work_mem er for lav (64kB)
 - `Disk: 45678kB`: Mængde data skrevet til disk
 - `temp read/written`: Midlertidige I/O operationer
 - Spill til disk er langsommere end in-memory sort
 
 ### Trin 6: Merge Join
 ```sql
-SET work_mem = '64KB';
+SET work_mem = '64kB';
+SET enable_hashjoin = off;
+SET enable_nestloop = off;
 EXPLAIN (ANALYZE, BUFFERS)
 SELECT f.navn, b.titel
 FROM forfattere f
-JOIN boeger b ON f.id = b.forfatter_id
-ORDER BY f.navn, b.titel;
+JOIN boeger b ON f.id = b.forfatter_id;
 ```
 
 **Forventet plan:**
@@ -256,7 +257,7 @@ Execution Time: 48.789 ms
      - Hvis work_mem er for lavt, sorterer den til disk (external merge)
    
    **Eksempel:**
-   - `work_mem = '64KB'`: Planlæggeren vælger sandsynligvis Nested Loop, fordi Hash og Merge Join ville kræve for meget hukommelse
+   - `work_mem = '64kB'`: Planlæggeren vælger sandsynligvis Nested Loop, fordi Hash og Merge Join ville kræve for meget hukommelse
    - `work_mem = '16MB'`: Planlæggeren kan vælge Hash Join for store joins
    - `work_mem = '256MB'`: Planlæggeren kan vælge Merge Join med in-memory sortering
 
