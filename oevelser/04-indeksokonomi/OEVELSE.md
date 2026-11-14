@@ -1,4 +1,4 @@
-# Øvelse 04: Indeksøkonomi - fart er ikke gratis
+# Øvelse 04: Indekser: hurtigere læsning, langsommere skrivning
 
 ## Formål
 At demonstrere, at indeks forbedrer læseperformance men forringes skriveperformance. Du vil måle query-tider med og uden indeks, og observere omkostningerne ved INSERT/UPDATE.

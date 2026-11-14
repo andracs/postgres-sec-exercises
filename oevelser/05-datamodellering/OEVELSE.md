@@ -1,4 +1,4 @@
-# Øvelse 05: Datamodellederens anger
+# Øvelse 05: Normalisering til 3NF og bevidst denormalisering
 
 ## Formål
 At lære at genkende og løse datamodelleringsproblemer. Du vil arbejde med et denormaliseret ordreskema, normalisere det til 3NF, og derefter denormalisere bevidst ét sted for at forbedre performance.

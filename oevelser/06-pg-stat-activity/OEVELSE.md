@@ -1,4 +1,4 @@
-# Øvelse 06: pg_stat_activity som reality show
+# Øvelse 06: Overvågning af forbindelser og queries med pg_stat_activity
 
 ## Formål
 At lære at overvåge aktive databaseforbindelser og identificere problematiske queries. Du vil oprette langkørende queries og idle-in-transaction forbindelser, og derefter finde og dræbe dem.

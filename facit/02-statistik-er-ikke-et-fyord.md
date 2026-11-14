@@ -1,4 +1,4 @@
-# Facit: Øvelse 02 - Statistik er ikke et fyord
+# Facit: Øvelse 02 - Statistik og ANALYZE til bedre query-planer
 
 ## Forventede resultater
 
