@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreSQL Ovelsessamling</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f6f8fa;
+            color: #24292e;
+        }
+        h1 {
+            color: #0366d6;
+            border-bottom: 2px solid #eaecef;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #000;
+            margin-top: 24px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 12px;
+            background: #eaecef;
+            color: #586069;
+            margin-right: 8px;
+        }
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+        }
+        .exercise-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eaecef;
+        }
+        .exercise-list li:last-child {
+            border-bottom: none;
+        }
+        .exercise-link {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .exercise-link:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #6a737d;
+            font-size: 14px;
+        }
+        .meta span {
+            margin-right: 16px;
+        }
+        a {
+            color: #0366d6;
+        }
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #eaecef;
+            color: #6a737d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PostgreSQL Ovelsessamling</h1>
+    
+    <p>
+        En samling af 20 praktiske <strong>PostgreSQL</strong> ovelser designet til undervisning 
+        i databaseadministration, optimering og udvikling. 
+        Hver ovelse er selvforsynende med Docker og kan kores lokalet.
+    </p>
+
+    <h2>Forudsatninger</h2>
+    <ul>
+        <li><code>Docker Desktop</code> eller <code>Podman</code></li>
+        <li>Minimum 8 GB RAM (16 GB anbefalet til avancerede ovelser)</li>
+        <li>Grundlagende kendskab til SQL og terminal</li>
+    </ul>
+
+    <h2>Ovelser</h2>
+    
+    <ul class="exercise-list">
+        <li>
+            <a href="oevelser/01-kanariefuglen/OEVELSE.md" class="exercise-link">01: Kanariefuglen i kuldemineren</a>
+            <div class="meta">
+                <span><span class="badge">Let</span> 30-45 min</span>
+                <span>Performance tuning med pgbench</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md" class="exercise-link">02: Statistik er ikke et fyord</a>
+            <div class="meta">
+                <span><span class="badge">Let</span> 30 min</span>
+                <span>ANALYZE og query-planlagning</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/03-eksekveringsplan/OEVELSE.md" class="exercise-link">03: At lasse en eksekveringsplan er at lasse poesi</a>
+            <div class="meta">
+                <span><span class="badge">Let</span> 45 min</span>
+                <span>EXPLAIN, Seq Scan, Nested Loop, Hash Join</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/04-indeksokonomi/OEVELSE.md" class="exercise-link">04: Indeksokonomi: fart er ikke gratis</a>
+            <div class="meta">
+                <span><span class="badge">Let</span> 45 min</span>
+                <span>Indekser og skriveperformance</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/05-datamodellering/OEVELSE.md" class="exercise-link">05: Datamodellederens anger</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 60 min</span>
+                <span>Normalisering og denormalisering</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/06-pg-stat-activity/OEVELSE.md" class="exercise-link">06: pg_stat_activity som reality show</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Overvagning af aktive forbindelser</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/07-jsonb/OEVELSE.md" class="exercise-link">07: Journalterminalen: JSON uden dom</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 60 min</span>
+                <span>jsonb vs relationel modellering</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/08-vacuum/OEVELSE.md" class="exercise-link">08: VACUUM dagbogen</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Bloat, autovacuum og VACUUM FULL</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/09-transaktioner/OEVELSE.md" class="exercise-link">09: Transaktionsteateret</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 60 min</span>
+                <span>Isolationsniveauer: READ COMMITTED, REPEATABLE READ, SERIALIZABLE</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/10-deadlock/OEVELSE.md" class="exercise-link">10: Dodlasens koreografi</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Deadlocks med to sessioner</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/11-lock-timeout/OEVELSE.md" class="exercise-link">11: Koedisciplin: lock_timeout som moral</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Lock timeout og backoff</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/12-roller/OEVELSE.md" class="exercise-link">12: Adgangskontrollens cirkulare beslutning</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Roller, grants og tilladelsesgraf</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/13-hukommelse/OEVELSE.md" class="exercise-link">13: Hukommelsesoekonomen under pres</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>work_mem, sortering og disk spill</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/14-extensions/OEVELSE.md" class="exercise-link">14: Extensionsbiografen: kobe eller bygge?</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 60 min</span>
+                <span>pg_trgm, pgcrypto, PostGIS</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/15-pgbouncer/OEVELSE.md" class="exercise-link">15: Forbindelsespoolens ventevaerelse</a>
+            <div class="meta">
+                <span><span class="badge">Svar</span> 60 min</span>
+                <span>PgBouncer og connection pooling</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/16-partitionering/OEVELSE.md" class="exercise-link">16: At partitionere fortiden</a>
+            <div class="meta">
+                <span><span class="badge">Svar</span> 60 min</span>
+                <span>Deklarativ partitionering</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/17-backup-pitr/OEVELSE.md" class="exercise-link">17: Backuppens vaerdi er nul, indtil den er testet</a>
+            <div class="meta">
+                <span><span class="badge">Svar</span> 75 min</span>
+                <span>WAL arkivering, PITR</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/18-replikering/OEVELSE.md" class="exercise-link">18: En haer af trofaste kopier</a>
+            <div class="meta">
+                <span><span class="badge">Ekspert</span> 75 min</span>
+                <span>Primary + replika, failover</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/19-upgrade/OEVELSE.md" class="exercise-link">19: Den store migration</a>
+            <div class="meta">
+                <span><span class="badge">Ekspert</span> 75 min</span>
+                <span>Major version upgrade</span>
+            </div>
+        </li>
+        <li>
+            <a href="oevelser/20-mordmysterium/OEVELSE.md" class="exercise-link">20: Den langsomme app: et afsluttende mordmysterium</a>
+            <div class="meta">
+                <span><span class="badge">Ekspert</span> 90 min</span>
+                <span>Integreret diagnoseovelese</span>
+            </div>
+        </li>
+    </ul>
+
+    <h2>Brug</h2>
+    <p>
+        Klor repositoryet og naviger til den onskede ovelse:
+    </p>
+    <pre><code>git clone https://github.com/andracs/postgres-sec-exercises.git
+cd postgres-sec-exercises/oevelser/01-kanariefuglen
+docker compose up -d
+# Vent pa database
+docker compose exec postgres pg_isready -U studie
+# Følge instruktioner i OEVELSE.md
+# Ryd op
+docker compose down -v</code></pre>
+
+    <h2>Login</h2>
+    <p>
+        Alle ovelser bruger: <code>studie/studie/studiebase</code> 
+        på <code>localhost:5432</code>
+    </p>
+
+    <h2>Dokumentation</h2>
+    <p>
+        <a href="README.md">README.md</a> indeholder detailleret brugsanvisning.<br>
+        <a href="facit/README.md">facit/README.md</a> indeholder losninger (kun til undervisere).
+    </p>
+
+    <footer>
+        <p>
+            <strong>PostgreSQL Ovelsessamling</strong> 
+            &middot; 
+            Version 1.0 
+            &middot; 
+            <a href="https://github.com/andracs/postgres-sec-exercises">GitHub</a>
+        </p>
+    </footer>
+</body>
+</html>
