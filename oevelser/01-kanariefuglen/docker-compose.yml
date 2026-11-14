@@ -14,10 +14,10 @@ services:
     networks:
       - oevelse01-net
     command: 
-      -c shared_buffers=128MB
-      -c work_mem=4MB
-      -c effective_cache_size=512MB
-      -c maintenance_work_mem=64MB
+      -c shared_buffers=16MB
+      -c work_mem=64kB
+      -c effective_cache_size=32MB
+      -c maintenance_work_mem=16MB
       -c max_connections=100
 
 volumes:
