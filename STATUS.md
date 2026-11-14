@@ -28,7 +28,7 @@
 - Alle init-scripts har `DROP TABLE IF EXISTS` (idempotente) og gyldig `SET seed = 0.42`.
 
 ## Privat evaluering
-Afsluttende 60-min test (DroneTransport Næstved) ligger lokalt i `private-evaluering/` (gitignored, må aldrig pushes).
+Afsluttende 60-min test (DroneTransport Næstved) ligger i `evalueringsopgave/` (bemærk: offentligt repo — underviserfacit er synligt for alle).
 
 ## Kendte mangler
 

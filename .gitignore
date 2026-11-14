@@ -23,5 +23,5 @@ node_modules/
 *.tmp
 *.temp
 
-# Privat evalueringsmateriale må ALDRIG i det offentlige repo
-private-evaluering/
+# Pakker til evalueringsopgaven bygges lokalt (dist/) — ikke i repoet
+evalueringsopgave/dist/
