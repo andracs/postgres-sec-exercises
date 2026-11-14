@@ -96,7 +96,7 @@ Flyt data fra `ordrer_denormaliseret` til de nye tabeller:
 **Tjek:**
 ```sql
 SELECT count(*) FROM kunder;     -- ~10.000
-SELECT count(*) FROM runde;      -- ~100
+SELECT count(*) FROM runder;     -- ~100
 SELECT count(*) FROM ordrer;     -- ~100.000
 SELECT count(*) FROM ordre_linjer; -- ~500.000
 ```

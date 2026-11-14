@@ -31,9 +31,9 @@ SELECT navn, saldo FROM konti;   -- ændringen er gemt
 ```sql
 BEGIN;
 UPDATE konti SET saldo = saldo - 500 WHERE navn = 'Konto A';
-SELECT saldo FROM konti WHERE navn = 'Konto A';  -- viser 400 inden for transaktionen
+SELECT saldo FROM konti WHERE navn = 'Konto A';  -- viser 500 inden for transaktionen
 ROLLBACK;
-SELECT saldo FROM konti WHERE navn = 'Konto A';  -- viser igen 900
+SELECT saldo FROM konti WHERE navn = 'Konto A';  -- viser igen 1000
 ```
 
 ### 3. To sessioner og READ COMMITTED (standard)

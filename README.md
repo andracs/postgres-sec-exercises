@@ -31,7 +31,7 @@ Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i [LEARNING_PATHS
 ```mermaid
 flowchart LR
     Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 07"]
-    Start --> P2["🔒 Sti 2: Sikkerhed<br/>07 · 08 · 10 · 11"]
+    Start --> P2["🔒 Sti 2: Sikkerhed<br/>07 · 08 · 10 · 11 · 13"]
     Start --> P3["⚙️ Sti 3: Drift & data<br/>05 · 09 · 12 · 13"]
     P1 --> Done([Alle 13 øvelser])
     P2 --> Done
@@ -51,7 +51,7 @@ flowchart LR
 1. **Vælg en øvelse** fra listen ovenfor
 2. Naviger til den ønskede øvelsesmappe:
    ```bash
-   cd oevelser/01-kanariefuglen
+   cd oevelser/07-logging   # eller en anden øvelse fra tabellen ovenfor
    ```
 
 3. Start øvelsen:
@@ -63,7 +63,7 @@ flowchart LR
    ```bash
    docker compose exec postgres pg_isready -U studie
    ```
-   Forventet output: `postgres:5432 - accepting connections`
+   Forventet output: `/var/run/postgresql:5432 - accepting connections`
 
 5. Koble til databasen:
    ```bash
@@ -78,7 +78,7 @@ flowchart LR
    ```
    Dette fjerner containere, volumener og netværk.
 
-### Der er AI-genererede løsninger for alle opgaver  
+### Facit (løsninger) til alle øvelser
 - Facit findes i `facit/` mappen
 - Hver facit-fil indeholder forventede outputs og svar på refleksionsspørgsmål
 - Al data er deterministiske (fast seed), så resultater kan reproduceres
@@ -95,9 +95,9 @@ flowchart LR
 
 - **Ventetid**: Containerne tager 10-30 sekunder at starte, afhængigt af om Docker images allerede er downloadet
 
-- **Deterministiske data**: Alle seed-scripts bruger `SET seed = 42;` for at sikre reproducerbare resultater
+- **Deterministiske data**: Alle seed-scripts bruger `SET seed = 0.42;` for at sikre reproducerbare resultater
 
-### For øvelser med to sessioner (09, 10, 11):
+### For øvelser med to sessioner (09):
 
 ```bash
 # Start to sessioner
@@ -149,16 +149,13 @@ chmod +x scripts/to-sessioner.sh
 
 ## Docker images brugt
 
-- **PostgreSQL**: `postgres:18` (nyeste stabile version) til de fleste øvelser
-- **PostGIS**: `postgis/postgis:18` til øvelse 14 (geo-querys)
-- **PgBouncer**: `edoburu/pgbouncer:latest` til øvelse 15 (connection pooling)
-- **PostgreSQL 17**: `postgres:17` til øvelse 19 (major upgrade)
+- **PostgreSQL**: `postgres:18` til alle øvelser (øvelse 11 bruger også `pgcrypto` fra contrib, som følger med i imagen)
 
 ## Bidrag og rapportering
 
-- Rapportér fejl i `TESTREPORT.md`
-- Alle øvelser er testet med Docker Desktop på macOS, Linux og Windows
-- For bedste resultater: 8 GB RAM minimum, 16 GB anbefalet til avancerede øvelser
+- Rapportér fejl via [GitHub Issues](https://github.com/andracs/postgres-sec-exercises/issues)
+- Alle init-scripts er verificeret automatisk (køres to gange uden fejl); øvelserne er testet med Docker på macOS/Linux/Windows
+- 8 GB RAM anbefalet
 
 ## Versioner
 
@@ -168,4 +165,4 @@ chmod +x scripts/to-sessioner.sh
 
 ---
 
-*Lavet med kærlighed til databaseundervisning* HAHA
+*Lavet med kærlighed til databaseundervisning*
