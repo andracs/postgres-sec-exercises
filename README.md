@@ -1,31 +1,10 @@
-# PostgreSQL Øvelsessamling
+# PostgreSQL sikkerhed - øvelsessamling
 
-En komplet samling af 20 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
+En samling af 20 Mistral-genererede øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
 
-## Forudsætninger
-
-- Docker Desktop eller Podman installeret
+## Du skal bruge
+- Docker Desktop eller Podman
 - Minimum 8 GB RAM anbefalet (16 GB for øvelse 18+)
-- Grundlæggende kendskab til terminal/kommandolinje
-
-## Struktur
-
-```
-postgres-oevelser/
-  README.md                    # Dette dokument
-  oevelser/
-    01-kanariefuglen/           # Hver øvelse har:
-      OEVELSE.md               # Studenterbeskrivelse
-      docker-compose.yml       # Docker opsætning
-      scripts/                 # Initialiserings- og hjælpescripts
-        init.sql              # Data-seed script
-        [to-sessioner.sh]      # For øvelser med to sessioner
-    02-statistik-er-ikke-et-fyord/
-      ...
-  facit/
-    01-kanariefuglen.md        # Løsninger og forventede outputs
-    ...
-```
 
 ## Øvelser
 
@@ -86,16 +65,12 @@ postgres-oevelser/
    ```
    Dette fjerner containere, volumener og netværk.
 
-### For undervisere:
-
+### Der er AI-genererede løsninger for alle opgaver  
 - Facit findes i `facit/` mappen
 - Hver facit-fil indeholder forventede outputs og svar på refleksionsspørgsmål
-- Distribuer kun `oevelser/` til studerende (uden `facit/`)
-- Alle data er deterministiske (fast seed), så resultater kan reproduceres
+- Al data er deterministiske (fast seed), så resultater kan reproduceres
 
-## Tips og tricks
-
-### Generelle tips:
+### Generelle tips
 
 - **Alle øvelser** bruger det samme login:
   - Bruger: `studie`
@@ -180,4 +155,4 @@ chmod +x scripts/to-sessioner.sh
 
 ---
 
-*Lavet med kærlighed til databaseundervisning*
+*Lavet med kærlighed til databaseundervisning* HAHA
