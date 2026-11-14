@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostgreSQL Ovelsessamling</title>
+    <title>PostgreSQL Øvelsessamling</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -115,229 +115,183 @@
     </style>
 </head>
 <body>
-    <h1>PostgreSQL Ovelsessamling</h1>
-    
+    <h1>PostgreSQL Øvelsessamling</h1>
+
     <p>
-        En samling af 20 praktiske <strong>PostgreSQL</strong> ovelser designet til undervisning 
-        i databaseadministration, optimering og udvikling. 
-        Hver ovelse er selvforsynende med Docker og kan kores lokalet.
+        En samling af 13 praktiske <strong>PostgreSQL</strong>-øvelser til undervisning i
+        databasesikkerhed, -administration og -optimering.
+        Hver øvelse er selvforsynende med Docker og kan køres lokalt.
     </p>
 
-    <h2>Forudsatninger</h2>
+    <h2>Forudsætninger</h2>
     <ul>
         <li><code>Docker Desktop</code> eller <code>Podman</code></li>
-        <li>Minimum 8 GB RAM (16 GB anbefalet til avancerede ovelser)</li>
-        <li>Grundlagende kendskab til SQL og terminal</li>
+        <li>Minimum 8 GB RAM</li>
+        <li>Grundlæggende kendskab til SQL og terminal</li>
+        <li><code>openssl</code> og <code>psql</code> på hosten (kun øvelse 13)</li>
     </ul>
 
-    <h2>Ovelser</h2>
-    
+    <h2>Øvelser</h2>
+
     <ul class="exercise-list">
         <li>
-            <a href="oevelser/01-kanariefuglen/OEVELSE.md" class="exercise-link">01: Kanariefuglen i kuldemineren</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/01-kanariefuglen/OEVELSE.md" class="exercise-link">01: Benchmarking og hukommelseskonfiguration med pgbench</a>
             <div class="meta">
                 <span><span class="badge">Let</span> 30-45 min</span>
-                <span>Performance tuning med pgbench</span>
+                <span>Performance-tuning med pgbench og konfiguration</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md" class="exercise-link">02: Statistik er ikke et fyord</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md" class="exercise-link">02: Statistik og ANALYZE til bedre query-planer</a>
             <div class="meta">
                 <span><span class="badge">Let</span> 30 min</span>
-                <span>ANALYZE og query-planlagning</span>
+                <span>ANALYZE og query-planlægning</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/03-eksekveringsplan/OEVELSE.md" class="exercise-link">03: At lasse en eksekveringsplan er at lasse poesi</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/03-eksekveringsplan/OEVELSE.md" class="exercise-link">03: Læsning af eksekveringsplaner med EXPLAIN</a>
             <div class="meta">
                 <span><span class="badge">Let</span> 45 min</span>
                 <span>EXPLAIN, Seq Scan, Nested Loop, Hash Join</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/04-indeksokonomi/OEVELSE.md" class="exercise-link">04: Indeksokonomi: fart er ikke gratis</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/04-indeksokonomi/OEVELSE.md" class="exercise-link">04: Indekser: hurtigere læsning, langsommere skrivning</a>
             <div class="meta">
                 <span><span class="badge">Let</span> 45 min</span>
-                <span>Indekser og skriveperformance</span>
+                <span>Indekser, læse- vs skriveperformance</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/05-datamodellering/OEVELSE.md" class="exercise-link">05: Datamodellederens anger</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/05-datamodellering/OEVELSE.md" class="exercise-link">05: Normalisering til 3NF og bevidst denormalisering</a>
             <div class="meta">
                 <span><span class="badge">Middel</span> 60 min</span>
-                <span>Normalisering og denormalisering</span>
+                <span>Normalisering, denormalisering</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/06-pg-stat-activity/OEVELSE.md" class="exercise-link">06: pg_stat_activity som reality show</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/06-pg-stat-activity/OEVELSE.md" class="exercise-link">06: Overvågning af forbindelser og queries med pg_stat_activity</a>
             <div class="meta">
                 <span><span class="badge">Middel</span> 45 min</span>
-                <span>Overvagning af aktive forbindelser</span>
+                <span>Overvågning af aktive forbindelser</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/07-jsonb/OEVELSE.md" class="exercise-link">07: Journalterminalen: JSON uden dom</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/07-logging/OEVELSE.md" class="exercise-link">07: Logging og audit af databaseaktivitet</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>PostgreSQL-log, log_statement, fejlfinding</span>
+            </div>
+        </li>
+        <li>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/08-roller/OEVELSE.md" class="exercise-link">08: Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)</a>
+            <div class="meta">
+                <span><span class="badge">Middel</span> 45 min</span>
+                <span>Roller, GRANT/REVOKE, Row Level Security</span>
+            </div>
+        </li>
+        <li>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/09-transactions/OEVELSE.md" class="exercise-link">09: Transaktioner, isolation og savepoints</a>
             <div class="meta">
                 <span><span class="badge">Middel</span> 60 min</span>
-                <span>jsonb vs relationel modellering</span>
+                <span>ACID, isolationsniveauer, to sessioner</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/08-vacuum/OEVELSE.md" class="exercise-link">08: VACUUM dagbogen</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/10-triggers/OEVELSE.md" class="exercise-link">10: Triggers og audit-log</a>
             <div class="meta">
                 <span><span class="badge">Middel</span> 45 min</span>
-                <span>Bloat, autovacuum og VACUUM FULL</span>
+                <span>Trigger-funktioner, BEFORE/AFTER</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/09-transaktioner/OEVELSE.md" class="exercise-link">09: Transaktionsteateret</a>
-            <div class="meta">
-                <span><span class="badge">Middel</span> 60 min</span>
-                <span>Isolationsniveauer: READ COMMITTED, REPEATABLE READ, SERIALIZABLE</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/10-deadlock/OEVELSE.md" class="exercise-link">10: Dodlasens koreografi</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/11-kryptering/OEVELSE.md" class="exercise-link">11: Kryptering med pgcrypto</a>
             <div class="meta">
                 <span><span class="badge">Middel</span> 45 min</span>
-                <span>Deadlocks med to sessioner</span>
+                <span>pgp_sym_encrypt, password-hash med crypt</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/11-lock-timeout/OEVELSE.md" class="exercise-link">11: Koedisciplin: lock_timeout som moral</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/12-backup-pitr/OEVELSE.md" class="exercise-link">12: Backup og point-in-time recovery (PITR)</a>
             <div class="meta">
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>Lock timeout og backoff</span>
+                <span><span class="badge">Svær</span> 75 min</span>
+                <span>pg_basebackup, WAL-arkivering, recovery_target_time</span>
             </div>
         </li>
         <li>
-            <a href="oevelser/12-roller/OEVELSE.md" class="exercise-link">12: Adgangskontrollens cirkulare beslutning</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/13-tls-secrets/OEVELSE.md" class="exercise-link">13: TLS på forbindelsen og secrets management</a>
             <div class="meta">
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>Roller, grants og tilladelsesgraf</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/13-hukommelse/OEVELSE.md" class="exercise-link">13: Hukommelsesoekonomen under pres</a>
-            <div class="meta">
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>work_mem, sortering og disk spill</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/14-extensions/OEVELSE.md" class="exercise-link">14: Extensionsbiografen: kobe eller bygge?</a>
-            <div class="meta">
-                <span><span class="badge">Middel</span> 60 min</span>
-                <span>pg_trgm, pgcrypto, PostGIS</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/15-pgbouncer/OEVELSE.md" class="exercise-link">15: Forbindelsespoolens ventevaerelse</a>
-            <div class="meta">
-                <span><span class="badge">Svar</span> 60 min</span>
-                <span>PgBouncer og connection pooling</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/16-partitionering/OEVELSE.md" class="exercise-link">16: At partitionere fortiden</a>
-            <div class="meta">
-                <span><span class="badge">Svar</span> 60 min</span>
-                <span>Deklarativ partitionering</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/17-backup-pitr/OEVELSE.md" class="exercise-link">17: Backuppens vaerdi er nul, indtil den er testet</a>
-            <div class="meta">
-                <span><span class="badge">Svar</span> 75 min</span>
-                <span>WAL arkivering, PITR</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/18-replikering/OEVELSE.md" class="exercise-link">18: En haer af trofaste kopier</a>
-            <div class="meta">
-                <span><span class="badge">Ekspert</span> 75 min</span>
-                <span>Primary + replika, failover</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/19-upgrade/OEVELSE.md" class="exercise-link">19: Den store migration</a>
-            <div class="meta">
-                <span><span class="badge">Ekspert</span> 75 min</span>
-                <span>Major version upgrade</span>
-            </div>
-        </li>
-        <li>
-            <a href="oevelser/20-mordmysterium/OEVELSE.md" class="exercise-link">20: Den langsomme app: et afsluttende mordmysterium</a>
-            <div class="meta">
-                <span><span class="badge">Ekspert</span> 90 min</span>
-                <span>Integreret diagnoseovelese</span>
+                <span><span class="badge">Svær</span> 60 min</span>
+                <span>SSL-certifikater, pg_hba hostnossl, Docker secrets</span>
             </div>
         </li>
     </ul>
 
-    <h2>Laeringsstier (ca. 5 timer)</h2>
+    <h2>Læringsstier</h2>
     <p>
-        Usikker paa hvor du skal starte? Vaelg en sti. Detaljer findes i
+        Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i
         <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md">LEARNING_PATHS.md</a>.
     </p>
     <ul class="path-grid">
         <li>
-            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-1-foundation-fundamentals-beginner" style="--accent: #2da44e;">
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#sti-1-fundament" style="--accent: #2da44e;">
                 <div class="icon">🌱</div>
                 <h3>Sti 1: Fundament</h3>
-                <div class="meta">Nybegyndere &middot; ~4,5 t</div>
-                <div class="exercises">01 · 02 · 03 · 04 · 06 · 08</div>
+                <div class="meta">Nybegyndere &middot; ~4 t</div>
+                <div class="exercises">01 · 02 · 03 · 04 · 06 · 07</div>
             </a>
         </li>
         <li>
-            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-2-concurrency--data-integrity-intermediate" style="--accent: #0366d6;">
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#sti-2-sikkerhed" style="--accent: #d29922;">
                 <div class="icon">🔒</div>
-                <h3>Sti 2: Samtidighed</h3>
-                <div class="meta">Udviklere &middot; ~4,5 t</div>
-                <div class="exercises">02 · 09 · 10 · 11 · 12 · 13</div>
+                <h3>Sti 2: Sikkerhed</h3>
+                <div class="meta">Alle &middot; ~3,5 t</div>
+                <div class="exercises">07 · 08 · 10 · 11 · 13</div>
             </a>
         </li>
         <li>
-            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-3-operations--advanced-features-advanced" style="--accent: #8250df;">
-                <div class="icon">🚀</div>
-                <h3>Sti 3: Drift</h3>
-                <div class="meta">DBA'er / drift &middot; ~5 t</div>
-                <div class="exercises">05 · 07 · 14 · 15 · 16</div>
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#sti-3-drift--data" style="--accent: #8250df;">
+                <div class="icon">⚙️</div>
+                <h3>Sti 3: Drift &amp; data</h3>
+                <div class="meta">DBA'er / udviklere &middot; ~4,5 t</div>
+                <div class="exercises">05 · 09 · 12 · 13</div>
             </a>
         </li>
     </ul>
 
     <h2>Brug</h2>
     <p>
-        Klor repositoryet og naviger til den onskede ovelse:
+        Klon repositoryet og naviger til den ønskede øvelse:
     </p>
     <pre><code>git clone https://github.com/andracs/postgres-sec-exercises.git
 cd postgres-sec-exercises/oevelser/01-kanariefuglen
 docker compose up -d
-# Vent pa database
+# Vent på database
 docker compose exec postgres pg_isready -U studie
-# Følge instruktioner i OEVELSE.md
+# Følg instruktionerne i OEVELSE.md
 # Ryd op
 docker compose down -v</code></pre>
 
     <h2>Login</h2>
     <p>
-        Alle ovelser bruger: <code>studie/studie/studiebase</code> 
-        på <code>localhost:5432</code>
+        Øvelse 01-12 bruger: <code>studie</code> / password <code>studie</code> / database <code>studiebase</code>
+        på <code>localhost:5432</code>.<br>
+        Øvelse 13 (TLS/secrets) henter password fra Docker secret — se <code>secrets/db_password.txt</code> efter <code>./scripts/setup.sh</code>.
     </p>
 
     <h2>Dokumentation</h2>
     <p>
-        <a href="README.md">README.md</a> indeholder detailleret brugsanvisning.<br>
-        <a href="facit/README.md">facit/README.md</a> indeholder losninger (kun til undervisere).
+        <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/README.md">README.md</a> — oversigt og brugsanvisning<br>
+        <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md">LEARNING_PATHS.md</a> — læringsstier<br>
+        <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/facit/README.md">facit/README.md</a> — løsninger (kun til undervisere)
     </p>
 
     <footer>
         <p>
-            <strong>PostgreSQL Ovelsessamling</strong> 
-            &middot; 
-            Version 1.0 
-            &middot; 
+            <strong>PostgreSQL Øvelsessamling</strong>
+            &middot;
+            13 øvelser &middot; PostgreSQL 18
+            &middot;
             <a href="https://github.com/andracs/postgres-sec-exercises">GitHub</a>
         </p>
     </footer>
