@@ -183,3 +183,11 @@ For hver øvelse:
 ---
 
 *Testrapport opdateres løbende under udviklingen*
+
+## GitHub Push
+
+- **Repository**: https://github.com/andracs/postgres-sec-exercises
+- **Branch**: main
+- **Commit**: 894b482
+- **Status**: ✅ Successfully pushed
+- **Timestamp**: Sat Nov 14 11:08:56 CET 2026
