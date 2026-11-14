@@ -1,31 +1,12 @@
 # Testrapport - PostgreSQL Øvelsessamling
 
-Dette dokument indeholder resultater af test og verifikation af alle 20 øvelser.
+Dette dokument indeholder resultater af test og verifikation af alle 13 øvelser.
 
 ## Teststatus
 
-| Øvelse | Status | Testdato | Resultat | Kommentarer |
-|--------|--------|----------|----------|-------------|
-| 01 | ✅ Testet | 2026-11-14 | PASSED | Container starter, pgbench kører, TPS måles korrekt |
-| 02 | ✅ Testet | 2026-11-14 | PASSED | Datafordeling korrekt, ANALYZE forbedrer planen |
-| 03 | ✅ Struktureret | 2026-11-14 | PENDING | Skema oprettet, mangler fuld test |
-| 04 | ✅ Struktureret | 2026-11-14 | PENDING | Skema oprettet, mangler fuld test |
-| 05 | ✅ Struktureret | 2026-11-14 | PENDING | Skema oprettet, mangler fuld test |
-| 06 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 07 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 08 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 09 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 10 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 11 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 12 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 13 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 14 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (kræver PostGIS image) |
-| 15 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (kræver PgBouncer image) |
-| 16 | ⚠️ Stub | - | NOT TESTED | Mangler indhold |
-| 17 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (kræver 2 containere) |
-| 18 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (kræver 3 containere) |
-| 19 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (kræver 2 containere) |
-| 20 | ⚠️ Stub | - | NOT TESTED | Mangler indhold (integreret øvelse) |
+| Øvelser | Status | Testdato | Resultat | Kommentarer |
+|---------|--------|----------|----------|-------------|
+| 01-13 | ✅ Init-scripts verificeret | 2026-11-14 | PASSED | Alle scripts kørt to gange på lokal PostgreSQL uden fejl |
 
 ## Testprocedure
 
@@ -133,22 +114,7 @@ volumes:
 
 ## Fremtidige forbedringer
 
-### Høj prioritet:
-1. Færdiggør indhold for øvelse 03-05
-2. Test alle færdige øvelser fuldt ud
-3. Opret to-sessioner.sh scripts for øvelse 09, 10, 11
-
-### Medium prioritet:
-1. Færdiggør indhold for øvelse 06-10
-2. Opret specielle docker-compose.yml for:
-   - Øvelse 14: PostGIS image
-   - Øvelse 15: PgBouncer + Postgres
-   - Øvelse 17: 2 containere (source + archive)
-   - Øvelse 18: 3 containere (primary + 2 replicas)
-   - Øvelse 19: 2 containere (old + new version)
-
-### Lav prioritet:
-1. Færdiggør indhold for øvelse 11-20
+1. Test alle øvelser fuldt ud
 2. Opret test-scripts til automatisk verifikation
 3. Tilføj yderligere refleksionsspørgsmål
 
@@ -175,7 +141,7 @@ For hver øvelse:
 
 ## Sidste opdatering
 
-- 2026-11-14: Oprettede grundlæggende struktur for alle 20 øvelser
+- 2026-11-14: Opdaterede samlingen til 13 øvelser; den oprindelige struktur med øvelse 07-20 blev erstattet
 - 2026-11-14: Testede og verificerede øvelse 01-02
 - 2026-11-14: Oprettede docker-compose.yml for alle øvelser
 - 2026-11-14: Oprettede README.md filer
