@@ -2,6 +2,9 @@
 
 \c studiebase
 
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS laan, boeger, forfattere;
+
 -- Opret forfattere-tabel
 CREATE TABLE forfattere (
     id SERIAL PRIMARY KEY,
@@ -69,9 +72,7 @@ FROM generate_series(1, 1000000) AS i;
 -- Opret indeks
 CREATE INDEX idx_boeger_forfatter ON boeger(forfatter_id);
 CREATE INDEX idx_laan_bog ON laan(bog_id);
-CREATE INDEX idx_laan_l
-aa
-n_dato ON laan(laan_dato);
+CREATE INDEX idx_laan_laan_dato ON laan(laan_dato);
 
 -- VACUUM ANALYZE for at opdatere statistik
 VACUUM ANALYZE;
