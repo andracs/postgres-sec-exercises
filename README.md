@@ -1,10 +1,10 @@
 # PostgreSQL sikkerhed - øvelsessamling
 
-En samling af 20 Mistral-genererede øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
+En samling af 11 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
 
 ## Du skal bruge
 - Docker Desktop eller Podman
-- Minimum 8 GB RAM anbefalet (16 GB for øvelse 18+)
+- Minimum 8 GB RAM anbefalet
 
 ## Øvelser
 
@@ -16,20 +16,11 @@ En samling af 20 Mistral-genererede øvelser til undervisning i PostgreSQL-admin
 | 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksokonomi/OEVELSE.md) | Let | 45 min | 🐳 | Indekser, læse- vs skriveperformance |
 | 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-datamodellering/OEVELSE.md) | Middel | 60 min | 🐳 | Normalisering, denormalisering |
 | 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Middel | 45 min | 🐳 | Overvågning af aktive forbindelser |
-| 07 | [JSONB vs. relationel modellering](./oevelser/07-jsonb/OEVELSE.md) | Middel | 60 min | 🐳 | jsonb vs relationel modellering |
-| 08 | [VACUUM, autovacuum og bloat](./oevelser/08-vacuum/OEVELSE.md) | Middel | 45 min | 🐳 | Bloat, autovacuum, VACUUM FULL |
-| 09 | [Transaktionsisolationsniveauer](./oevelser/09-transaktioner/OEVELSE.md) | Middel | 60 min | 🐳 | Isolationsniveauer: READ COMMITTED, REPEATABLE READ, SERIALIZABLE |
-| 10 | [Deadlocks med to sessioner](./oevelser/10-deadlock/OEVELSE.md) | Middel | 45 min | 🐳 | Deadlocks med to sessioner |
-| 11 | [Lock timeout og backoff](./oevelser/11-lock-timeout/OEVELSE.md) | Middel | 45 min | 🐳 | Lock timeout og backoff |
-| 12 | [Roller og adgangskontrol (GRANT/REVOKE)](./oevelser/12-roller/OEVELSE.md) | Middel | 45 min | 🐳 | Roller, grants, tilladelsesgraf |
-| 13 | [work_mem og spill til disk under hukommelsespres](./oevelser/13-hukommelse/OEVELSE.md) | Middel | 45 min | 🐳 | work_mem, sortering, disk spill |
-| 14 | [Extensions (pg_trgm, pgcrypto, PostGIS)](./oevelser/14-extensions/OEVELSE.md) | Middel | 60 min | 🐳 | pg_trgm, pgcrypto, PostGIS |
-| 15 | [Connection pooling med PgBouncer](./oevelser/15-pgbouncer/OEVELSE.md) | Svær | 60 min | 🐳🐳 | PgBouncer, connection pooling |
-| 16 | [Deklarativ partitionering af store tabeller](./oevelser/16-partitionering/OEVELSE.md) | Svær | 60 min | 🐳 | Deklarativ partitionering |
-| 17 | [Backup og point-in-time recovery (WAL/PITR)](./oevelser/17-backup-pitr/OEVELSE.md) | Svær | 75 min | 🐳🐳 | WAL arkivering, PITR |
-| 18 | [Streaming-replikering og failover](./oevelser/18-replikering/OEVELSE.md) | Ekspert | 75 min | 🐳🐳🐳 | Primary + replika, failover |
-| 19 | [Opgradering til ny major version (pg_upgrade)](./oevelser/19-upgrade/OEVELSE.md) | Ekspert | 75 min | 🐳🐳 | Major version upgrade |
-| 20 | [Integreret fejlfinding: diagnose af en langsom app](./oevelser/20-mordmysterium/OEVELSE.md) | Ekspert | 90 min | 🐳🐳 | Integreret diagnoseøvelse |
+| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Middel | 45 min | 🐳 | PostgreSQL-log, log_statement, fejlfinding |
+| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller/OEVELSE.md) | Middel | 45 min | 🐳 | Roller, GRANT/REVOKE, Row Level Security |
+| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Middel | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner |
+| 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Middel | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER |
+| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Middel | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt |
 
 ## 🧭 Læringsstier (ca. 5 timer)
 
@@ -37,19 +28,19 @@ Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i [LEARNING_PATHS
 
 ```mermaid
 flowchart LR
-    Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 08"]
-    Start --> P2["🔒 Sti 2: Samtidighed<br/>02 · 09 · 10 · 11 · 12 · 13"]
-    Start --> P3["🚀 Sti 3: Drift<br/>05 · 07 · 14 · 15 · 16"]
-    P1 --> Done([Videre: 17–20])
+    Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 07"]
+    Start --> P2["🔒 Sti 2: Sikkerhed<br/>07 · 08 · 10 · 11"]
+    Start --> P3["⚙️ Sti 3: Data & samtidighed<br/>05 · 09"]
+    P1 --> Done([Alle 11 øvelser])
     P2 --> Done
     P3 --> Done
 ```
 
 | | Sti | Målgruppe | Øvelser | Tid |
 |---|-----|-----------|---------|-----|
-| 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#path-1-foundation-fundamentals-beginner) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 08 | ~4,5 t |
-| 🔒 | [Sti 2: Samtidighed & integritet](./LEARNING_PATHS.md#path-2-concurrency--data-integrity-intermediate) | Udviklere | 02 · 09 · 10 · 11 · 12 · 13 | ~4,5 t |
-| 🚀 | [Sti 3: Drift & avancerede features](./LEARNING_PATHS.md#path-3-operations--advanced-features-advanced) | DBA'er / driftsansvarlige | 05 · 07 · 14 · 15 · 16 | ~5 t |
+| 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#sti-1-fundament) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 07 | ~4 t |
+| 🔒 | [Sti 2: Sikkerhed](./LEARNING_PATHS.md#sti-2-sikkerhed) | Alle | 07 · 08 · 10 · 11 | ~3 t |
+| ⚙️ | [Sti 3: Data & samtidighed](./LEARNING_PATHS.md#sti-3-data--samtidighed) | Udviklere | 05 · 09 | ~2 t |
 
 ## Brugsanvisning
 
