@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret test tabel for Replikering test
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS repl_test;
+
 CREATE TABLE repl_test (
     id SERIAL PRIMARY KEY,
     data VARCHAR(100),
@@ -10,7 +13,7 @@ CREATE TABLE repl_test (
 );
 
 -- Seed data
-SET seed = 42;
+SET seed = 0.42;
 INSERT INTO repl_test (data)
 SELECT md5(random()::text)
 FROM generate_series(1, 100000) AS i;

@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret en tabel til lock timeout test
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS kø, reserveret_ressource;
+
 CREATE TABLE reserveret_ressource (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(100) NOT NULL,

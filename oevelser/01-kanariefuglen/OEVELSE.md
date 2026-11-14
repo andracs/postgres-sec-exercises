@@ -1,4 +1,4 @@
-# Øvelse 01: Kanariefuglen i kuldemineren
+# Øvelse 01: Benchmarking og hukommelseskonfiguration med pgbench
 
 ## Formål
 At demonstrere, at performance-tuning skal baseres på målinger, ikke gætteri. Du vil måle ydeevnen med `pgbench` på et datasæt, der er **større end hukommelsen**, justere hukommelsesparametre og observere en reel, målbar effekt.

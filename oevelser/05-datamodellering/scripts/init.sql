@@ -3,7 +3,12 @@
 
 \c studiebase
 
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS ordrer_denormaliseret;
+
 -- Opret den denormaliserede tabel med alle problemer
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+
 CREATE TABLE ordrer_denormaliseret (
     ordre_id SERIAL PRIMARY KEY,
     -- Kundeoplysninger (redundant - gentages for hver ordre)
@@ -31,8 +36,8 @@ CREATE TABLE ordrer_denormaliseret (
     forventet_levering DATE
 );
 
--- Seed data med fast seed for determinisme
-SET seed = 42;
+-- Seed data med fast seed for determinisme (seed skal være -1..1, f.eks. 0.42)
+SET seed = 0.42;
 
 -- 10.000 kunder
 WITH kunder_data AS (
@@ -98,11 +103,18 @@ SELECT
         WHEN random() < 0.1 THEN r.runde_dato + INTERVAL '6 months'
         ELSE r.runde_dato + (random() * 30)::INTEGER * INTERVAL '1 day'
     END
-FROM 
-    generate_series(1, 100000) AS o
-JOIN kunder_data k ON (random() * 10000)::INTEGER + 1 = k.kunde_id
-JOIN runder_data r ON (random() * 100)::INTEGER + 1 = r.runde_id
-JOIN produkter_data p ON (random() * 500)::INTEGER + 1 = p.produkt_id;
+FROM (
+    -- Beregn nøgler pr. ordre-række i en subquery; random() i JOIN ON
+    -- får ellers planlæggeren til at lægge filteret på CTE-scannet (0 rækker)
+    SELECT
+        floor(random() * 10000)::INTEGER + 1 AS kunde_key,
+        floor(random() * 100)::INTEGER + 1 AS runde_key,
+        floor(random() * 500)::INTEGER + 1 AS produkt_key
+    FROM generate_series(1, 100000) AS o
+) AS ordre_keys
+JOIN kunder_data k ON k.kunde_id = ordre_keys.kunde_key
+JOIN runder_data r ON r.runde_id = ordre_keys.runde_key
+JOIN produkter_data p ON p.produkt_id = ordre_keys.produkt_key;
 
 -- VACUUM ANALYZE
 VACUUM ANALYZE;

@@ -1,4 +1,4 @@
-# Øvelse 02: Statistik er ikke et fyord
+# Øvelse 02: Statistik og ANALYZE til bedre query-planer
 
 ## Formål
 At demonstrere, hvordan manglende eller forældet statistik kan føre til suboptimale query-planer. Du vil oprette data med skæv fordeling, observere planlæggerens beslutninger uden statistik, og se forbedringen efter ANALYZE.

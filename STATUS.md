@@ -25,36 +25,36 @@ Dette dokument giver en oversigt over den nuværende status for PostgreSQL-øvel
 
 | Øvelse | Titel | Status | Testresultat |
 |--------|-------|--------|--------------|
-| **01** | Kanariefuglen i kuldemineren | ✅ FÆRDIG | ✅ PASSED (pgbench kører, TPS målt) |
-| **02** | Statistik er ikke et fyord | ✅ FÆRDIG | ✅ PASSED (ANALYZE forbedrer planen) |
+| **01** | Benchmarking og hukommelseskonfiguration med pgbench | ✅ FÆRDIG | ✅ PASSED (pgbench kører, TPS målt) |
+| **02** | Statistik og ANALYZE til bedre query-planer | ✅ FÆRDIG | ✅ PASSED (ANALYZE forbedrer planen) |
 
 ### Med indhold (struktureret, delvist udfyldt)
 
 | Øvelse | Titel | Status | Indhold |
 |--------|-------|--------|---------|
-| **03** | Eksekveringsplan | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, facit |
-| **04** | Indeksøkonomi | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
-| **05** | Datamodellering | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
-| **06** | pg_stat_activity | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
-| **07** | JSONB | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
-| **08** | VACUUM | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
-| **09** | Transaktioner | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
-| **10** | Dødlås | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
-| **11** | Lock timeout | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
+| **03** | Læsning af eksekveringsplaner med EXPLAIN | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, facit |
+| **04** | Indekser: hurtigere læsning, langsommere skrivning | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
+| **05** | Normalisering til 3NF og bevidst denormalisering | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
+| **06** | Overvågning af forbindelser og queries med pg_stat_activity | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
+| **07** | JSONB vs. relationel modellering | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
+| **08** | VACUUM, autovacuum og bloat | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql |
+| **09** | Transaktionsisolationsniveauer | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
+| **10** | Deadlocks med to sessioner | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
+| **11** | Lock timeout og backoff | ✅ STRUKTUR | ✅ OEVELSE.md, docker-compose.yml, init.sql, to-sessioner.sh |
 
 ### Med stubber (mangler indhold)
 
 | Øvelse | Titel | Status | Mangler |
 |--------|-------|--------|---------|
-| **12** | Adgangskontrollens cirkulære beslutning | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
-| **13** | Hukommelsesøkonomien | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
-| **14** | Extensionsbiografen | ⚠️ STUB | Special docker-compose (PostGIS), OEVELSE.md, facit |
-| **15** | Forbindelsespoolens venteværelse | ⚠️ STUB | Special docker-compose (PgBouncer), OEVELSE.md, facit |
-| **16** | At partitionere fortiden | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
-| **17** | Backuppens værdi | ⚠️ STUB | Special docker-compose (2 containere), OEVELSE.md, facit |
-| **18** | En hær af trofaste kopier | ⚠️ STUB | Special docker-compose (3 containere), OEVELSE.md, facit |
-| **19** | Den store migration | ⚠️ STUB | Special docker-compose (2 containere), OEVELSE.md, facit |
-| **20** | Mordmysterium | ⚠️ STUB | Kompleks integreret øvelse, OEVELSE.md, facit |
+| **12** | Roller og adgangskontrol (GRANT/REVOKE) | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
+| **13** | work_mem og spill til disk under hukommelsespres | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
+| **14** | Extensions (pg_trgm, pgcrypto, PostGIS) | ⚠️ STUB | Special docker-compose (PostGIS), OEVELSE.md, facit |
+| **15** | Connection pooling med PgBouncer | ⚠️ STUB | Special docker-compose (PgBouncer), OEVELSE.md, facit |
+| **16** | Deklarativ partitionering af store tabeller | ⚠️ STUB | OEVELSE.md indhold, facit indhold |
+| **17** | Backup og point-in-time recovery (WAL/PITR) | ⚠️ STUB | Special docker-compose (2 containere), OEVELSE.md, facit |
+| **18** | Streaming-replikering og failover | ⚠️ STUB | Special docker-compose (3 containere), OEVELSE.md, facit |
+| **19** | Opgradering til ny major version (pg_upgrade) | ⚠️ STUB | Special docker-compose (2 containere), OEVELSE.md, facit |
+| **20** | Integreret fejlfinding: diagnose af en langsom app | ⚠️ STUB | Kompleks integreret øvelse, OEVELSE.md, facit |
 
 ## Filstatistik
 

@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret test tabel for Upgrade test
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS upgrade_test;
+
 CREATE TABLE upgrade_test (
     id SERIAL PRIMARY KEY,
     data VARCHAR(100),
@@ -10,7 +13,7 @@ CREATE TABLE upgrade_test (
 );
 
 -- Seed data
-SET seed = 42;
+SET seed = 0.42;
 INSERT INTO upgrade_test (data)
 SELECT md5(random()::text)
 FROM generate_series(1, 100000) AS i;

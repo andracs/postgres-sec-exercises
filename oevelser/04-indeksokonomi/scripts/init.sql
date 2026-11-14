@@ -3,6 +3,9 @@
 \c studiebase
 
 -- Opret ordrer-tabel
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS ordrer;
+
 CREATE TABLE ordrer (
     id SERIAL PRIMARY KEY,
     kunde_id INTEGER NOT NULL,
@@ -14,20 +17,20 @@ CREATE TABLE ordrer (
 );
 
 -- Seed data med fast seed for determinisme
-SET seed = 42;
+SET seed = 0.42;
 
 -- 1 million ordrer
 INSERT INTO ordrer (kunde_id, status, beloeb, ordre_dato, leveringsdato, betalingsmetode)
 SELECT 
-    (random() * 10000)::INTEGER + 1,
+    floor(random() * 10000)::INTEGER + 1,
     CASE 
         WHEN random() < 0.7 THEN 'afsluttet'
         WHEN random() < 0.2 THEN 'pendende'
         ELSE 'annulleret'
     END,
     (random() * 10000)::NUMERIC(10,2),
-    '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day',
-    '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day' + INTERVAL '3 days',
+    '2020-01-01'::TIMESTAMP + floor(random() * 1095)::INTEGER * INTERVAL '1 day',
+    '2020-01-01'::TIMESTAMP + floor(random() * 1095)::INTEGER * INTERVAL '1 day' + INTERVAL '3 days',
     CASE (floor(random() * 4))::INTEGER
         WHEN 0 THEN 'Kort'
         WHEN 1 THEN 'MobilePay'

@@ -5,6 +5,9 @@
 \c studiebase
 
 -- Opret kunder-tabel med skæv datafordeling
+-- Gør scriptet genkørbart (ellers fejler CREATE TABLE ved gentagelse)
+DROP TABLE IF EXISTS kunder;
+
 CREATE TABLE kunder (
     id SERIAL PRIMARY KEY,
     navn VARCHAR(100) NOT NULL,

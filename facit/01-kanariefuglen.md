@@ -1,4 +1,4 @@
-# Facit: Øvelse 01 - Kanariefuglen i kuldemineren
+# Facit: Øvelse 01 - Benchmarking og hukommelseskonfiguration med pgbench
 
 ## Forventede resultater
 

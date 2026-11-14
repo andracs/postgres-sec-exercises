@@ -12,27 +12,27 @@ This document suggests three focused paths through the 20 exercises, each design
 
 ### Exercises to Complete:
 
-1. **01 - Kanariefuglen** (30-45 min)
+1. **01 - Benchmarking og hukommelseskonfiguration med pgbench** (30-45 min)
    - Introduces performance-tuning with pgbench
    - Understand baseline measurement and configuration impact
    
-2. **02 - Statistik er ikke et fyord** (30 min)
+2. **02 - Statistik og ANALYZE til bedre query-planer** (30 min)
    - Learn why ANALYZE matters
    - See how statistics affect query planning
    
-3. **03 - At læse eksekveringsplan** (45 min)
+3. **03 - Læsning af eksekveringsplaner med EXPLAIN** (45 min)
    - Develop critical skill: reading EXPLAIN output
    - Understand seq scans, nested loops, hash joins
    
-4. **04 - Indeksøkonomi** (45 min)
+4. **04 - Indekser: hurtigere læsning, langsommere skrivning** (45 min)
    - Learn the cost/benefit tradeoff of indexes
    - Balance read performance vs. write performance
    
-5. **06 - pg_stat_activity som reality show** (45 min)
+5. **06 - Overvågning af forbindelser og queries med pg_stat_activity** (45 min)
    - Monitor active connections
    - Find and troubleshoot slow queries
 
-6. **08 - VACUUM dagbogen** (45 min)
+6. **08 - VACUUM, autovacuum og bloat** (45 min)
    - Understand bloat and autovacuum
    - Essential maintenance knowledge
 
@@ -48,26 +48,26 @@ This document suggests three focused paths through the 20 exercises, each design
 
 ### Exercises to Complete:
 
-1. **02 - Statistik er ikke et fyord** (30 min)
+1. **02 - Statistik og ANALYZE til bedre query-planer** (30 min)
    - Quick foundation on query planning
    
-2. **09 - Transaktionsteateret** (60 min)
+2. **09 - Transaktionsisolationsniveauer** (60 min)
    - Isolation levels: READ COMMITTED, REPEATABLE READ, SERIALIZABLE
    - Understand dirty reads, phantom reads, serialization anomalies
    
-3. **10 - Dødlåsens koreografi** (45 min)
+3. **10 - Deadlocks med to sessioner** (45 min)
    - See deadlocks in action with two sessions
    - Learn detection and recovery patterns
    
-4. **11 - Kødisciplin: lock_timeout som moral** (45 min)
+4. **11 - Lock timeout og backoff** (45 min)
    - Implement lock timeout strategies
    - Backoff patterns for resilience
    
-5. **12 - Adgangskontrollens cirkulære beslutning** (45 min)
+5. **12 - Roller og adgangskontrol (GRANT/REVOKE)** (45 min)
    - Roles, grants, and permission hierarchies
    - Access control design
    
-6. **13 - Hukommelsesøkonomien under pres** (45 min)
+6. **13 - work_mem og spill til disk under hukommelsespres** (45 min)
    - work_mem tuning and memory pressure
    - Understand when queries spill to disk
 
@@ -83,23 +83,23 @@ This document suggests three focused paths through the 20 exercises, each design
 
 ### Exercises to Complete:
 
-1. **05 - Datamodellederens anger** (60 min)
+1. **05 - Normalisering til 3NF og bevidst denormalisering** (60 min)
    - Normalization vs. denormalization tradeoffs
    - Design decisions with long-term impact
    
-2. **07 - Journalterminalen: JSON uden dom** (60 min)
+2. **07 - JSONB vs. relationel modellering** (60 min)
    - jsonb data type and operations
    - When to use relational vs. semi-structured storage
    
-3. **14 - Extensionsbiografen: købe eller bygge?** (60 min)
+3. **14 - Extensions (pg_trgm, pgcrypto, PostGIS)** (60 min)
    - Popular extensions: pg_trgm, pgcrypto, PostGIS
    - Extend PostgreSQL safely
    
-4. **15 - Forbindelsespoolens venteværelse** (60 min)
+4. **15 - Connection pooling med PgBouncer** (60 min)
    - PgBouncer connection pooling
    - Handle high concurrency applications
    
-5. **16 - At partitionere fortiden** (60 min)
+5. **16 - Deklarativ partitionering af store tabeller** (60 min)
    - Declarative partitioning
    - Scale large tables effectively
 
