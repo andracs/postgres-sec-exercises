@@ -1,6 +1,66 @@
 # PostgreSQL sikkerhed - øvelsessamling
 
-En samling af 13 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
+En samling af 13 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling. 
+
+## Hvorfor lige PostgreSQL?
+
+**PostgreSQL er i 2026 en af verdens mest populære og udbredte databaser blandt softwareudviklere.** Ifølge [Stack Overflow Developer Survey 2026](https://survey.stackoverflow.co/2026/technology/data/databases) er PostgreSQL den mest anvendte databaseteknologi blandt undersøgelsens 12.061 respondenter.
+
+De mest anvendte databaseteknologier i undersøgelsen er:
+
+| Database | Andel af udviklere |
+|---|---:|
+| **PostgreSQL** | **57,9 %** |
+| SQLite | 42,1 % |
+| MySQL | 35,1 % |
+| Redis | 28,3 % |
+| Microsoft SQL Server | 27,1 % |
+| MariaDB | 20,3 % |
+| MongoDB | 19,0 % |
+| Oracle | 9,4 % |
+
+Respondenterne kunne vælge flere teknologier. Undersøgelsen viser udviklernes anvendelse, ikke databasernes globale markedsandele.
+
+### Hvorfor er PostgreSQL populær?
+
+PostgreSQL kombinerer en række egenskaber, som gør databasen relevant til både klassiske virksomhedssystemer og moderne AI-applikationer:
+
+- **Open source og digital suverænitet:** Gratis, en permissiv open source-licens og mulighed for at drive databasen på egne servere eller hos forskellige cloudleverandører. [PostgreSQL License](https://www.postgresql.org/about/licence/)
+- **Robusthed og skalerbarhed:** ACID-transaktioner, replikering, backup og recovery. Med den rigtige arkitektur kan PostgreSQL understøtte meget store produktionsmiljøer. [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
+- **AI og moderne datatyper:** PostgreSQL understøtter blandt andet JSONB og kan udvides med [pgvector](https://github.com/pgvector/pgvector), der tilbyder vektorsøgning til eksempelvis AI-applikationer og semantisk søgning.
+- **Avanceret sikkerhed:** Rollebaseret adgangskontrol, Row-Level Security, stærk autentifikation, TLS og omfattende muligheder for logging og auditing. [PostgreSQL Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
+- **Modent økosystem:** Databaseværktøjer, drivere, udvidelser og integrationer med stort set alle almindelige programmeringssprog og udviklingsplatforme.
+
+### PostgreSQL i nogle af verdens største platforme
+
+PostgreSQL bruges ikke kun af mindre virksomheder og udviklere. Det indgår også i infrastrukturen bag nogle af verdens største digitale tjenester.
+
+- **ChatGPT / OpenAI:** I januar 2026 beskrev OpenAI, hvordan PostgreSQL understøttede centrale dele af ChatGPT og OpenAI's API-platform med 800 millioner brugere og millioner af databaseforespørgsler i sekundet. Det krævede blandt andet omfattende optimering og næsten 50 læsereplikaer. [OpenAI Engineering, 2026](https://openai.com/index/scaling-postgresql/)
+- **Reddit:** Reddit beskrev i juli 2025, hvordan PostgreSQL blev anvendt til lagring af platformens kommentardata, mens Memcached og Redis håndterede andre opgaver. [Reddit Engineering, 2025](https://www.reddit.com/r/RedditEng/comments/1mbqto6/modernizing_reddits_comment_backend_infrastructure/)
+
+PostgreSQL er ikke nødvendigvis den hurtigste database til alle opgaver, og store systemer bruger ofte flere forskellige databaseteknologier. Men dens alsidighed, stabilitet, åbne arkitektur og store udbredelse gør den til et stærkt valg.
+
+### Hvorfor lærer vi databasesikkerhed med PostgreSQL?
+
+Vi bruger PostgreSQL i systemsikkerhed, fordi vi kan arbejde praktisk med **grundlæggende sikkerhedsprincipper, der også gælder for andre DBMS'er**, eksempelvis MySQL, MariaDB, Microsoft SQL Server, Oracle og til dels NoSQL-databaser som MongoDB.
+
+Vi kommer blandt andet til at arbejde med:
+
+- **Autentifikation:** Hvem må forbinde til databasen? Stærke adgangskoder, SCRAM-SHA-256 og adgangsregler i `pg_hba.conf`.
+- **Autorisation og Least Privilege:** Hvad må forskellige brugere og services gøre? Roller, rettigheder, `GRANT`, `REVOKE` og Row-Level Security.
+- **Netværkssikkerhed:** Begrænsning af adgang, krypterede forbindelser med TLS og reduktion af angrebsfladen.
+- **Hardening og baseline security:** Sikring af standardkonfigurationen med udgangspunkt i anerkendte anbefalinger og sikkerhedsbenchmarks.
+- **Logging og overvågning:** Registrering og analyse af databaseaktiviteter, fejl og mistænkelig adfærd.
+- **Backup og recovery:** Sikring af dataintegritet, tilgængelighed og mulighed for at genskabe data efter fejl eller angreb.
+- **SQL Injection:** Forståelse af angreb mod databaser og forebyggelse gennem blandt andet parameteriserede forespørgsler.
+
+**Målet er ikke at uddanne jer til PostgreSQL-administratorer. Målet er at lære jer at tænke og arbejde systematisk med databasesikkerhed.**
+
+Når I kan analysere en usikker PostgreSQL-installation, identificere sårbarheder, vurdere risici, implementere modforanstaltninger og dokumentere jeres arbejde, har I opnået færdigheder, der i høj grad kan overføres til andre databasesystemer.
+
+Kommandoer, konfigurationsfiler og sikkerhedsfunktioner varierer mellem DBMS'er, men de grundlæggende principper er stort set de samme: **beskyt data, begræns adgang, registrer hændelser, sikr tilgængelighed, og verificér at sikkerhedsforanstaltningerne faktisk virker.**
+
+Det er disse generelle kompetencer, vi træner.
 
 ## Du skal bruge
 - Docker Desktop eller Podman
@@ -164,6 +224,18 @@ chmod +x scripts/to-sessioner.sh
 - PostgreSQL: 18.7
 - Docker Compose: v2+
 - Sidst opdateret: November 2026
+
+
+### Kilder og videre læsning
+
+1. [Stack Overflow Developer Survey 2026: Databases](https://survey.stackoverflow.co/2026/technology/data/databases)
+2. [OpenAI (2026): Scaling PostgreSQL to power 800 million ChatGPT users](https://openai.com/index/scaling-postgresql/)
+3. [Reddit Engineering (2025): Modernizing Reddit's Comment Backend Infrastructure](https://www.reddit.com/r/RedditEng/comments/1mbqto6/modernizing_reddits_comment_backend_infrastructure/)
+4. [pgvector: Open-source vector similarity search for PostgreSQL](https://github.com/pgvector/pgvector)
+5. [PostgreSQL: Client Authentication og pg_hba.conf](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)
+6. [PostgreSQL: Row-Level Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
+7. [OWASP: SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet)
+8. [PostgreSQL: Logging](https://www.postgresql.org/docs/current/runtime-config-logging.html)
 
 ---
 
