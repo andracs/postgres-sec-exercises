@@ -161,4 +161,4 @@ For hver øvelse:
 ## 2026-11-14 (senere): review + hardening
 - Øvelse 13 udvidet til fuld hardening-øvelse (Del A-F + challenge); init.sql + challenge/init.sql kørt to gange hver på lokal PG uden fejl; SCRAM-verifier tjekket (t); compose-filer YAML-valideret; shell-scripts `bash -n` OK.
 - Docker end-to-end (pg_hba-netværkstests, PITR-restore, TLS) kunne ikke køres i dette miljø (ingen Docker-daemon) — kun statisk kontrolleret; se issue #7.
-- Afsluttende testcase verificeret på SQL-niveau (50 customers / 200 orders / 5 staff, app_user superuser som tilsigtet); Docker-kørsel kun statisk kontrolleret.
+- Afsluttende testcase (nu i evalueringsopgave/) verificeret på SQL-niveau (50 customers / 200 orders / 5 staff, app_user superuser som tilsigtet); Docker-kørsel kun statisk kontrolleret.

@@ -1,0 +1,29 @@
+# ============================================================
+# DroneTransport Næstved — BEVIDST USIKKER bad-case (kun lokalt lab!)
+# Må ALDRIG eksponeres på offentligt netværk. Kun localhost/lokalt Docker-net.
+# ============================================================
+services:
+  db:
+    image: postgres:18
+    container_name: dronetransport-db
+    environment:
+      # PROBLEM: hardcoded, svagt password i en offentlig fil
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: dronetransport
+    ports:
+      # PROBLEM: bundet til alle interfaces
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - dronetransport-data:/var/lib/postgresql
+    command:
+      - -c hba_file=/etc/postgresql/pg_hba.conf
+      - -c ssl=off                 # PROBLEM: ingen TLS
+      - -c log_connections=off     # PROBLEM: ingen logging
+      - -c log_statement=none
+      - -c archive_mode=off        # PROBLEM: ingen WAL-arkivering/backup-strategi
+
+volumes:
+  dronetransport-data:
