@@ -1,0 +1,24 @@
+# Docker
+*.log
+.docker/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node/TypeScript (udvikling)
+generate_exercises.ts
+node_modules/
+
+# Git
+.git/
+
+# Temp files
+*.tmp
+*.temp
