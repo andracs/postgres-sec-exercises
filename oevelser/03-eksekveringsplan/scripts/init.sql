@@ -60,8 +60,8 @@ FROM generate_series(1, 100000) AS i;
 -- 1.000.000 laan-transaktioner
 INSERT INTO laan (bog_id, laaner_id, laan_dato, retur_dato)
 SELECT 
-    (random() * 100000)::INTEGER + 1,
-    (random() * 50000)::INTEGER + 1,
+    floor(random() * 100000)::INTEGER + 1,
+    floor(random() * 50000)::INTEGER + 1,
     '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day',
     '2020-01-01'::TIMESTAMP + (random() * 1095)::INTEGER * INTERVAL '1 day' + INTERVAL '14 days'
 FROM generate_series(1, 1000000) AS i;
@@ -69,7 +69,8 @@ FROM generate_series(1, 1000000) AS i;
 -- Opret indeks
 CREATE INDEX idx_boeger_forfatter ON boeger(forfatter_id);
 CREATE INDEX idx_laan_bog ON laan(bog_id);
-CREATE INDEX idx_laan_laa
+CREATE INDEX idx_laan_l
+aa
 n_dato ON laan(laan_dato);
 
 -- VACUUM ANALYZE for at opdatere statistik
