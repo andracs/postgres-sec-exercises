@@ -1,8 +1,5 @@
 # DroneTransport Næstved — privat evalueringsmateriale (UNDERVISER ONLY)
 
-⚠️ **Fortroligt:** Denne mappe er i `.gitignore` og må ALDRIG committes, pushes eller
-indgå i offentlige artifacts. Udlever kun `dist/student-pakke.zip` til studerende.
-
 ## Indhold
 - `docker-compose.yml`, `pg_hba.conf`, `scripts/init.sql` — den bevidst usikre case (syntetiske data)
 - `opgavebeskrivelse.md` — studenterversion af opgaven (60 min)
