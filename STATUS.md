@@ -20,12 +20,15 @@
 | 10 | Triggers og audit-log | ✅ (ny) | ✅ (ny) | ❌ mangler |
 | 11 | Kryptering med pgcrypto | ✅ (ny) | ✅ (ny, kræver contrib — følger med i postgres:18-imagen) | ❌ mangler |
 | 12 | Backup og point-in-time recovery (PITR) | ✅ (ny) | ✅ (ny) + pitr-restore.sh | ❌ mangler |
-| 13 | TLS på forbindelsen og secrets management | ✅ (ny) | ✅ (ny) + setup.sh | ❌ mangler |
+| 13 | PostgreSQL Hardening: Network Access, Authentication, TLS & Secrets (Del A-F + challenge) | ✅ udvidet | ✅ + setup.sh/test-connections.sh/challenge/ | ✅ facit |
 
 ## Verificeret
 
 - Alle 13 init.sql kører fejlfrit to gange hver (entrypoint-stil med ON_ERROR_STOP=1 + idempotent genkørsel) på lokal PostgreSQL.
 - Alle init-scripts har `DROP TABLE IF EXISTS` (idempotente) og gyldig `SET seed = 0.42`.
+
+## Privat evaluering
+Afsluttende 60-min test (DroneTransport Næstved) ligger lokalt i `private-evaluering/` (gitignored, må aldrig pushes).
 
 ## Kendte mangler
 

@@ -1,86 +1,129 @@
-# Øvelse 13: TLS på forbindelsen og secrets management
+# Øvelse 13: PostgreSQL Hardening — Network Access, Authentication, TLS & Secrets
+
+**Tier 3 · Ekspert · ca. 60-90 min**
 
 ## Formål
-At lære at slå TLS til på PostgreSQL-forbindelser (så trafikken ikke kan aflyttes), at kræve TLS i `pg_hba.conf`, og at holde passwords/certifikater uden for git via Docker secrets og .gitignore.
+At samle hele sikkerhedsfladen i én hands-on øvelse: forstå adgangsmodellen, begrænse netværksadgang i et isoleret Docker-lab, sætte SCRAM-SHA-256 op, kræve TLS, håndtere secrets sikkert — og til sidst selv hardene en bevidst usikker konfiguration.
 
 ## Forudsætninger
-- Docker Desktop eller Podman installeret
-- `openssl` og `psql` på din host
-- Grundlæggende kendskab til SQL
+- Docker Desktop eller Podman
+- `openssl` og `psql` på hosten (macOS/Linux har det; Windows: WSL eller Git Bash)
+- Grundlæggende SQL
+
+## Lab-oversigt
+`docker-compose.yml` starter tre containere på to isolerede netværk:
+
+| Container | Netværk | IP | Rolle |
+|---|---|---|---|
+| `db` | app-net + attack-net | 172.28.0.10 / 172.29.0.10 | PostgreSQL 18, TLS på, custom pg_hba |
+| `app` | app-net | 172.28.0.20 | autoriseret applikationsservice (rolle `app_user`) |
+| `attacker` | attack-net | 172.29.0.20 | uautoriseret testklient |
+
+Port 5432 publiseres kun på `127.0.0.1` på hosten.
 
 ## Start
-
-1. `cd oevelser/13-tls-secrets`
-2. `./scripts/setup.sh` — laver `certs/` (self-signed) og `secrets/db_password.txt` (begge i .gitignore)
-3. `docker compose up -d`
-4. `docker compose exec postgres pg_isready -U studie`
-
-Bemærk: compose-filen indeholder IKKE passwordet — det ligger i Docker secret `db_password` (`POSTGRES_PASSWORD_FILE`).
-
-## Opgaver
-
-### 1. Bekræft at TLS er slået til
 ```bash
-docker compose exec postgres psql -U studie -d studiebase -c "SHOW ssl;"
+cd oevelser/13-tls-secrets
+./scripts/setup.sh          # laver certs/ og secrets/ (i .gitignore)
+docker compose up -d
+./scripts/test-connections.sh   # kører Del B's 4 tests (forvent 4 PASS)
 ```
+
+---
+
+## Del A: Forstå adgangsmodellen (10 min)
+
+Kør i db-containeren (`docker compose exec db psql -U admin -d appdb`) — brug `SHOW`, ikke gæt på stier:
+
 ```sql
-SELECT ssl, version, cipher FROM pg_stat_ssl WHERE pid = pg_backend_pid();
+SHOW listen_addresses;    -- '*' (lytter på alle interfaces — begrænses via pg_hba/netværk)
+SHOW hba_file;            -- vores monterede /etc/postgresql/pg_hba.conf
+SHOW data_directory;
+SHOW password_encryption; -- scram-sha-256 (standard i PG 18)
+SHOW ssl;                 -- on
 ```
 
-### 2. Forbind fra hosten MED TLS
-```bash
-PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost port=5432 dbname=studiebase user=studie sslmode=require" -c "SELECT ssl, version FROM pg_stat_ssl WHERE pid = pg_backend_pid();"
-```
-**Tjek:** `ssl` = t (true).
+Læs `pg_hba.conf` i repo-mappen. Husk:
+- **Første match vinder** — rækkefølgen er afgørende.
+- `local` = Unix-socket, `host` = TCP (SSL eller ej), `hostssl` = kun TLS, `hostnossl` = kun uden TLS.
+- Regler kan begrænse på IPv4/IPv6-adresser/CIDR (vores lab: `172.28.0.0/24` tilladt, resten afvises).
+- Roller med `LOGIN` + password er adgangs"nøgler": `SELECT rolname, rolcanlogin FROM pg_roles;`
+- `sslmode` på klienten: `require` (krypteret, ingen cert-tjek) vs `verify-ca`/`verify-full` (tjekker også serverens certifikat/kæde).
 
-### 3. Strammere validering: verify-full med eget root-certifikat
-```bash
-PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=studiebase user=studie sslmode=verify-full sslrootcert=certs/server.crt" -c "SELECT 1;"
-```
-**Tjek:** virker fordi certifikatet har CN=localhost. Prøv `sslmode=verify-full` uden rootcert — det fejler (ukendt CA).
+## Del B: Begræns netværksadgang (15 min)
 
-### 4. Kræv TLS for ALLE forbindelser i pg_hba.conf
-Find først den rigtige sti i stedet for at gætte (stien ændrer sig mellem PostgreSQL-versioner):
-```bash
-docker compose exec postgres psql -U studie -d studiebase -c "SHOW hba_file; SHOW data_directory;"
-```
-Indsæt så reglen øverst i den viste pg_hba.conf (første match vinder):
-```bash
-docker compose exec postgres bash -c "HBA=$(psql -U studie -d studiebase -tA -c 'SHOW hba_file;') && sed -i '1i hostnossl all all 0.0.0.0/0 reject' "$HBA" && psql -U studie -d studiebase -c 'SELECT pg_reload_conf();'"
-```
-Test at en forbindelse uden TLS nu afvises:
-```bash
-PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=studiebase user=studie sslmode=disable" -c "SELECT 1;"
-```
-**Tjek:** fejler med "no pg_hba.conf entry ... SSL off".
+`pg_hba.conf` tillader kun `172.28.0.0/24` (app-net) med TLS + SCRAM, plus hostens gateway `172.28.0.1` — alt andet (inkl. attack-net `172.29.0.0/24` og alle non-TLS) afvises.
 
-### 5. Secrets ligger ikke i git
+Kør testen og bekræft alle fire:
 ```bash
-grep -c "studie" docker-compose.yml   # password må IKKE stå her
-cat .gitignore
-git status --short                     # certs/ og secrets/ må ikke dukke op
+./scripts/test-connections.sh
 ```
+1. app fra app-net med TLS + korrekt password → **accepteres**
+2. attacker fra attack-net → **afvises** (`no pg_hba.conf entry`)
+3. forkert password → **afvises** (SCRAM-fejl)
+4. `sslmode=disable` → **afvises** (`SSL off`)
 
-### 6. Roter password (secret-rotation) — uden at slette datavolumenet
-`POSTGRES_PASSWORD_FILE` læses kun ved første initialisering af en tom volumen, så ved rotation ændrer man password i den kørende database:
+> Bemærk: Fordi `attacker` sidder på et andet subnet (172.29.x), er testen ikke misvisende — kilde-IP'en er faktisk forskellig, ikke bare docker-gatewayen.
+
+## Del C: SCRAM-SHA-256 autentifikation (15 min)
+
 ```sql
-ALTER USER studie PASSWORD 'nyt-robust-password';
+SHOW password_encryption;   -- scram-sha-256
+-- Tjek at app_user's gemte verifier ER en SCRAM-verifier — uden at udskrive den:
+SELECT rolname, rolpassword LIKE 'SCRAM-SHA-256$%' AS er_scram FROM pg_authid WHERE rolname = 'app_user';
+-- forvent: er_scram = t
 ```
-Opdater også secret-filen, så næste friske `docker compose up -d` på nyt volumen får samme password:
+
+- Opret en ny bruger og sæt password: `CREATE ROLE test_user LOGIN PASSWORD 'Test1234!';` — tjek igen at verifieren er `SCRAM-SHA-256$...`.
+- Test korrekt vs forkert password fra `app`-containeren (som i Del B).
+- **Vigtigt:** `password_encryption` bestemmer kun formatet ved NÆSTE password-ændring — ændrer du indstillingen, migreres eksisterende passwords IKKE automatisk. Migrer med `ALTER ROLE ... PASSWORD 'samme-klartekst'` igen (eller lad brugerne skifte).
+- Aldrig udskriv `pg_authid.rolpassword` i dokumentation/screenshots.
+
+## Del D: TLS og certifikater (15 min)
+
+TLS er slået til i compose (`ssl=on` + certs fra `setup.sh`).
+
 ```bash
-echo 'nyt-robust-password' > secrets/db_password.txt
-PGPASSWORD='nyt-robust-password' psql "host=localhost dbname=studiebase user=studie sslmode=require" -c "SELECT current_user;"
+# fra hosten, TLS krævet:
+PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=appdb user=admin sslmode=require" -c "SELECT ssl, version FROM pg_stat_ssl WHERE pid = pg_backend_pid();"
+# forvent: ssl = t, version = TLSv1.3
+
+# fuld certifikat-validering (vores self-signed cert er også "root"):
+PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=appdb user=admin sslmode=verify-full sslrootcert=certs/server.crt" -c "SELECT 1;"
+
+# uden TLS afvises (Del B test 4).
 ```
+
+**Forklar:** `sslmode=require` krypterer trafikken, men beviser ikke hvem serveren er (enhver kan præsentere et certifikat). `verify-ca`/`verify-full` tjekker certifikatet mod en trusted CA (og ved verify-full også hostname) — det er det, der forhindrer MITM. Kryptering alene beviser altså ikke identitet.
+
+## Del E: Secrets og rotation (15 min)
+
+- Ingen passwords i compose: admin bruger `POSTGRES_PASSWORD_FILE` (Docker secret), app får sit i `secrets/app_password.txt`. Tjek: `grep -ri password docker-compose.yml` viser kun `_FILE`/secret-navne. `certs/` og `secrets/` er i `.gitignore` — `git status` må ikke vise dem.
+- **Rotation uden datatab** (ikke `down -v`!):
+```sql
+ALTER ROLE app_user PASSWORD 'nyt-lab-password-456';
+```
+  Opdater `secrets/app_password.txt` med det samme, kør `./scripts/test-connections.sh` igen → test 1 PASS (nyt password virker), og gammelt password giver FAIL (test 3's princip).
+- Lab vs produktion: en lokal secret-fil er bedre end hardcoded, men i produktion bruger man Vault/KMS/etc. med rotation og adgangslog.
+
+## Del F: Selvstændig hardening-opgave (20-30 min)
+
+I `challenge/` ligger en bevidst usikker PostgreSQL (`docker compose -f challenge/docker-compose.yml up -d`). Den har **tre sikkerhedsproblemer** — find dem uden fulde trin (gradvise hints i `challenge/HINTS.md`).
+
+Du skal:
+1. Identificere problemerne (hint: kig på `pg_hba.conf`, roller og `SHOW ssl`).
+2. Implementere forbedringer (pg_hba, roller/REVOKE, TLS, logging).
+3. Vise positive OG negative forbindelsestests.
+4. Begrunde dine valg og beskrive én tilbageværende risiko.
 
 ## Refleksion
-
-1. Hvad beskytter TLS på forbindelsen — og hvad beskytter den IKKE (tænk på data i databasen i hvile)?
-2. Hvorfor må certifikater og passwords aldrig i git?
-3. Hvad ville du bruge i produktion i stedet for en lokal secrets-fil (f.eks. Vault, AWS Secrets Manager)?
+1. Hvorfor er "første match vinder" i pg_hba vigtig at forstå, før man ændrer noget?
+2. Hvad beskytter TLS, og hvad beskytter det ikke?
+3. Hvorfor ruller `password_encryption` ikke eksisterende passwords?
 
 ## Det har du lært
-
-- `ssl=on` + cert/key i compose, og at læse dem med `SHOW ssl` / `pg_stat_ssl`
-- `sslmode=require` vs `verify-ca`/`verify-full` på klienten
-- `hostnossl ... reject` i pg_hba.conf for at tvinge TLS
-- Docker secrets (`POSTGRES_PASSWORD_FILE`) + .gitignore til credentials
+- Adgangsmodellen: `listen_addresses`, `pg_hba.conf` (first-match), local/host/hostssl/hostnossl, CIDR
+- Netværksbegrænsning i isoleret Docker-lab med adskilte subnets
+- SCRAM-SHA-256 verifiers i `pg_authid` og hvorfor `password_encryption` ikke migrerer
+- TLS: `require` vs `verify-ca`/`verify-full`, `pg_stat_ssl`, kryptering ≠ identitet
+- Secrets via Docker secrets + .gitignore, rotation via `ALTER ROLE` uden datatab

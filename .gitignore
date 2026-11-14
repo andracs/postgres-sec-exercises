@@ -22,3 +22,6 @@ node_modules/
 # Temp files
 *.tmp
 *.temp
+
+# Privat evalueringsmateriale må ALDRIG i det offentlige repo
+private-evaluering/
