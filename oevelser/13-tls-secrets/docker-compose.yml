@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: oevelse13-postgres
+    environment:
+      POSTGRES_USER: studie
+      # Password kommer IKKE fra en env-variabel i denne fil, men fra Docker secret
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: studiebase
+    ports:
+      - "5432:5432"
+    secrets:
+      - db_password
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./certs:/certs:ro
+      - pgdata:/var/lib/postgresql
+    networks:
+      - oevelse13-net
+    command:
+      - -c
+      - ssl=on
+      - -c
+      - ssl_cert_file=/certs/server.crt
+      - -c
+      - ssl_key_file=/certs/server.key
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+volumes:
+  pgdata:
+
+networks:
+  oevelse13-net:
+    driver: bridge

@@ -2,7 +2,7 @@
 
 ## Oversigt
 
-11 øvelser (01-11). Øvelse 07-20 fra den oprindelige struktur er fjernet og erstattet af fem nye sikkerhedsøvelser (07-11: logging, roller, transaktioner, triggers, kryptering).
+13 øvelser (01-13). Øvelse 07-20 fra den oprindelige struktur er fjernet og erstattet af nye øvelser: 07-11 (logging, roller, transaktioner, triggers, kryptering) samt 12-13 (backup/PITR, TLS/secrets).
 
 ## Status pr. øvelse
 
@@ -19,10 +19,12 @@
 | 09 | Transaktioner, isolation og savepoints | ✅ (ny) | ✅ (ny) + to-sessioner.sh | ❌ mangler |
 | 10 | Triggers og audit-log | ✅ (ny) | ✅ (ny) | ❌ mangler |
 | 11 | Kryptering med pgcrypto | ✅ (ny) | ✅ (ny, kræver contrib — følger med i postgres:18-imagen) | ❌ mangler |
+| 12 | Backup og point-in-time recovery (PITR) | ✅ (ny) | ✅ (ny) + pitr-restore.sh | ❌ mangler |
+| 13 | TLS på forbindelsen og secrets management | ✅ (ny) | ✅ (ny) + setup.sh | ❌ mangler |
 
 ## Verificeret
 
-- Alle 11 init.sql kører fejlfrit to gange hver (entrypoint-stil med ON_ERROR_STOP=1 + idempotent genkørsel) på lokal PostgreSQL.
+- Alle 13 init.sql kører fejlfrit to gange hver (entrypoint-stil med ON_ERROR_STOP=1 + idempotent genkørsel) på lokal PostgreSQL.
 - Alle init-scripts har `DROP TABLE IF EXISTS` (idempotente) og gyldig `SET seed = 0.42`.
 
 ## Kendte mangler

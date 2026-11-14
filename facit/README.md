@@ -1,6 +1,6 @@
 # Facit - PostgreSQL Øvelsessamling
 
-Dette dokument indeholder løsninger og forventede resultater for øvelserne 01–03 (facit for 04–11 er ikke skrevet endnu) i PostgreSQL-øvelsessamlingen.
+Dette dokument indeholder løsninger og forventede resultater for øvelserne 01–03 (facit for 04–13 er ikke skrevet endnu) i PostgreSQL-øvelsessamlingen.
 
 ## Indeks
 

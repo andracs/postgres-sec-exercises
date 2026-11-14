@@ -1,6 +1,6 @@
 # PostgreSQL sikkerhed - øvelsessamling
 
-En samling af 11 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
+En samling af 13 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.
 
 ## Du skal bruge
 - Docker Desktop eller Podman
@@ -21,6 +21,8 @@ En samling af 11 øvelser til undervisning i PostgreSQL-administration, -optimer
 | 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Middel | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner |
 | 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Middel | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER |
 | 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Middel | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt |
+| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Svær | 75 min | 🐳🐳 | pg_basebackup, WAL-arkivering, recovery_target_time |
+| 13 | [TLS på forbindelsen og secrets management](./oevelser/13-tls-secrets/OEVELSE.md) | Svær | 60 min | 🐳🐳 | SSL-certifikater, pg_hba hostnossl, Docker secrets |
 
 ## 🧭 Læringsstier (ca. 5 timer)
 
@@ -30,8 +32,8 @@ Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i [LEARNING_PATHS
 flowchart LR
     Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 07"]
     Start --> P2["🔒 Sti 2: Sikkerhed<br/>07 · 08 · 10 · 11"]
-    Start --> P3["⚙️ Sti 3: Data & samtidighed<br/>05 · 09"]
-    P1 --> Done([Alle 11 øvelser])
+    Start --> P3["⚙️ Sti 3: Drift & data<br/>05 · 09 · 12 · 13"]
+    P1 --> Done([Alle 13 øvelser])
     P2 --> Done
     P3 --> Done
 ```
@@ -39,8 +41,8 @@ flowchart LR
 | | Sti | Målgruppe | Øvelser | Tid |
 |---|-----|-----------|---------|-----|
 | 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#sti-1-fundament) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 07 | ~4 t |
-| 🔒 | [Sti 2: Sikkerhed](./LEARNING_PATHS.md#sti-2-sikkerhed) | Alle | 07 · 08 · 10 · 11 | ~3 t |
-| ⚙️ | [Sti 3: Data & samtidighed](./LEARNING_PATHS.md#sti-3-data--samtidighed) | Udviklere | 05 · 09 | ~2 t |
+| 🔒 | [Sti 2: Sikkerhed](./LEARNING_PATHS.md#sti-2-sikkerhed) | Alle | 07 · 08 · 10 · 11 · 13 | ~3,5 t |
+| ⚙️ | [Sti 3: Drift & data](./LEARNING_PATHS.md#sti-3-drift--data) | DBA'er / udviklere | 05 · 09 · 12 · 13 | ~4,5 t |
 
 ## Brugsanvisning
 
