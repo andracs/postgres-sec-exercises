@@ -37,15 +37,17 @@ Seed-scriptet opretter automatisk en stor tabel. Verificér:
 ```sql
 SELECT count(*) FROM store_data;
 ```
-**Tjek:** ~5.000.000 rækker
+**Tjek:** ~500.000 rækker
 
 ### 2. Start en langkørende query i baggrunden
 I en ny terminal, start en langkørende query:
 ```bash
 # Åbn en ny terminal (hold den gamle åben)
-docker compose exec postgres psql -U studie -d studiebase -c "\timing on" -c "SELECT pg_sleep(60), * FROM store_data WHERE random() > 0.99;"
+docker compose exec postgres psql -U studie -d studiebase -c "\timing on" -c "SELECT pg_sleep(60);"
 ```
-**Tjek:** Query'en kører og blokkerer (tager lang tid)
+**Tjek:** Query'en kører i 60 sekunder og blokkerer.
+
+**VIGTIGT:** Skriv IKKE `SELECT pg_sleep(60), * FROM store_data ...` — `pg_sleep()` i SELECT-listen kører én gang **pr. returneret række**, så med tusindvis af rækker ville den køre i timevis!
 
 ### 3. Overvåg aktive forbindelser
 I den originale psql-session, kør:
@@ -111,7 +113,7 @@ ORDER BY idle_duration DESC;
 Find PID'en og dræb den:
 ```sql
 -- Først: Find PID'en
-SELECT pid FROM pg_stat_activity WHERE query LIKE '%pg_sleep%'`;
+SELECT pid FROM pg_stat_activity WHERE query LIKE '%pg_sleep%';
 
 -- Så: Dræb den (erstat X med PID)
 SELECT pg_terminate_backend(X);
@@ -200,6 +202,36 @@ Vis viewet:
 ```sql
 SELECT * FROM aktivitet_overvaagning;
 ```
+
+### 8. Lås-demo med to sessioner: hvem blokerer hvem?
+Session A (terminal 1):
+```sql
+BEGIN;
+UPDATE store_data SET numero = numero + 1 WHERE id = 1;  -- tager lås på rækken
+-- lad være med at committe
+```
+Session B (terminal 2):
+```sql
+UPDATE store_data SET numero = numero + 2 WHERE id = 1;  -- venter nu på låsen
+```
+I session A (eller en tredje), se hvem der blokerer hvem:
+```sql
+SELECT a.pid AS blokeret_pid, b.pid AS blokerende_pid, a.query AS blokeret_query
+FROM pg_stat_activity a
+JOIN pg_stat_activity b ON b.pid = ANY(pg_blocking_pids(a.pid))
+WHERE a.state = 'active';
+```
+**Tjek:** Du kan se både den blokerede og den blokerende session. Rul tilbage i session A (`ROLLBACK;`) — så går session B igennem.
+
+### 9. Find den mistænkelige forbindelse selv
+Forestil dig produktion kl. 03: en forbindelse hænger og blokerer andre. Find den:
+```sql
+SELECT pid, usename, state, now() - state_change AS varighed, left(query, 80) AS query
+FROM pg_stat_activity
+WHERE datname = 'studiebase' AND pid <> pg_backend_pid()
+ORDER BY state_change;
+```
+Identificer en `idle in transaction`, der holder låse (tjek `pg_locks` for pid'en), og dræb den med `pg_terminate_backend(pid)`.
 
 ## Refleksion
 

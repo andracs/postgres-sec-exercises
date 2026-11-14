@@ -32,6 +32,8 @@ At demonstrere, at indeks forbedrer læseperformance men forringes skriveperform
 
 ## Opgaver
 
+> **Bemærk:** Planer og tider varierer med version, statistik og hardware. Sammenlign altid målinger på samme maskine lige efter hinanden.
+
 ### 1. Opret testtabel og data
 
 
@@ -58,7 +60,7 @@ Kør query uden indeks:
 ```sql
 SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
 ```
-**Notér:** Eksekveringstiden (typisk 50-200 ms med seq scan)
+**Notér:** Eksekveringstiden med seq scan (præcis værdi afhænger af din maskine — typisk langt over 10 ms)
 
 Aflæs planen:
 ```sql
@@ -76,7 +78,7 @@ Mål query igen:
 ```sql
 SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
 ```
-**Notér:** Forbedret tid (typisk 1-5 ms)
+**Notér:** Forbedret tid med indeks (typisk markant hurtigere — mål selv forskellen)
 
 Aflæs planen:
 ```sql
@@ -123,7 +125,7 @@ SELECT
     NOW()
 FROM generate_series(1, 10000) AS i;
 ```
-**Notér:** Tid for 10.000 INSERTs med indeks (typisk 2-5x langsommere)
+**Notér:** Tid for 10.000 INSERTs med indeks (typisk flere gange langsommere end uden — mål selv)
 
 ### 7. Find ubrugte indekser
 Kør et load af queries og tjek derefter:

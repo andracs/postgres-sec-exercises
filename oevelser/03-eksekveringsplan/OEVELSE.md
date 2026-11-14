@@ -32,6 +32,8 @@ At lære at aflæse og forstå PostgreSQL eksekveringsplaner. Du vil oprette dat
 
 ## Opgaver
 
+> **Bemærk:** Planer kan variere med PostgreSQL-version og statistik. Tjek at planen indeholder den forventede nodetype (f.eks. "Hash Join"), ikke eksakte cost-/tidstal.
+
 ### 1. Opret testdata
 Seed-scriptet opretter automatisk tabellerne. 
 

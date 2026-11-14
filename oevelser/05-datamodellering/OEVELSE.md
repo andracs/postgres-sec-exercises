@@ -98,7 +98,7 @@ Flyt data fra `ordrer_denormaliseret` til de nye tabeller:
 SELECT count(*) FROM kunder;     -- ~10.000
 SELECT count(*) FROM runder;     -- ~100
 SELECT count(*) FROM ordrer;     -- ~100.000
-SELECT count(*) FROM ordre_linjer; -- ~500.000
+SELECT count(*) FROM ordre_linjer; -- ~100.000 (én linje pr. ordre i seed-data)
 ```
 
 ### 5. Validerer normalformen
@@ -114,7 +114,7 @@ Vælg ÉT sted at denormalisere for at forbedre performance. F.eks.:
 Opret den denormaliserede kolonne:
 ```sql
 ALTER TABLE ordrer ADD COLUMN kunde_navn VARCHAR(100);
-UPDATE ordrer o SET kunde_navn = k.navn FROM kunder k WHERE o.kunde_id = k.id;
+UPDATE ordrer o SET kunde_navn = k.navn FROM kunder k WHERE o.kunde_id = k.kunde_id;
 ```
 
 Opret en trigger for at vedligeholde denormaliserede data:

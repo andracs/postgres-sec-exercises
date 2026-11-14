@@ -47,10 +47,10 @@ docker compose exec postgres psql -U studie -d gendannelse -c "SELECT count(*) F
 ### 3. Markér tidspunktet FØR katastrofen
 ```sql
 INSERT INTO vigtige_data (tekst) VALUES ('MARKØR før katastrofe');
-CHECKPOINT;
+CHECKPOINT;   -- sikrer at MARKØR-rækken er i WAL
 SELECT now() AS tidspunkt, pg_current_wal_lsn() AS lsn;
 ```
-Gem tidspunktet (du skal bruge det som `recovery_target_time` i opgave 6).
+Gem tidspunktet — det skal bruges som `recovery_target_time` i opgave 6. Kronologien er vigtig: **først** markør + CHECKPOINT, **så** base backup, **så** ændringer, **så** katastrofen.
 
 ### 4. Tag fysisk base backup med pg_basebackup
 ```bash
@@ -73,8 +73,16 @@ Tabellen er væk i hovedcontaineren.
 sleep 5
 docker exec oevelse12-pitr psql -U studie -d studiebase -c "SELECT count(*), max(tekst) FROM vigtige_data;"
 ```
-**Tjek:** 101 rækker (100 før backup + MARKØR), og ingen "EFTER katastrofe"-rækker.
+**Tjek:** 101 rækker (100 før backup + MARKØR), og ingen "EFTER katastrofe"-rækker. Verificér eksplicit:
+```bash
+docker exec oevelse12-pitr psql -U studie -d studiebase -c "SELECT count(*) AS total, count(*) FILTER (WHERE tekst LIKE 'EFTER%') AS efter FROM vigtige_data;"
+# forvent: total=101, efter=0
+```
 Ryd op: `docker rm -f oevelse12-pitr && rm -rf restore_data`
+
+> **Bemærk om filer og rettigheder:** `archive/` og `backup/` er bind mounts ejet af din host-bruger og overlever `docker compose down -v` (kun `pgdata` slettes). Inde i containeren læses de af postgres-brugeren (uid 999) — tjek med `docker compose exec postgres ls -la /var/lib/postgresql/archive`. `recovery_target_time` skal ligge efter base backuppet er færdigt, ellers fejler recovery — brug tidspunktet fra opgave 3.
+>
+> I hovedcontaineren er `vigtige_data` stadig droppet efter "katastrofen" — brug ikke den container videre; gendannelsen sker i PITR-containeren på port 5433.
 
 ### 7. Sammenlign: logisk vs. fysisk backup
 | | pg_dump (logisk) | pg_basebackup + WAL (fysisk) |

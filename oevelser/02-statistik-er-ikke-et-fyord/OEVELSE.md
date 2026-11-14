@@ -45,6 +45,10 @@ SELECT status, count(*) FROM kunder GROUP BY status ORDER BY count(*) DESC;
 ```
 **Tjek:** Du skal se, at 90% af kunderne har status = 'aktiv' og 10% har status = 'inaktiv'
 
+> **Bemærk:** Eksekveringsplaner kan variere lidt mellem PostgreSQL-versioner og afhængigt af statistik. Tjek mønsteret (Seq Scan vs Index Scan), ikke de eksakte cost-tal.
+>
+> Autovacuum er slået fra for `kunder` i init.sql, så statistikken ikke opdateres af sig selv undervejs. Slå det til igen til sidst: `ALTER TABLE kunder SET (autovacuum_enabled = on); ANALYZE kunder;`
+
 ### 2. Kør query uden statistik og aflæs planen
 Kør følgende query og observér eksekveringsplanen:
 ```sql

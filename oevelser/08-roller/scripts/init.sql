@@ -16,7 +16,9 @@ INSERT INTO hemmelig_data (navn, hemmelighed, ejer) VALUES
     ('Lønnseddel', '32000 kr', 'hr'),
     ('Kundekontrakt', 'ACME A/S', 'salg'),
     ('Serveradgang', 'root@db01', 'drift'),
-    ('Personalebudget', '1,2 mio', 'hr');
+    ('Personalebudget', '1,2 mio', 'hr'),
+    ('app_laeser egne noter', 'ses kun af app_laeser', 'app_laeser'),
+    ('app_laeser anden række', 'også kun app_laeser', 'app_laeser');
 
 -- Opret roller idempotent (CREATE ROLE understøtter ikke IF NOT EXISTS)
 DO $$

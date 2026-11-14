@@ -17,7 +17,7 @@ CREATE TABLE store_data (
 -- Seed data med fast seed for determinisme
 SET seed = 0.42;
 
--- 5.000.000 rækker for at gøre queries langsomme
+-- 500.000 rækker er nok til at gøre queries målbart langsomme (og sparer RAM/disk)
 INSERT INTO store_data (data_value, numero, gruppe)
 SELECT 
     md5(random()::text) || md5(random()::text),
@@ -29,7 +29,7 @@ SELECT
         WHEN 3 THEN 'Gruppe D'
         ELSE 'Gruppe E'
     END
-FROM generate_series(1, 5000000) AS i;
+FROM generate_series(1, 500000) AS i;
 
 -- Opret et indeks for nogle queries
 CREATE INDEX idx_store_data_id ON store_data(id);
@@ -40,7 +40,7 @@ VACUUM ANALYZE;
 
 DO $$
 DECLARE
-    msg TEXT := 'Tabel store_data oprettet med 5.000.000 rækker. Klargjort til overvågningsøvelser.';
+    msg TEXT := 'Tabel store_data oprettet med 500.000 rækker. Klargjort til overvågningsøvelser.';
 BEGIN
   RAISE NOTICE '%', msg;
 END $$;
