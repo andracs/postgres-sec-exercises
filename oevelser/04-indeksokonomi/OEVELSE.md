@@ -33,7 +33,16 @@ At demonstrere, at indeks forbedrer læseperformance men forringes skriveperform
 ## Opgaver
 
 ### 1. Opret testtabel og data
-Seed-scriptet opretter en tabel med 1 million ordrer. Verificér:
+
+
+Seed-scriptet opretter en tabel med 1 million ordrer. 
+
+```sql
+\i /docker-entrypoint-initdb.d/01-init.sql
+```
+
+
+Verificér:
 ```sql
 SELECT count(*) FROM ordrer;
 ```
