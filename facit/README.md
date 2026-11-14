@@ -64,7 +64,7 @@ Hver facit-fil indeholder:
 
 ### Deterministiske resultater
 
-- Alle seed-scripts bruger `SET seed = 42;` for at sikre, at data er identisk hver gang
+- Alle seed-scripts bruger `SET seed = 0.42;` for at sikre, at data er identisk hver gang
 - Facit kan derfor angive præcise forventede outputs
 - Små variationer kan forekomme på forskellig hardware (f.eks. eksekveringstider)
 
