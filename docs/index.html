@@ -68,6 +68,43 @@
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
             font-size: 14px;
         }
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            list-style: none;
+            padding: 0;
+        }
+        .path-card {
+            display: block;
+            background: #fff;
+            border: 1px solid #eaecef;
+            border-top: 6px solid var(--accent);
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            color: #24292e;
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+        }
+        .path-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        .path-card .icon {
+            font-size: 28px;
+        }
+        .path-card h3 {
+            margin: 8px 0;
+            color: var(--accent);
+        }
+        .path-card .exercises {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+        .path-card .meta {
+            margin-top: 8px;
+        }
         footer {
             margin-top: 60px;
             padding-top: 20px;
@@ -235,6 +272,38 @@
                 <span><span class="badge">Ekspert</span> 90 min</span>
                 <span>Integreret diagnoseovelese</span>
             </div>
+        </li>
+    </ul>
+
+    <h2>Laeringsstier (ca. 5 timer)</h2>
+    <p>
+        Usikker paa hvor du skal starte? Vaelg en sti. Detaljer findes i
+        <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md">LEARNING_PATHS.md</a>.
+    </p>
+    <ul class="path-grid">
+        <li>
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-1-foundation-fundamentals-beginner" style="--accent: #2da44e;">
+                <div class="icon">🌱</div>
+                <h3>Sti 1: Fundament</h3>
+                <div class="meta">Nybegyndere &middot; ~4,5 t</div>
+                <div class="exercises">01 · 02 · 03 · 04 · 06 · 08</div>
+            </a>
+        </li>
+        <li>
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-2-concurrency--data-integrity-intermediate" style="--accent: #0366d6;">
+                <div class="icon">🔒</div>
+                <h3>Sti 2: Samtidighed</h3>
+                <div class="meta">Udviklere &middot; ~4,5 t</div>
+                <div class="exercises">02 · 09 · 10 · 11 · 12 · 13</div>
+            </a>
+        </li>
+        <li>
+            <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#path-3-operations--advanced-features-advanced" style="--accent: #8250df;">
+                <div class="icon">🚀</div>
+                <h3>Sti 3: Drift</h3>
+                <div class="meta">DBA'er / drift &middot; ~5 t</div>
+                <div class="exercises">05 · 07 · 14 · 15 · 16</div>
+            </a>
         </li>
     </ul>
 

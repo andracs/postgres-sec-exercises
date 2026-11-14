@@ -31,6 +31,26 @@ En samling af 20 Mistral-genererede øvelser til undervisning i PostgreSQL-admin
 | 19 | [Den store migration](./oevelser/19-upgrade/OEVELSE.md) | Ekspert | 75 min | 🐳🐳 | Major version upgrade |
 | 20 | [Den langsomme app: et afsluttende mordmysterium](./oevelser/20-mordmysterium/OEVELSE.md) | Ekspert | 90 min | 🐳🐳 | Integreret diagnoseøvelse |
 
+## 🧭 Læringsstier (ca. 5 timer)
+
+Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i [LEARNING_PATHS.md](./LEARNING_PATHS.md).
+
+```mermaid
+flowchart LR
+    Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 08"]
+    Start --> P2["🔒 Sti 2: Samtidighed<br/>02 · 09 · 10 · 11 · 12 · 13"]
+    Start --> P3["🚀 Sti 3: Drift<br/>05 · 07 · 14 · 15 · 16"]
+    P1 --> Done([Videre: 17–20])
+    P2 --> Done
+    P3 --> Done
+```
+
+| | Sti | Målgruppe | Øvelser | Tid |
+|---|-----|-----------|---------|-----|
+| 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#path-1-foundation-fundamentals-beginner) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 08 | ~4,5 t |
+| 🔒 | [Sti 2: Samtidighed & integritet](./LEARNING_PATHS.md#path-2-concurrency--data-integrity-intermediate) | Udviklere | 02 · 09 · 10 · 11 · 12 · 13 | ~4,5 t |
+| 🚀 | [Sti 3: Drift & avancerede features](./LEARNING_PATHS.md#path-3-operations--advanced-features-advanced) | DBA'er / driftsansvarlige | 05 · 07 · 14 · 15 · 16 | ~5 t |
+
 ## Brugsanvisning
 
 ### For studerende:
