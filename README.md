@@ -8,21 +8,23 @@ En samling af 13 øvelser til undervisning i PostgreSQL-administration, -optimer
 
 ## Øvelser
 
-| Nr | Titel | Niveau | Tid | Docker | Beskrivelse |
-|----|-------|--------|-----|--------|-------------|
-| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-kanariefuglen/OEVELSE.md) | Let | 30-45 min | 🐳 | Performance-tuning med pgbench og konfiguration |
-| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Let | 30 min | 🐳 | ANALYZE og query-planlægning |
-| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Let | 45 min | 🐳 | EXPLAIN, seq scan, nested loop, hash join |
-| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksokonomi/OEVELSE.md) | Let | 45 min | 🐳 | Indekser, læse- vs skriveperformance |
-| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-datamodellering/OEVELSE.md) | Middel | 60 min | 🐳 | Normalisering, denormalisering |
-| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Middel | 45 min | 🐳 | Overvågning af aktive forbindelser |
-| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Middel | 45 min | 🐳 | PostgreSQL-log, log_statement, fejlfinding |
-| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller/OEVELSE.md) | Middel | 45 min | 🐳 | Roller, GRANT/REVOKE, Row Level Security |
-| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Middel | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner |
-| 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Middel | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER |
-| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Middel | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt |
-| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Svær | 75 min | 🐳🐳 | pg_basebackup, WAL-arkivering, recovery_target_time |
-| 13 | [TLS på forbindelsen og secrets management](./oevelser/13-tls-secrets/OEVELSE.md) | Svær | 60 min | 🐳🐳 | SSL-certifikater, pg_hba hostnossl, Docker secrets |
+| Nr | Titel | Niveau | Tid | Docker | Beskrivelse | Sikkerhedsaspekt |
+|----|-------|--------|-----|--------|-------------|------------------|
+| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-kanariefuglen/OEVELSE.md) | Let | 30-45 min | 🐳 | CIA-A · ressource/DoS | Performance-tuning med pgbench og konfiguration |
+| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Let | 30 min | 🐳 | — fundament | ANALYZE og query-planlægning |
+| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Let | 45 min | 🐳 | — fundament | EXPLAIN, seq scan, nested loop, hash join |
+| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksokonomi/OEVELSE.md) | Let | 45 min | 🐳 | CIA-A · skrive-DoS | Indekser, læse- vs skriveperformance |
+| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-datamodellering/OEVELSE.md) | Middel | 60 min | 🐳 | CIA-I · dataintegritet | Normalisering, denormalisering |
+| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU · overvågning | Overvågning af aktive forbindelser |
+| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU-2/AU-9 · audit & log | PostgreSQL-log, log_statement, fejlfinding |
+| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AC-3/AC-6 · least privilege, RLS | Roller, GRANT/REVOKE, Row Level Security |
+| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transactions/OEVELSE.md) | Middel | 60 min | 🐳 | CIA-I · NIST SI-7 (ACID) | ACID, isolationsniveauer, to sessioner |
+| 10 | [Triggers og audit-log](./oevelser/10-triggers/OEVELSE.md) | Middel | 45 min | 🐳 | NIST AU+SI · audit via triggers | Trigger-funktioner, BEFORE/AFTER |
+| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Middel | 45 min | 🐳 | CIA-C · NIST SC-28 (kryptering i hvile) | pgp_sym_encrypt, password-hash med crypt |
+| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Svær | 75 min | 🐳🐳 | NIST CP-9/CP-10 · backup/PITR (CIA-A) | pg_basebackup, WAL-arkivering, recovery_target_time |
+| 13 | [TLS på forbindelsen og secrets management](./oevelser/13-tls-secrets/OEVELSE.md) | Svær | 60 min | 🐳🐳 | NIST SC-8 TLS · IA-5 secrets (CIA-C) | SSL-certifikater, pg_hba hostnossl, Docker secrets |
+
+*Sikkerhedsaspekt: CIA = fortrolighed (C), integritet (I), tilgængelighed (A). NIST henviser til kontrolfamilier i NIST SP 800-53: AU (audit/log), AC (adgangskontrol), SC (system & kommunikationsbeskyttelse), CP (beredskab/backup), SI (system- & informationsintegritet), IA (identifikation & autentifikation).*
 
 ## 🧭 Læringsstier (ca. 5 timer)
 
