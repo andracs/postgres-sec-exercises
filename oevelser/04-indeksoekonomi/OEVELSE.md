@@ -1,0 +1,199 @@
+# Øvelse 04: Indekser: hurtigere læsning, langsommere skrivning
+
+## Diagram
+
+```mermaid
+sequenceDiagram
+    participant App as Applikation
+    participant PG as PostgreSQL
+    participant Tab as ordrer-tabellen
+    participant Idx as idx_ordrer_kunde
+
+    rect rgb(230, 245, 230)
+        Note over App,Idx: Læsning med indeks er hurtig
+        App->>PG: SELECT ... WHERE kunde_id = 5000
+        PG->>Idx: opslag i B-træet
+        Idx-->>PG: de matchende rækker
+        PG-->>App: svar på millisekunder
+    end
+    rect rgb(250, 230, 230)
+        Note over App,Idx: Skrivning koster, ét indeks ad gangen
+        App->>PG: INSERT ny ordre
+        PG->>Tab: skriv rækken
+        PG->>Idx: opdater også B-træet
+        Note over Tab,Idx: flere indeks giver langsommere INSERT og UPDATE
+    end
+```
+
+*Et indeks er et lån: hurtige læsninger nu, betalt med langsommere skrivning på hver enkelt række.*
+
+## Formål
+At demonstrere, at indeks forbedrer læseperformance men forringes skriveperformance. Du vil måle query-tider med og uden indeks, og observere omkostningerne ved INSERT/UPDATE.
+
+## Forudsætninger
+- Docker Desktop eller Podman installeret
+- Minimum 4 GB RAM til rådighed for Docker
+- Grundlæggende kendskab til SQL og psql
+
+## Start
+
+1. Naviger til øvelsens mappe:
+   ```bash
+   cd oevelser/04-indeksoekonomi
+   ```
+
+2. Start Postgres-containeren:
+   ```bash
+   docker compose up -d
+   ```
+
+3. Vent på, at databasen er klar:
+   ```bash
+   docker compose exec postgres pg_isready -U studie
+   ```
+
+4. Koble til databasen:
+   ```bash
+   docker compose exec postgres psql -U studie -d studiebase
+   ```
+
+## Opgaver
+
+> **Bemærk:** Planer og tider varierer med version, statistik og hardware. Sammenlign altid målinger på samme maskine lige efter hinanden.
+
+### 1. Opret testtabel og data
+
+
+Seed-scriptet opretter en tabel med 1 million ordrer. 
+
+```sql
+\i /docker-entrypoint-initdb.d/01-init.sql
+```
+
+
+Verificér:
+```sql
+SELECT count(*) FROM ordrer;
+```
+**Tjek:** 1.000.000 rækker
+
+### 2. Mål query-performance UDEN indeks
+Aktivér timing:
+```sql
+\timing on
+```
+
+Kør query uden indeks:
+```sql
+SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
+```
+**Notér:** Eksekveringstiden med seq scan (præcis værdi afhænger af din maskine — typisk langt over 10 ms)
+
+Aflæs planen:
+```sql
+EXPLAIN (ANALYZE) SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
+```
+**Tjek:** Seq Scan
+
+### 3. Opret indeks og måle forbedring
+Opret indeks på kunde_id:
+```sql
+CREATE INDEX idx_ordrer_kunde ON ordrer(kunde_id);
+```
+
+Mål query igen:
+```sql
+SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
+```
+**Notér:** Forbedret tid med indeks (typisk markant hurtigere — mål selv forskellen)
+
+Aflæs planen:
+```sql
+EXPLAIN (ANALYZE) SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
+```
+**Tjek
+:** Index Scan
+
+### 4. Opret sammensat indeks
+Opret indeks på begge kolonner:
+```sql
+CREATE INDEX idx_ordrer_kunde_status ON ordrer(kunde_id, status);
+```
+
+Mål query igen. Bør være endnu hurtigere.
+
+### 5. Mål skrive-performance
+Mål INSERT-tid UDEN indeks (fjern indeksene først):
+```sql
+DROP INDEX IF EXISTS idx_ordrer_kunde;
+DROP INDEX IF EXISTS idx_ordrer_kunde_status;
+
+\timing on
+INSERT INTO ordrer (kunde_id, status, beloeb, ordre_dato)
+SELECT 
+    (random() * 10000)::INTEGER + 1,
+    CASE WHEN random() > 0.5 THEN 'afsluttet' ELSE 'pendende' END,
+    (random() * 10000)::NUMERIC(10,2),
+    NOW()
+FROM generate_series(1, 10000) AS i;
+```
+**Notér:** Tid for 10.000 INSERTs
+
+### 6. Mål skrive-performance MED indeks
+Opret indeksene igen og måle INSERT-tid:
+```sql
+CREATE INDEX idx_ordrer_kunde ON ordrer(kunde_id);
+CREATE INDEX idx_ordrer_kunde_status ON ordrer(kunde_id, status);
+
+INSERT INTO ordrer (kunde_id, status, beloeb, ordre_dato)
+SELECT 
+    (random() * 10000)::INTEGER + 1,
+    CASE WHEN random() > 0.5 THEN 'afsluttet' ELSE 'pendende' END,
+    (random() * 10000)::NUMERIC(10,2),
+    NOW()
+FROM generate_series(1, 10000) AS i;
+```
+**Notér:** Tid for 10.000 INSERTs med indeks (typisk flere gange langsommere end uden — mål selv)
+
+### 7. Find ubrugte indekser
+Kør et load af queries og tjek derefter:
+```sql
+-- Kør nogle queries
+SELECT * FROM ordrer WHERE kunde_id = 100;
+SELECT * FROM ordrer WHERE status = 'afsluttet';
+
+-- Tjek indeksbrug
+SELECT 
+    schemaname,
+    relname,
+    indexrelname,
+    idx_scan,
+    idx_tup_read,
+    idx_tup_fetch
+FROM pg_stat_user_indexes 
+WHERE schemaname = 'public';
+```
+**Tjek:** idx_scan viser, hvor mange gange indekset er blevet brugt
+
+### 8. Ryd op
+Fjern testdata:
+```sql
+DELETE FROM ordrer WHERE id > 1000000;
+VACUUM;
+```
+
+## Refleksion
+
+1. Hvorfor er et sammensat indeks (kunde_id, status) mere effektivt end to separate indeks?
+2. Hvilke faktorer bør du overveje, når du beslutter, om et indeks er værd at oprette?
+3. Hvordan kan du identific
+ere ubrugte indeks i en produktionsdatabase?
+
+## Det har du lært
+
+- Indekser forbedrer læseperformance væsentligt
+- Indekser forringes skriveperformance (INSERT/UPDATE/DELETE)
+- Sammensatte indeks er ofte mere effektive end separate indeks
+- Ubrugte indeks spilder plads og forringer skriveperformance
+- pg_stat_user_indexes viser, hvilke indeks der bliver brugt
+- Indeksvalg er et kompromis mellem læse- og skriveperformance
