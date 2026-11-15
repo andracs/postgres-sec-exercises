@@ -21,6 +21,8 @@ timeline
 ## Formål
 At lære forskellen på logisk backup (pg_dump/pg_restore) og fysisk backup (pg_basebackup + WAL-arkivering), og at gendanne en database til et præcist tidspunkt efter en "katastrofe". En backup, der aldrig er testet, er ingen backup.
 
+[Write-Ahead Logging (WAL) - se mere...](https://www.postgresql.org/docs/current/wal-intro.html)
+
 ## Forudsætninger
 - Docker Desktop eller Podman installeret
 - Grundlæggende kendskab til SQL, psql og terminalen
