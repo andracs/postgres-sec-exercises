@@ -1,0 +1,79 @@
+services:
+  db:
+    image: postgres:18
+    container_name: oevelse13-db
+    environment:
+      POSTGRES_USER: admin
+      # password kommer fra Docker secret, ikke fra en env-variabel i denne fil
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_DB: appdb
+    secrets:
+      - db_password
+    volumes:
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./certs:/certs:ro
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - pgdata:/var/lib/postgresql
+    command:
+      - -c ssl=on
+      - -c ssl_cert_file=/certs/server.crt
+      - -c ssl_key_file=/certs/server.key
+      - -c hba_file=/etc/postgresql/pg_hba.conf
+      - -c listen_addresses=*
+      - -c log_connections=on
+      - -c log_disconnections=on
+      - -c log_statement=ddl
+    ports:
+      # kun loopback på hosten — ikke hele netværket
+      - "127.0.0.1:5432:5432"
+    networks:
+      app-net:
+        ipv4_address: 172.28.0.10
+      attack-net:
+        ipv4_address: 172.29.0.10
+
+  app:
+    # autoriseret applikationsservice (har psql og ligger på app-net)
+    image: postgres:18
+    container_name: oevelse13-app
+    secrets:
+      - app_password
+    environment:
+      PGHOST: 172.28.0.10
+      PGUSER: app_user
+      PGDATABASE: appdb
+      PGSSLMODE: require
+    command: ["sleep", "infinity"]
+    networks:
+      app-net:
+        ipv4_address: 172.28.0.20
+
+  attacker:
+    # uautoriseret testklient — ligger KUN på attack-net (andet subnet/IP)
+    image: postgres:18
+    container_name: oevelse13-attacker
+    command: ["sleep", "infinity"]
+    networks:
+      attack-net:
+        ipv4_address: 172.29.0.20
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  app_password:
+    file: ./secrets/app_password.txt
+
+volumes:
+  pgdata:
+
+networks:
+  app-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+  attack-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.29.0.0/24
