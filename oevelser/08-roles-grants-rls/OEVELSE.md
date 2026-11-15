@@ -1,5 +1,25 @@
 # Øvelse 08: Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)
 
+## Diagram
+
+```mermaid
+flowchart TB
+    subgraph ROLES["Roller: mindst mulig adgang"]
+        L["app_laeser<br/>SELECT"]
+        S["app_skriver<br/>SELECT, INSERT, UPDATE"]
+        A2["app_admin<br/>ALL PRIVILEGES"]
+    end
+    subgraph TBL["hemmelig_data"]
+        RLS["ROW LEVEL SECURITY<br/>CREATE POLICY ejer_policy<br/>USING (ejer = current_user)"]
+    end
+    L -- "GRANT SELECT" --> RLS
+    S -- "GRANT SELECT, INSERT, UPDATE" --> RLS
+    A2 -- "GRANT ALL PRIVILEGES" --> RLS
+    RLS --> RES["resultat filtreret pr. bruger:<br/>hver rolle ser kun sine egne rækker"]
+```
+
+*GRANT/REVOKE styrer hvad hver rolle må, RLS filtrerer rækkerne inden de når brugeren.*
+
 ## Formål
 At lære at oprette roller, tildele præcis de rettigheder hver rolle skal have (princippet om mindst mulig adgang) og begrænse rækker med Row Level Security.
 
@@ -63,7 +83,8 @@ Positiv test (SET ROLE er OK til hurtig test):
 ```sql
 SET ROLE app_laeser;
 SELECT * FROM hemmelig_data;   -- ser KUN sine egne 2 rækker (ejer='app_laeser'), ikke andres
-RESET ROLE;
+R
+ESET ROLE;
 ```
 
 ### 6b. Test med en RIGTIG forbindelse som app_laeser (ikke kun SET ROLE)

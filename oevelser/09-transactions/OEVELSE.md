@@ -1,5 +1,24 @@
 # Øvelse 09: Transaktioner, isolation og savepoints
 
+## Diagram
+
+```mermaid
+sequenceDiagram
+    participant S1 as Session 1
+    participant DB as Konto B (rækken)
+    participant S2 as Session 2
+    Note over S1,S2: READ COMMITTED (standard)
+    S1->>DB: BEGIN, UPDATE saldo til 0
+    S2->>DB: SELECT saldo
+    DB-->>S2: 1000 (ucommittede ændringer ses ikke)
+    S1->>DB: COMMIT
+    S2->>DB: SELECT saldo igen
+    DB-->>S2: 0 (ændringen er nu synlig)
+    Note over S2,DB: Med REPEATABLE READ beholder Session 2 sit snapshot<br/>og ser stadig den gamle værdi efter Session 1s COMMIT
+```
+
+*To sessioner, samme række: hvad den ene ser, afhænger af isolationsniveauet.*
+
 ## Formål
 At lære ACID-princippet i praksis: hvad der sker ved COMMIT/ROLLBACK, hvordan to samtidige sessioner ser hinandens ændringer ved forskellige isolationsniveauer, og hvordan savepoints redder delvist arbejde.
 
@@ -44,7 +63,8 @@ Session 1: `COMMIT;` → Session 2 ser nu 0 ved næste SELECT.
 ### 4. REPEATABLE READ: samme snapshot hele transaktionen
 Session 1: `BEGIN; UPDATE konti SET saldo = 5 WHERE navn = 'Konto B'; COMMIT;`
 Session 2: `BEGIN; SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;` — bemærk: `SET TRANSACTION` skal stå **først i transaktionen** (lige efter BEGIN; før BEGIN virker også og gælder for næste transaktion). Så: `SELECT saldo FROM konti WHERE navn='Konto B';`
-Session 1 ændrer igen og committer. Session 2's næste SELECT viser stadig den gamle værdi.
+Session 1 ændrer igen og committer. Session 2's næste SELE
+CT viser stadig den gamle værdi.
 
 ### 5. SAVEPOINT: fortryd kun en del
 ```sql

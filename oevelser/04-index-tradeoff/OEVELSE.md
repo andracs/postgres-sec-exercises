@@ -1,5 +1,32 @@
 # Øvelse 04: Indekser: hurtigere læsning, langsommere skrivning
 
+## Diagram
+
+```mermaid
+sequenceDiagram
+    participant App as Applikation
+    participant PG as PostgreSQL
+    participant Tab as ordrer-tabellen
+    participant Idx as idx_ordrer_kunde
+
+    rect rgb(230, 245, 230)
+        Note over App,Idx: Læsning med indeks er hurtig
+        App->>PG: SELECT ... WHERE kunde_id = 5000
+        PG->>Idx: opslag i B-træet
+        Idx-->>PG: de matchende rækker
+        PG-->>App: svar på millisekunder
+    end
+    rect rgb(250, 230, 230)
+        Note over App,Idx: Skrivning koster, ét indeks ad gangen
+        App->>PG: INSERT ny ordre
+        PG->>Tab: skriv rækken
+        PG->>Idx: opdater også B-træet
+        Note over Tab,Idx: flere indeks giver langsommere INSERT og UPDATE
+    end
+```
+
+*Et indeks er et lån: hurtige læsninger nu, betalt med langsommere skrivning på hver enkelt række.*
+
 ## Formål
 At demonstrere, at indeks forbedrer læseperformance men forringes skriveperformance. Du vil måle query-tider med og uden indeks, og observere omkostningerne ved INSERT/UPDATE.
 
@@ -84,7 +111,8 @@ Aflæs planen:
 ```sql
 EXPLAIN (ANALYZE) SELECT * FROM ordrer WHERE kunde_id = 5000 AND status = 'afsluttet';
 ```
-**Tjek:** Index Scan
+**Tjek
+:** Index Scan
 
 ### 4. Opret sammensat indeks
 Opret indeks på begge kolonner:
@@ -158,7 +186,8 @@ VACUUM;
 
 1. Hvorfor er et sammensat indeks (kunde_id, status) mere effektivt end to separate indeks?
 2. Hvilke faktorer bør du overveje, når du beslutter, om et indeks er værd at oprette?
-3. Hvordan kan du identificere ubrugte indeks i en produktionsdatabase?
+3. Hvordan kan du identific
+ere ubrugte indeks i en produktionsdatabase?
 
 ## Det har du lært
 

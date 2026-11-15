@@ -1,5 +1,23 @@
 # Øvelse 12: Backup og point-in-time recovery (PITR)
 
+## Diagram
+
+```mermaid
+timeline
+    title Point-in-time recovery (PITR)
+    section Forberedelse
+        MARKØR-række + CHECKPOINT : rækken er sikret i WAL
+        Base backup : pg_basebackup tager et komplet foto af databasen
+    section Katastrofen
+        Løbende ændringer : skrives løbende til WAL-arkivet
+        DROP TABLE vigtige_data : data forsvinder
+    section Gendannelse
+        Replay af WAL : afspilles frem til recovery_target_time
+        Databasen tilbage : til øjeblikket lige før katastrofen
+```
+
+*Base backup er fotoet, WAL-arkivet er videobåndet, recovery_target_time er spoleknappen.*
+
 ## Formål
 At lære forskellen på logisk backup (pg_dump/pg_restore) og fysisk backup (pg_basebackup + WAL-arkivering), og at gendanne en database til et præcist tidspunkt efter en "katastrofe". En backup, der aldrig er testet, er ingen backup.
 
@@ -50,7 +68,8 @@ INSERT INTO vigtige_data (tekst) VALUES ('MARKØR før katastrofe');
 CHECKPOINT;   -- sikrer at MARKØR-rækken er i WAL
 SELECT now() AS tidspunkt, pg_current_wal_lsn() AS lsn;
 ```
-Gem tidspunktet — det skal bruges som `recovery_target_time` i opgave 6. Kronologien er vigtig: **først** markør + CHECKPOINT, **så** base backup, **så** ændringer, **så** katastrofen.
+Gem t
+idspunktet — det skal bruges som `recovery_target_time` i opgave 6. Kronologien er vigtig: **først** markør + CHECKPOINT, **så** base backup, **så** ændringer, **så** katastrofen.
 
 ### 4. Tag fysisk base backup med pg_basebackup
 ```bash
@@ -87,7 +106,8 @@ Ryd op: `docker rm -f oevelse12-pitr && rm -rf restore_data`
 ### 7. Sammenlign: logisk vs. fysisk backup
 | | pg_dump (logisk) | pg_basebackup + WAL (fysisk) |
 |---|---|---|
-| Gendanner | én database/tabel | hele clusteret |
+| Gendanner | én database/tabel | hele
+ clusteret |
 | PITR | nej | ja (recovery_target_time) |
 | Portabilitet | mellem versioner | samme major version |
 

@@ -1,5 +1,29 @@
 # Øvelse 03: Læsning af eksekveringsplaner med EXPLAIN
 
+## Diagram
+
+```mermaid
+mindmap
+  root((EXPLAIN-planens noder))
+    Scans
+      Seq Scan
+        hele tabellen læses
+      Index Scan
+        opslag via B-træ
+    Joins
+      Nested Loop
+        små filtrerede resultatsæt
+      Hash Join
+        store tabeller
+    Sortering
+      quicksort Memory
+        der er plads i work_mem
+      external merge Disk
+        for lidt work_mem
+```
+
+*De nodetyper du vil møde i denne øvelse, og hvornår planlæggeren vælger dem.*
+
 ## Formål
 At lære at aflæse og forstå PostgreSQL eksekveringsplaner. Du vil oprette data, der tvinger forskellige plan-typer (seq scan, nested loop, hash join, sort spill), og forudsige planen før du kører den.
 
@@ -68,7 +92,8 @@ JOIN boeger b ON f.id = b.forfatter_id
 WHERE f.id <= 100;
 ```
 **Forudsigelse:** Nested Loop (godt til små resultater — her kun 100 forfattere)
-**Tjek:** Planen indeholder "Nested Loop"
+**Tje
+k:** Planen indeholder "Nested Loop"
 
 ### 4. Tving en Hash Join
 Kør en query med store tabeller og ingen indeks:
@@ -126,7 +151,8 @@ For enhver query, sammenlign:
 ## Det har du lært
 
 - At aflæse eksekveringsplaner med EXPLAIN (ANALYZE, BUFFERS)
-- At genkende forskellige scan-typer: Sequential, Index, Index Only
+- At
+ genkende forskellige scan-typer: Sequential, Index, Index Only
 - At genkende join-typer: Nested Loop, Hash Join, Merge Join
 - At forstå buffer-brug og hukommelsesforbrug
 - At estimere vs. faktiske rækker kan afsløre manglende statistik

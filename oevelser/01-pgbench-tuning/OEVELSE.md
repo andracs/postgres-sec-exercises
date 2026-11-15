@@ -1,5 +1,20 @@
 # Øvelse 01: Benchmarking og hukommelseskonfiguration med pgbench
 
+## Diagram
+
+```mermaid
+flowchart LR
+    D[("Disk<br/>400 MB pgbench-data")] --> C{"Arbejdssættet<br/>i shared_buffers?"}
+    C -- "ja: cache-hit" --> RAM["RAM-læsning<br/>hurtig"]
+    C -- "nej: cache-miss" --> DISK["disk-læsning<br/>ca. 1000x langsommere"]
+    RAM --> TPS["TPS måles med pgbench"]
+    DISK --> TPS
+    TPS --> TUN["tuning: shared_buffers,<br/>work_mem, effective_cache_size"]
+    TUN -- "mål igen og se effekten" --> C
+```
+
+*Øvelsens pointe: arbejdssættet er større end RAM, derfor ses tuning-effekten. Vejen fra disk til shared_buffers er den dyre del.*
+
 ## Formål
 At demonstrere, at performance-tuning skal baseres på målinger, ikke gætteri. Du vil måle ydeevnen med `pgbench` på et datasæt, der er **større end hukommelsen**, justere hukommelsesparametre og observere en reel, målbar effekt.
 
@@ -47,7 +62,8 @@ Kør et standard `pgbench`-test med 4 klienter i 30 sekunder:
 ```bash
 docker compose exec postgres pgbench -U studie -c 4 -T 30 studiebase
 ```
-Notér den rapporterede **TPS (transactions per second)**. Dette er din baseline.
+Noté
+r den rapporterede **TPS (transactions per second)**. Dette er din baseline.
 
 **Tjek:** TPS-værdien skal være markant lavere end på et lille datasæt — arbejdssættet overstiger `shared_buffers`, så databasen skal konstant læse fra disk.
 
@@ -101,7 +117,8 @@ EXPLAIN ANALYZE SELECT aid, abalance FROM pgbench_accounts ORDER BY abalance DES
 ```
 `Sort Method:` skulle nu være **quicksort Memory** (sorteringen foregår i RAM). Sammenlign `Execution Time` med trin 4.
 
-### 7. Sammenlign resultater
+### 7. Sammenlign res
+ultater
 Sammenlign TPS-værdierne fra trin 2 og 6. Beregn forbedringsprocenten:
 ```
 Forbedring (%) = ((Ny TPS - Baseline TPS) / Baseline TPS) * 100
