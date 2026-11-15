@@ -14,7 +14,7 @@ Dette dokument indeholder resultater af test og verifikation af alle 13 øvelser
 
 1. **Setup**:
    ```bash
-   cd oevelser/01-kanariefuglen
+   cd oevelser/01-benchmark-tuning
    docker compose down -v
    docker compose up -d
    ```

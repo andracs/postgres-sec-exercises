@@ -28,7 +28,7 @@ At lære ACID-princippet i praksis: hvad der sker ved COMMIT/ROLLBACK, hvordan t
 
 ## Start
 
-1. `cd oevelser/09-transactions`
+1. `cd oevelser/09-transaktioner`
 2. `docker compose up -d`
 3. `docker compose exec postgres pg_isready -U studie`
 4. `docker compose exec postgres psql -U studie -d studiebase`

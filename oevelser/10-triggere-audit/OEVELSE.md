@@ -22,7 +22,7 @@ At lære at lave trigger-funktioner og hægte dem på tabeller, så ændringer a
 
 ## Start
 
-1. `cd oevelser/10-triggers`
+1. `cd oevelser/10-triggere-audit`
 2. `docker compose up -d`
 3. `docker compose exec postgres pg_isready -U studie`
 4. `docker compose exec postgres psql -U studie -d studiebase`

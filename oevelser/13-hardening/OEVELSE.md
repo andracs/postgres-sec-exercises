@@ -41,7 +41,7 @@ Port 5432 publiseres kun på `127.0.0.1` på hosten.
 
 ## Start
 ```bash
-cd oevelser/13-tls-secrets
+cd oevelser/13-hardening
 ./scripts/setup.sh          # laver certs/ og secrets/ (i .gitignore)
 docker compose up -d
 ./scripts/test-connections.sh   # kører Del B's 4 tests (forvent 4 PASS)

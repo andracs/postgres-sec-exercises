@@ -30,7 +30,7 @@ At demonstrere, at performance-tuning skal baseres på målinger, ikke gætteri.
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/01-kanariefuglen
+   cd oevelser/01-benchmark-tuning
    ```
 
 2. Start Postgres-containeren:
