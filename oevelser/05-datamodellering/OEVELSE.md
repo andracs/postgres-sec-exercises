@@ -1,5 +1,34 @@
 # Øvelse 05: Normalisering til 3NF og bevidst denormalisering
 
+## Diagram
+
+```mermaid
+erDiagram
+    KUNDER ||--o{ ORDRER : "lægger"
+    RUNDER ||--o{ ORDRER : "indeholder"
+    KUNDER {
+        int kunde_id PK
+        text navn
+        text email
+        text telefon
+    }
+    RUNDER {
+        int runde_id PK
+        text navn
+        date dato
+        text status
+    }
+    ORDRER {
+        int ordre_id PK
+        int runde_id FK
+        int kunde_id FK
+        numeric beloeb
+        date ordre_dato
+    }
+```
+
+*Det normaliserede 3NF-mål. Øvelsen starter i den denormaliserede tabel, hvor kunde- og rundedata gentages i hver ordre.*
+
 ## Formål
 At lære at genkende og løse datamodelleringsproblemer. Du vil arbejde med et denormaliseret ordreskema, normalisere det til 3NF, og derefter denormalisere bevidst ét sted for at forbedre performance.
 
@@ -76,7 +105,8 @@ SELECT count(*) FROM ordrer_denormaliseret;
 **Tjek:** Antallet af unikke kunde_info bør være langt mindre end total rækker
 
 ### 3. Normalisér til 3NF
-Opret et normaliseret skema med følgende tabeller:
+Opret et no
+rmaliseret skema med følgende tabeller:
 - `kunder` (kunde_id, navn, email, telefon)
 - `runder` (runde_id, navne, dato, status)
 - `ordrer` (ordre_id, runde_id, kunde_id, beloeb, ordre_dato, status)
@@ -137,6 +167,7 @@ WHERE o.runde_id = 5;
 SELECT ordre_id, beloeb, kunde_navn
 FROM ordrer 
 WHERE runde_id = 5;
+
 ```
 
 **Notér:** Tidsforskellen (denormaliseret bør være hurtigere)

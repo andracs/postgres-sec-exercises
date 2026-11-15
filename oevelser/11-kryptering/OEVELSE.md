@@ -1,5 +1,22 @@
 # Øvelse 11: Kryptering med pgcrypto
 
+## Diagram
+
+```mermaid
+flowchart TD
+    P["Følsomme data i brugere_krypteret"] --> V{Hvad er det for data?}
+    V -- "CPR: skal kunne læses igen" --> E["pgp_sym_encrypt<br/>symmetrisk nøgle"]
+    E --> CPR["cpr_krypteret (bytea)<br/>kun læsbar med nøglen"]
+    V -- "password: må aldrig læses igen" --> H["crypt() + gen_salt('bf')<br/>vej uden tilbage"]
+    H --> HASH["kodehash<br/>verificeres ved at hash'e igen"]
+    CPR --> N["Kryptering beskytter data i databasen,<br/>TLS beskytter dem på netværket"]
+    HASH --> N
+    style CPR fill:#e8f4f8
+    style HASH fill:#e8f4f8
+```
+
+*Kryptering er reversibel med nøglen, et hash er en vej uden tilbage. Ingen af delerne erstatter TLS.*
+
 ## Formål
 At lære forskellen på at kryptere følsomme felter i databasen (pgp_sym_encrypt) og at gemme passwords som envvejshash (crypt) — og at forstå, at kryptering i databasen ikke erstatter TLS på netværket.
 
@@ -58,7 +75,8 @@ Fungerer, men er langsomt (ingen indeks kan bruges på klarteksten). Overvej en 
 
 ## Refleksion
 
-1. Hvor gemmer man helst krypteringsnøglen — i databasen eller udenfor?
+1. Hvor gemmer man helst krypteringsnøglen — i databasen 
+eller udenfor?
 2. Hvad beskytter kryptering i databasen imod, og hvad beskytter den IKKE imod?
 3. Hvad mangler stadig, hvis databasen lækker: TLS på forbindelsen?
 

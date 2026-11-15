@@ -1,5 +1,26 @@
 # Øvelse 06: Overvågning af forbindelser og queries med pg_stat_activity
 
+## Diagram
+
+```mermaid
+stateDiagram-v2
+    [*] --> Forbinder : ny forbindelse
+    Forbinder --> Aktiv : login lykkedes
+    Aktiv --> Idle : query færdig
+    Idle --> Aktiv : ny query
+    Aktiv --> IIT : BEGIN uden COMMIT
+    state "idle in transaction" as IIT
+    IIT --> Aktiv : næste statement
+    IIT --> Idle : COMMIT eller ROLLBACK
+    Aktiv --> Termineret : pg_terminate_backend(pid)
+    Idle --> Termineret : pg_terminate_backend(pid)
+    IIT --> Termineret : pg_terminate_backend(pid)
+    Termineret --> [*]
+    note right of IIT : farlig tilstand: holder låse og blokerer vacuum
+```
+
+*Forbindelsens livscyklus, som den vises i pg_stat_activity. Øvelsen finder og dræber de problematiske tilstande.*
+
 ## Formål
 At lære at overvåge aktive databaseforbindelser og identificere problematiske queries. Du vil oprette langkørende queries og idle-in-transaction forbindelser, og derefter finde og dræbe dem.
 

@@ -2,6 +2,24 @@
 
 **Tier 3 · Ekspert · ca. 60-90 min**
 
+## Diagram
+
+```mermaid
+flowchart TB
+    subgraph AN["app-net (172.28.0.0/24)"]
+        APP["app · 172.28.0.20<br/>autoriseret, rolle app_user"]
+        DB[("db · PostgreSQL 18<br/>TLS + SCRAM-SHA-256<br/>tilpasset pg_hba.conf")]
+    end
+    subgraph XN["attack-net (172.29.0.0/24)"]
+        ATT["attacker · 172.29.0.20<br/>uautoriseret testklient"]
+    end
+    APP -- "TLS + SCRAM: tilladt" --> DB
+    ATT -.->|afvist af pg_hba: forkert netværk eller non-TLS| DB
+    style ATT fill:#fee2e2,stroke:#dc2626
+```
+
+*Adgangsmodellen i labbet: app-net er tilladt med TLS og SCRAM, alt andet afvises af pg_hba, hvor første match vinder.*
+
 ## Formål
 At samle hele sikkerhedsfladen i én hands-on øvelse: forstå adgangsmodellen, begrænse netværksadgang i et isoleret Docker-lab, sætte SCRAM-SHA-256 op, kræve TLS, håndtere secrets sikkert — og til sidst selv hardene en bevidst usikker konfiguration.
 
@@ -47,7 +65,8 @@ Læs `pg_hba.conf` i repo-mappen. Husk:
 - **Første match vinder** — rækkefølgen er afgørende.
 - `local` = Unix-socket, `host` = TCP (SSL eller ej), `hostssl` = kun TLS, `hostnossl` = kun uden TLS.
 - Regler kan begrænse på IPv4/IPv6-adresser/CIDR (vores lab: `172.28.0.0/24` tilladt, resten afvises).
-- Roller med `LOGIN` + password er adgangs"nøgler": `SELECT rolname, rolcanlogin FROM pg_roles;`
+- Roller med `LOGIN` + password er adgangs"nøgler": `SELECT r
+olname, rolcanlogin FROM pg_roles;`
 - `sslmode` på klienten: `require` (krypteret, ingen cert-tjek) vs `verify-ca`/`verify-full` (tjekker også serverens certifikat/kæde).
 
 ## Del B: Begræns netværksadgang (15 min)
@@ -85,7 +104,8 @@ TLS er slået til i compose (`ssl=on` + certs fra `setup.sh`).
 
 ```bash
 # fra hosten, TLS krævet:
-PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=appdb user=admin sslmode=require" -c "SELECT ssl, version FROM pg_stat_ssl WHERE pid = pg_backend_pid();"
+PGPASSWORD=$(cat secrets/db_password.txt) psql "host=localhost dbname=appdb user=admin sslmode=require" -c "SELECT ssl, version FROM pg_stat_ssl WHERE pid = pg_
+backend_pid();"
 # forvent: ssl = t, version = TLSv1.3
 
 # fuld certifikat-validering (vores self-signed cert er også "root"):
@@ -117,7 +137,8 @@ Du skal:
 4. Begrunde dine valg og beskrive én tilbageværende risiko.
 
 ## Refleksion
-1. Hvorfor er "første match vinder" i pg_hba vigtig at forstå, før man ændrer noget?
+1. Hvorfor er "første match vinder" i pg_hba vigtig at forstå, før man ændrer nog
+et?
 2. Hvad beskytter TLS, og hvad beskytter det ikke?
 3. Hvorfor ruller `password_encryption` ikke eksisterende passwords?
 
