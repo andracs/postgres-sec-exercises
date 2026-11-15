@@ -136,7 +136,7 @@
     <p class="meta">Sikkerhedsaspekt: <strong>CIA</strong> = fortrolighed/integritet/tilgængelighed (C/I/A). <strong>NIST</strong> = kontrolfamilier i NIST SP 800-53 (AU=audit, AC=adgangskontrol, SC=kryptering/kommunikation, CP=backup, SI=integritet, IA=identifikation).</p>
     <ul class="exercise-list">
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/01-kanariefuglen/OEVELSE.md" class="exercise-link">01: Benchmarking og hukommelseskonfiguration med pgbench</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/01-pgbench-tuning/OEVELSE.md" class="exercise-link">01: Benchmarking og hukommelseskonfiguration med pgbench</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">CIA-A · ressource/DoS</span>
                 <span><span class="badge">Let</span> 30-45 min</span>
@@ -144,7 +144,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md" class="exercise-link">02: Statistik og ANALYZE til bedre query-planer</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/02-pg-stats-analyze/OEVELSE.md" class="exercise-link">02: Statistik og ANALYZE til bedre query-planer</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">— fundament</span>
                 <span><span class="badge">Let</span> 30 min</span>
@@ -152,7 +152,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/03-eksekveringsplan/OEVELSE.md" class="exercise-link">03: Læsning af eksekveringsplaner med EXPLAIN</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/03-explain-analyze/OEVELSE.md" class="exercise-link">03: Læsning af eksekveringsplaner med EXPLAIN</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">— fundament</span>
                 <span><span class="badge">Let</span> 45 min</span>
@@ -160,7 +160,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/04-indeksokonomi/OEVELSE.md" class="exercise-link">04: Indekser: hurtigere læsning, langsommere skrivning</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/04-index-tradeoff/OEVELSE.md" class="exercise-link">04: Indekser: hurtigere læsning, langsommere skrivning</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">CIA-A · skrive-DoS</span>
                 <span><span class="badge">Let</span> 45 min</span>
@@ -168,7 +168,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/05-datamodellering/OEVELSE.md" class="exercise-link">05: Normalisering til 3NF og bevidst denormalisering</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/05-normalization-3nf/OEVELSE.md" class="exercise-link">05: Normalisering til 3NF og bevidst denormalisering</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">CIA-I · dataintegritet</span>
                 <span><span class="badge">Middel</span> 60 min</span>
@@ -184,7 +184,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/07-logging/OEVELSE.md" class="exercise-link">07: Logging og audit af databaseaktivitet</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/07-logging-audit/OEVELSE.md" class="exercise-link">07: Logging og audit af databaseaktivitet</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">NIST AU-2/AU-9 · audit & log</span>
                 <span><span class="badge">Middel</span> 45 min</span>
@@ -192,7 +192,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/08-roller/OEVELSE.md" class="exercise-link">08: Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/08-roles-grants-rls/OEVELSE.md" class="exercise-link">08: Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">NIST AC-3/AC-6 · least privilege, RLS</span>
                 <span><span class="badge">Middel</span> 45 min</span>
@@ -215,7 +215,7 @@
             </div>
         </li>
         <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/11-kryptering/OEVELSE.md" class="exercise-link">11: Kryptering med pgcrypto</a>
+            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/11-pgcrypto/OEVELSE.md" class="exercise-link">11: Kryptering med pgcrypto</a>
             <div class="meta">
                 <span class="badge" style="background:#dff0d8;">CIA-C · NIST SC-28 (kryptering i hvile)</span>
                 <span><span class="badge">Middel</span> 45 min</span>
@@ -277,7 +277,7 @@
         Klon repositoryet og naviger til den ønskede øvelse:
     </p>
     <pre><code>git clone https://github.com/andracs/postgres-sec-exercises.git
-cd postgres-sec-exercises/oevelser/01-kanariefuglen
+cd postgres-sec-exercises/oevelser/01-pgbench-tuning
 docker compose up -d
 # Vent på database
 docker compose exec postgres pg_isready -U studie

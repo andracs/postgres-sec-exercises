@@ -12,7 +12,7 @@ At lære at genkende og løse datamodelleringsproblemer. Du vil arbejde med et d
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/05-datamodellering
+   cd oevelser/05-normalization-3nf
    ```
 
 2. Start Postgres-containeren:

@@ -11,7 +11,7 @@ At lære at slå logning til og fra, læse PostgreSQL-loggen og bruge den til fe
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/07-logging
+   cd oevelser/07-logging-audit
    ```
 2. Start Postgres-containeren:
    ```bash

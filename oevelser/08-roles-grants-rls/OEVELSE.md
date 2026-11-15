@@ -9,7 +9,7 @@ At lære at oprette roller, tildele præcis de rettigheder hver rolle skal have 
 
 ## Start
 
-1. `cd oevelser/08-roller`
+1. `cd oevelser/08-roles-grants-rls`
 2. `docker compose up -d`
 3. `docker compose exec postgres pg_isready -U studie`
 4. `docker compose exec postgres psql -U studie -d studiebase`

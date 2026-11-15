@@ -12,7 +12,7 @@ At demonstrere, at indeks forbedrer læseperformance men forringes skriveperform
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/04-indeksokonomi
+   cd oevelser/04-index-tradeoff
    ```
 
 2. Start Postgres-containeren:

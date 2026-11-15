@@ -12,7 +12,7 @@ At lære at aflæse og forstå PostgreSQL eksekveringsplaner. Du vil oprette dat
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/03-eksekveringsplan
+   cd oevelser/03-explain-analyze
    ```
 
 2. Start Postgres-containeren:

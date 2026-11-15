@@ -14,7 +14,7 @@ Dette dokument indeholder resultater af test og verifikation af alle 13 øvelser
 
 1. **Setup**:
    ```bash
-   cd oevelser/01-kanariefuglen
+   cd oevelser/01-pgbench-tuning
    docker compose down -v
    docker compose up -d
    ```
@@ -48,7 +48,7 @@ Dette dokument indeholder resultater af test og verifikation af alle 13 øvelser
 
 1. **Setup**:
    ```bash
-   cd oevelser/02-statistik-er-ikke-et-fyord
+   cd oevelser/02-pg-stats-analyze
    docker compose down -v
    docker compose up -d
    ```

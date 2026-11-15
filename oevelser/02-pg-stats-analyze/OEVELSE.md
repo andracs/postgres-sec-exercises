@@ -12,7 +12,7 @@ At demonstrere, hvordan manglende eller forældet statistik kan føre til subopt
 
 1. Naviger til øvelsens mappe:
    ```bash
-   cd oevelser/02-statistik-er-ikke-et-fyord
+   cd oevelser/02-pg-stats-analyze
    ```
 
 2. Start Postgres-containeren:

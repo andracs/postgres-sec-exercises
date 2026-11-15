@@ -9,7 +9,7 @@ At lære forskellen på at kryptere følsomme felter i databasen (pgp_sym_encryp
 
 ## Start
 
-1. `cd oevelser/11-kryptering`
+1. `cd oevelser/11-pgcrypto`
 2. `docker compose up -d`
 3. `docker compose exec postgres pg_isready -U studie`
 4. `docker compose exec postgres psql -U studie -d studiebase`
