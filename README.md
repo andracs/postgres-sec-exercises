@@ -1,7 +1,7 @@
 
 # PostgreSQL sikkerhed - øvelsessamling
 
-En samling af 13 øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling. 
+En samling af øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling. 
 
 ![Postgres](https://github.com/andracs/postgres-sec-exercises/blob/main/docs/postgres.jpg?raw=true)
 
@@ -55,9 +55,7 @@ Vi kommer blandt andet til at arbejde med:
 - **Hardening og baseline security:** Sikring af standardkonfigurationen med udgangspunkt i anerkendte anbefalinger og sikkerhedsbenchmarks.
 - **Logging og overvågning:** Registrering og analyse af databaseaktiviteter, fejl og mistænkelig adfærd.
 - **Backup og recovery:** Sikring af dataintegritet, tilgængelighed og mulighed for at genskabe data efter fejl eller angreb.
-- **SQL Injection:** Forståelse af angreb mod databaser og forebyggelse gennem blandt andet parameteriserede forespørgsler.
-
-**Målet er ikke at uddanne jer til PostgreSQL-administratorer. Målet er at lære jer at tænke og arbejde systematisk med databasesikkerhed.**
+- **SQL Injection:** berøres i faget Softwaresikkerhed...
 
 Når I kan analysere en usikker PostgreSQL-installation, identificere sårbarheder, vurdere risici, implementere modforanstaltninger og dokumentere jeres arbejde, har I opnået færdigheder, der i høj grad kan overføres til andre databasesystemer.
 
@@ -95,8 +93,8 @@ Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i [LEARNING_PATHS
 
 ```mermaid
 flowchart LR
-    Start([Vælg din sti]) --> P1["🌱 Sti 1: Fundament<br/>01 · 02 · 03 · 04 · 06 · 07"]
-    Start --> P2["🔒 Sti 2: Sikkerhed<br/>07 · 08 · 10 · 11 · 13"]
+    Start([Vælg din sti]) --> P1["🌱 Sti 1: Generelt SQL performance<br/>01 · 02 · 03 · 04 · 06 · 07"]
+    Start --> P2["🔒 Sti 2: Sikkerhedsøvelser<br/>07 · 08 · 10 · 11 · 13"]
     Start --> P3["⚙️ Sti 3: Drift & data<br/>05 · 09 · 12 · 13"]
     P1 --> Done([Alle 13 øvelser])
     P2 --> Done
@@ -107,15 +105,11 @@ flowchart LR
 |---|-----|-----------|---------|-----|
 | 🌱 | [Sti 1: Fundament](./LEARNING_PATHS.md#sti-1-fundament) | Nybegyndere | 01 · 02 · 03 · 04 · 06 · 07 | ~4 t |
 | 🔒 | [Sti 2: Sikkerhed](./LEARNING_PATHS.md#sti-2-sikkerhed) | Alle | 07 · 08 · 10 · 11 · 13 | ~3,5 t |
-| ⚙️ | [Sti 3: Drift & data](./LEARNING_PATHS.md#sti-3-drift--data) | DBA'er / udviklere | 05 · 09 · 12 · 13 | ~4,5 t |
+| ⚙️ | [Sti 3: Drift & data](./LEARNING_PATHS.md#sti-3-drift--data) | Viderekomne | 05 · 09 · 12 · 13 | ~4,5 t |
 
 
 ### PBA IT-sikkerhed: anbefalet forløb (5 timer i klassen + 3 timer hjemme)
-
-- **I klassen (5 t):** 01 (45 min) · 02 (30 min) · 03 (45 min) · 04 (45 min) · 07 (45 min) · 08 (60 min)
-- **Hjemme (3 t):** 09 (60 min) · 10 (45 min) · 11 (45 min) · start på 12-13 (30 min)
-
-Se [LEARNING_PATHS.md](./LEARNING_PATHS.md#sti-4-pba-it-sikkerhed-5t-i-klassen--3t-hjemme).
+Vælg efter temperament - og få hands on træning i sikker DB-administration.
 
 ## Brugsanvisning
 
@@ -236,6 +230,8 @@ chmod +x scripts/to-sessioner.sh
 - Docker Compose: v2+
 - Sidst opdateret: November 2026
 
+---
+
 
 ### Kilder og videre læsning
 
@@ -248,6 +244,3 @@ chmod +x scripts/to-sessioner.sh
 7. [OWASP: SQL Injection Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet)
 8. [PostgreSQL: Logging](https://www.postgresql.org/docs/current/runtime-config-logging.html)
 
----
-
-*Lavet med kærlighed til databaseundervisning*
