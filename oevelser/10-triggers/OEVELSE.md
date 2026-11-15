@@ -1,5 +1,18 @@
 # Øvelse 10: Triggers og audit-log via funktioner
 
+## Diagram
+
+```mermaid
+flowchart LR
+    SQL["INSERT / UPDATE / DELETE<br/>på produkter"] --> BEF{"BEFORE-trigger<br/>tjek_pris()"}
+    BEF -- "pris under 0" --> ERR["RAISE EXCEPTION:<br/>statement afvises"]
+    BEF -- "gyldig" --> TAB[("produkter")]
+    TAB --> AFT["AFTER-trigger<br/>log_aendring()"]
+    AFT --> LOG[("audit_log:<br/>tabel, handling, detaljer")]
+```
+
+*BEFORE-triggeren er portvagten der afviser ugyldige data, AFTER-triggeren er bogholderen der aldrig glemmer at logge.*
+
 ## Formål
 At lære at lave trigger-funktioner og hægte dem på tabeller, så ændringer automatisk logges (audit) eller valideres — uden at applikationen kan glemme det.
 
@@ -67,7 +80,8 @@ UPDATE produkter SET pris = -5 WHERE navn = 'Bog';  -- fejler med din besked
 SELECT tgname, tgtype, tgenabled FROM pg_trigger WHERE NOT tgisinternal;
 ```
 
-### 6. Slå en trigger fra og til igen
+### 6. Slå en trigger fra og t
+il igen
 ```sql
 ALTER TABLE produkter DISABLE TRIGGER produkter_audit;
 UPDATE produkter SET pris = 1.00 WHERE navn = 'Bog';   -- ingen audit-række

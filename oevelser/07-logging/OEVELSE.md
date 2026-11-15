@@ -1,5 +1,24 @@
 # Øvelse 07: Logging og audit af databaseaktivitet
 
+## Diagram
+
+```mermaid
+flowchart LR
+    S["psql-session"] --> F{"Hvilke filtre<br/>er slået til?"}
+    F -- "log_statement = all" --> A["alle statements logges"]
+    F -- "log_min_duration_statement = 500" --> B["kun queries over 500 ms"]
+    F -- "log_connections = on" --> C["nye forbindelser logges"]
+    F -- "fejl som 1/0" --> E["ERROR i loggen<br/>sammen med statementet"]
+    A --> L[("logfil")]
+    B --> L
+    C --> L
+    E --> L
+    F -- "ingen match" --> X["intet logges:<br/>usynligt misbrug"]
+    L --> G["docker compose logs<br/>med grep til audit"]
+```
+
+*Logning er en pipeline af filtre: kun det der matcher en aktiv regel ender i loggen, resten er usynligt.*
+
 ## Formål
 At lære at slå logning til og fra, læse PostgreSQL-loggen og bruge den til fejlfinding og audit (hvem gjorde hvad, hvornår). Uden logning kan man ikke opdage misbrug bagefter.
 
@@ -75,7 +94,8 @@ docker compose logs postgres | grep -i "connection"
 
 ### 6. Se alle log-relaterede indstillinger
 ```sql
-SELECT name, setting FROM pg_settings WHERE name LIKE 'log%' ORDER BY name;
+SELECT name, setting FROM pg
+_settings WHERE name LIKE 'log%' ORDER BY name;
 ```
 
 ## Refleksion

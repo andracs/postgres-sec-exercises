@@ -1,5 +1,17 @@
 # Øvelse 02: Statistik og ANALYZE til bedre query-planer
 
+## Diagram
+
+```mermaid
+flowchart TD
+    Q["SELECT * FROM kunder<br/>WHERE status = 'inaktiv'"] --> P{"Har planlæggeren<br/>frisk statistik?"}
+    P -- "nej: ANALYZE er ikke kørt" --> G["planlæggeren gætter:<br/>alle værdier lige sandsynlige"]
+    G --> SEQ["Seq Scan<br/>læser alle rækker"]
+    P -- "ja: fordelingen er kendt<br/>(90% aktiv, 10% inaktiv)" --> IDX["Index Scan<br/>kun de matchende rækker"]
+```
+
+*Uden statistik gætter planlæggeren; med ANALYZE kender den den skæve fordeling og vælger en bedre plan.*
+
 ## Formål
 At demonstrere, hvordan manglende eller forældet statistik kan føre til suboptimale query-planer. Du vil oprette data med skæv fordeling, observere planlæggerens beslutninger uden statistik, og se forbedringen efter ANALYZE.
 
@@ -57,7 +69,8 @@ SELECT * FROM kunder WHERE status = 'inaktiv' AND aldersgruppe = '30-40';
 ```
 **Notér:** Planen vil sandsynligvis bruge en **sequential scan** fordi planlæggeren ikke kender datafordelingen.
 
-### 3. Kør ANALYZE
+### 3. Kør 
+ANALYZE
 Kør statistik-opdatering:
 ```sql
 ANALYZE kunder;
