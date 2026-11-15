@@ -16,7 +16,7 @@ stateDiagram-v2
     Idle --> Termineret : pg_terminate_backend(pid)
     IIT --> Termineret : pg_terminate_backend(pid)
     Termineret --> [*]
-    note right of IIT : farlig tilstand: holder låse og blokerer vacuum
+    note right of IIT : farlig tilstand, holder låse og blokerer vacuum
 ```
 
 *Forbindelsens livscyklus, som den vises i pg_stat_activity. Øvelsen finder og dræber de problematiske tilstande.*
@@ -68,7 +68,8 @@ docker compose exec postgres psql -U studie -d studiebase -c "\timing on" -c "SE
 ```
 **Tjek:** Query'en kører i 60 sekunder og blokkerer.
 
-**VIGTIGT:** Skriv IKKE `SELECT pg_sleep(60), * FROM store_data ...` — `pg_sleep()` i SELECT-listen kører én gang **pr. returneret række**, så med tusindvis af rækker ville den køre i timevis!
+**VIGTIGT:** Skriv IKKE 
+`SELECT pg_sleep(60), * FROM store_data ...` — `pg_sleep()` i SELECT-listen kører én gang **pr. returneret række**, så med tusindvis af rækker ville den køre i timevis!
 
 ### 3. Overvåg aktive forbindelser
 I den originale psql-session, kør:
@@ -148,6 +149,7 @@ Find PID'en for idle-in-transaction forbindelsen:
 SELECT pid FROM pg_stat_activity WHERE state = 'idle in transaction';
 ```
 
+
 Dræb den:
 ```sql
 SELECT pg_terminate_backend(Y);  -- Erstat Y med PID
@@ -200,6 +202,7 @@ WHERE NOT blocked_locks.GRANTED;
 Opret en view til nem overvågning:
 ```sql
 CREATE VIEW aktivitet_overvaagning AS
+
 SELECT 
     pid,
     usename,
@@ -264,7 +267,8 @@ Identificer en `idle in transaction`, der holder låse (tjek `pg_locks` for pid'
 
 - At bruge pg_stat_activity til at overvåge aktive forbindelser
 - At identificere langkørende queries
-- At finde og håndtere idle-in-transaction forbindelser
+- At finde og håndtere idle-in-transaction forb
+indelser
 - At dræbe problematiske forbindelser med pg_terminate_backend()
 - At detektere blokeringer mellem forbindelser
 - At oprette custom monitoring-views
