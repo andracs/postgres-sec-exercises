@@ -28,10 +28,10 @@ Respondenterne kunne vælge flere teknologier. Undersøgelsen viser udviklernes 
 
 PostgreSQL kombinerer en række egenskaber, som gør databasen relevant til både klassiske virksomhedssystemer og moderne AI-applikationer:
 
-- **Open source og digital suverænitet:** Gratis, en permissiv open source-licens og mulighed for at drive databasen på egne servere eller hos forskellige cloudleverandører. [PostgreSQL License](https://www.postgresql.org/about/licence/)
-- **Robusthed og skalerbarhed:** ACID-transaktioner, replikering, backup og recovery. Med den rigtige arkitektur kan PostgreSQL understøtte meget store produktionsmiljøer. [PostgreSQL Documentation](https://www.postgresql.org/docs/current/)
+- **Open source og digital suverænitet:** Gratis, en permissiv open source-licens og mulighed for at drive databasen på egne servere eller hos forskellige cloudleverandører. 
+- **Robusthed og skalerbarhed:** ACID-transaktioner, replikering, backup og recovery. Med den rigtige arkitektur kan PostgreSQL understøtte meget store produktionsmiljøer. 
 - **AI og moderne datatyper:** PostgreSQL understøtter blandt andet JSONB og kan udvides med [pgvector](https://github.com/pgvector/pgvector), der tilbyder vektorsøgning til eksempelvis AI-applikationer og semantisk søgning.
-- **Avanceret sikkerhed:** Rollebaseret adgangskontrol, Row-Level Security, stærk autentifikation, TLS og omfattende muligheder for logging og auditing. [PostgreSQL Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
+- **Avanceret sikkerhed:** Rollebaseret adgangskontrol, [Row-Level Security](https://www.postgresql.org/docs/current/ddl-rowsecurity.html), stærk autentifikation, TLS og omfattende muligheder for logging og auditing.
 - **Modent økosystem:** Databaseværktøjer, drivere, udvidelser og integrationer med stort set alle almindelige programmeringssprog og udviklingsplatforme.
 
 ### PostgreSQL i nogle af verdens største platforme
