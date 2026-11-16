@@ -71,21 +71,21 @@ Det er disse generelle kompetencer, vi træner.
 
 | Nr | Titel | Tier | Tid | Docker | Beskrivelse | Sikkerhedsaspekt |
 |----|-------|---------------|-----|--------|-------------|------------------|
-| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-benchmark-tuning/OEVELSE.md) | Tier 1 · Begynder | 30-45 min | 🐳 | Performance-tuning med pgbench og konfiguration | CIA-A · ressource/DoS |
-| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Tier 1 · Begynder | 30 min | 🐳 | ANALYZE og query-planlægning | — fundament |
-| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | EXPLAIN, seq scan, nested loop, hash join | — fundament |
-| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksoekonomi/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | Indekser, læse- vs skriveperformance | CIA-A · skrive-DoS |
-| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-normalisering-3nf/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | Normalisering, denormalisering | CIA-I · dataintegritet |
-| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Overvågning af aktive forbindelser | NIST AU · overvågning |
-| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | PostgreSQL-log, log_statement, fejlfinding | NIST AU-2/AU-9 · audit & log |
-| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller-rls/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Roller, GRANT/REVOKE, Row Level Security | NIST AC-3/AC-6 · least privilege, RLS |
-| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transaktioner/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner | CIA-I · NIST SI-7 (ACID) |
-| 10 | [Triggers og audit-log](./oevelser/10-triggere-audit/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER | NIST AU+SI · audit via triggers |
-| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt | CIA-C · NIST SC-28 (kryptering i hvile) |
-| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Tier 3 · Ekspert | 75 min | 🐳🐳 | pg_basebackup, WAL-arkivering, recovery_target_time | NIST CP-9/CP-10 · backup/PITR (CIA-A) |
-| 13 | [PostgreSQL Hardening: Network Access, Authentication, TLS & Secrets](./oevelser/13-hardening/OEVELSE.md) | Tier 3 · Ekspert | 60-90 min | 🐳🐳 | SSL-certifikater, pg_hba hostnossl, Docker secrets | NIST SC-8 TLS · IA-5 secrets (CIA-C) |
+| 01 | [Benchmarking og hukommelseskonfiguration med pgbench](./oevelser/01-benchmark-tuning/OEVELSE.md) | Tier 1 · Begynder | 30-45 min | 🐳 | Performance-tuning med pgbench og konfiguration | CIA-A · E.18 Loss Margins · E.29 Substantiated Trustworthiness |
+| 02 | [Statistik og ANALYZE til bedre query-planer](./oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md) | Tier 1 · Begynder | 30 min | 🐳 | ANALYZE og query-planlægning | fundament · E.8 Continuous Protection |
+| 03 | [Læsning af eksekveringsplaner med EXPLAIN](./oevelser/03-eksekveringsplan/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | EXPLAIN, seq scan, nested loop, hash join | fundament · E.1 Anomaly Detection |
+| 04 | [Indekser: hurtigere læsning, langsommere skrivning](./oevelser/04-indeksoekonomi/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | Indekser, læse- vs skriveperformance | CIA-A · E.3 Commensurate Protection · E.18 Loss Margins |
+| 05 | [Normalisering til 3NF og bevidst denormalisering](./oevelser/05-normalisering-3nf/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | Normalisering, denormalisering | CIA-I · E.25 Reduced Complexity · E.28 Structured Decomposition & Composition |
+| 06 | [Overvågning af forbindelser og queries med pg_stat_activity](./oevelser/06-pg-stat-activity/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Overvågning af aktive forbindelser | E.1 Anomaly Detection · E.8 Continuous Protection · overvågning |
+| 07 | [Logging og audit af databaseaktivitet](./oevelser/07-logging/OEVELSE.md) | Tier 1 · Begynder | 45 min | 🐳 | PostgreSQL-log, log_statement, fejlfinding | E.1 Anomaly Detection · E.29 Substantiated Trustworthiness · audit & log |
+| 08 | [Brugeradministration og rettigheder](./oevelser/08-roller-rls/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Roller, GRANT/REVOKE, Row Level Security | E.16 Least Privilege · E.19 Mediated Access · E.12 Domain Separation (RLS) |
+| 09 | [Transaktioner, isolation og savepoints](./oevelser/09-transaktioner/OEVELSE.md) | Tier 2 · Øvet | 60 min | 🐳 | ACID, isolationsniveauer, to sessioner | CIA-I · E.23 Protective Failure · E.12 Domain Separation (isolation) |
+| 10 | [Triggers og audit-log](./oevelser/10-triggere-audit/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | Trigger-funktioner, BEFORE/AFTER | E.9 Defense in Depth · E.29 Substantiated Trustworthiness · audit via triggers |
+| 11 | [Kryptering med pgcrypto](./oevelser/11-kryptering/OEVELSE.md) | Tier 2 · Øvet | 45 min | 🐳 | pgp_sym_encrypt, password-hash med crypt | CIA-C · E.17 Least Sharing · E.9 Defense in Depth (kryptering i hvile) |
+| 12 | [Backup og point-in-time recovery (PITR)](./oevelser/12-backup-pitr/OEVELSE.md) | Tier 3 · Ekspert | 75 min | 🐳🐳 | pg_basebackup, WAL-arkivering, recovery_target_time | CIA-A · E.24 Protective Recovery · E.26 Redundancy (backup/PITR) |
+| 13 | [PostgreSQL Hardening: Network Access, Authentication, TLS & Secrets](./oevelser/13-hardening/OEVELSE.md) | Tier 3 · Ekspert | 60-90 min | 🐳🐳 | SSL-certifikater, pg_hba hostnossl, Docker secrets | CIA-C · E.9 Defense in Depth · E.14 Least Functionality · E.22 Protective Defaults |
 
-*Sikkerhedsaspekt: CIA = fortrolighed (C), integritet (I), tilgængelighed (A). NIST henviser til kontrolfamilier i NIST SP 800-53: AU (audit/log), AC (adgangskontrol), SC (system & kommunikationsbeskyttelse), CP (beredskab/backup), SI (system- & informationsintegritet), IA (identifikation & autentifikation).*
+*Sikkerhedsaspekt: CIA = fortrolighed (C), integritet (I), tilgængelighed (A). E.x henviser til designprincipper i Appendix E, "Principles for Trustworthy Secure Design", i [NIST SP 800-160 Vol. 1 Rev. 1](https://doi.org/10.6028/NIST.SP.800-160v1r1). Principper brugt i tabellen: E.1 Anomaly Detection, E.3 Commensurate Protection, E.8 Continuous Protection, E.9 Defense in Depth, E.12 Domain Separation, E.14 Least Functionality, E.16 Least Privilege, E.17 Least Sharing, E.18 Loss Margins, E.19 Mediated Access, E.22 Protective Defaults, E.23 Protective Failure, E.24 Protective Recovery, E.25 Reduced Complexity, E.26 Redundancy, E.28 Structured Decomposition and Composition, E.29 Substantiated Trustworthiness.*
 
 ## 🧭 Læringsstier (ca. 5 timer)
 
