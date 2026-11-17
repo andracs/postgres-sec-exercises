@@ -16,7 +16,7 @@ stateDiagram-v2
     Idle --> Termineret : pg_terminate_backend(pid)
     IIT --> Termineret : pg_terminate_backend(pid)
     Termineret --> [*]
-    note right of IIT : farlig tilstand: holder låse og blokerer vacuum
+    note right of IIT : farlig tilstand - holder låse og blokerer vacuum
 ```
 
 *Forbindelsens livscyklus, som den vises i pg_stat_activity. Øvelsen finder og dræber de problematiske tilstande.*
