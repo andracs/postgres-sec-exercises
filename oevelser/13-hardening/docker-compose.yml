@@ -15,14 +15,23 @@ services:
       - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
       - pgdata:/var/lib/postgresql
     command:
-      - -c ssl=on
-      - -c ssl_cert_file=/certs/server.crt
-      - -c ssl_key_file=/certs/server.key
-      - -c hba_file=/etc/postgresql/pg_hba.conf
-      - -c listen_addresses=*
-      - -c log_connections=on
-      - -c log_disconnections=on
-      - -c log_statement=ddl
+      - postgres
+      - -c
+      - ssl=on
+      - -c
+      - ssl_cert_file=/certs/server.crt
+      - -c
+      - ssl_key_file=/certs/server.key
+      - -c
+      - hba_file=/etc/postgresql/pg_hba.conf
+      - -c
+      - listen_addresses=*
+      - -c
+      - log_connections=on
+      - -c
+      - log_disconnections=on
+      - -c
+      - log_statement=ddl
     ports:
       # kun loopback på hosten — ikke hele netværket
       - "127.0.0.1:5432:5432"
