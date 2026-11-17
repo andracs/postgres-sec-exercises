@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostgreSQL Øvelsessamling</title>
+    <title>PostgreSQL sikkerhed - øvelsessamling</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -21,7 +21,18 @@
         }
         h2 {
             color: #000;
+            margin-top: 32px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 6px;
+        }
+        h3 {
+            color: #24292e;
             margin-top: 24px;
+        }
+        img.header {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #eaecef;
         }
         .badge {
             display: inline-block;
@@ -32,24 +43,8 @@
             color: #586069;
             margin-right: 8px;
         }
-        .exercise-list {
-            list-style: none;
-            padding: 0;
-        }
-        .exercise-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid #eaecef;
-        }
-        .exercise-list li:last-child {
-            border-bottom: none;
-        }
-        .exercise-link {
-            color: #0366d6;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .exercise-link:hover {
-            text-decoration: underline;
+        .badge.security {
+            background: #dff0d8;
         }
         .meta {
             color: #6a737d;
@@ -67,6 +62,37 @@
             border-radius: 4px;
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
             font-size: 14px;
+        }
+        pre {
+            background: #fff;
+            border: 1px solid #eaecef;
+            border-radius: 6px;
+            padding: 12px 14px;
+            overflow-x: auto;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            font-size: 13px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 16px 0;
+            background: #fff;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #eaecef;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f1f3f4;
+        }
+        td.num, th.num {
+            text-align: right;
         }
         .path-grid {
             display: grid;
@@ -115,133 +141,220 @@
     </style>
 </head>
 <body>
-    <h1>PostgreSQL Øvelsessamling</h1>
+    <h1>PostgreSQL sikkerhed - øvelsessamling</h1>
 
-    <p>
-        En samling af 13 praktiske <strong>PostgreSQL</strong>-øvelser til undervisning i
-        databasesikkerhed, -administration og -optimering.
-        Hver øvelse er selvforsynende med Docker og kan køres lokalt.
-    </p>
+    <p>En samling af øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling.</p>
 
-    <h2>Forudsætninger</h2>
+    <p><img class="header" src="https://github.com/andracs/postgres-sec-exercises/blob/main/docs/postgres.jpg?raw=true" alt="Postgres"></p>
+
+    <h2>Hvorfor lige PostgreSQL?</h2>
+
+    <p><strong>PostgreSQL er i 2026 en af verdens mest populære og udbredte databaser blandt softwareudviklere.</strong> Ifølge <a href="https://survey.stackoverflow.co/2026/technology/data/databases">Stack Overflow Developer Survey 2026</a> er PostgreSQL den mest anvendte databaseteknologi blandt undersøgelsens 12.061 respondenter.</p>
+
+    <p>De mest anvendte databaseteknologier i undersøgelsen er:</p>
+
+    <table>
+        <thead>
+            <tr><th>Database</th><th class="num">Andel af udviklere</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>PostgreSQL</strong></td><td class="num"><strong>57,9 %</strong></td></tr>
+            <tr><td>SQLite</td><td class="num">42,1 %</td></tr>
+            <tr><td>MySQL</td><td class="num">35,1 %</td></tr>
+            <tr><td>Redis</td><td class="num">28,3 %</td></tr>
+            <tr><td>Microsoft SQL Server</td><td class="num">27,1 %</td></tr>
+            <tr><td>MariaDB</td><td class="num">20,3 %</td></tr>
+            <tr><td>MongoDB</td><td class="num">19,0 %</td></tr>
+            <tr><td>Oracle</td><td class="num">9,4 %</td></tr>
+        </tbody>
+    </table>
+
+    <p class="meta">Respondenterne kunne vælge flere teknologier. Undersøgelsen viser udviklernes anvendelse, ikke databasernes globale markedsandele.</p>
+
+    <h3>Hvorfor er PostgreSQL populær?</h3>
+
+    <p>PostgreSQL kombinerer en række egenskaber, som gør databasen relevant til både klassiske virksomhedssystemer og moderne AI-applikationer:</p>
+
     <ul>
-        <li><code>Docker Desktop</code> eller <code>Podman</code></li>
-        <li>Minimum 8 GB RAM</li>
+        <li><strong>Open source og digital suverænitet:</strong> Gratis, en permissiv open source-licens og mulighed for at drive databasen på egne servere eller hos forskellige cloudleverandører.</li>
+        <li><strong>Robusthed og skalerbarhed:</strong> ACID-transaktioner, replikering, backup og recovery. Med den rigtige arkitektur kan PostgreSQL understøtte meget store produktionsmiljøer.</li>
+        <li><strong>AI og moderne datatyper:</strong> PostgreSQL understøtter blandt andet JSONB og kan udvides med <a href="https://github.com/pgvector/pgvector">pgvector</a>, der tilbyder vektorsøgning til eksempelvis AI-applikationer og semantisk søgning.</li>
+        <li><strong>Avanceret sikkerhed:</strong> Rollebaseret adgangskontrol, <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">Row-Level Security</a>, stærk autentifikation, TLS og omfattende muligheder for logging og auditing.</li>
+        <li><strong>Modent økosystem:</strong> Databaseværktøjer, drivere, udvidelser og integrationer med stort set alle almindelige programmeringssprog og udviklingsplatforme.</li>
+    </ul>
+
+    <h3>PostgreSQL i nogle af verdens største platforme</h3>
+
+    <p>PostgreSQL bruges ikke kun af mindre virksomheder og udviklere. Det indgår også i infrastrukturen bag nogle af verdens største digitale tjenester.</p>
+
+    <ul>
+        <li><strong>ChatGPT / OpenAI:</strong> I januar 2026 beskrev OpenAI, hvordan PostgreSQL understøttede centrale dele af ChatGPT og OpenAI's API-platform med 800 millioner brugere og millioner af databaseforespørgsler i sekundet. Det krævede blandt andet omfattende optimering og næsten 50 læsereplikaer. <a href="https://openai.com/index/scaling-postgresql/">OpenAI Engineering, 2026</a></li>
+        <li><strong>Reddit:</strong> Reddit beskrev i juli 2025, hvordan PostgreSQL blev anvendt til lagring af platformens kommentardata, mens Memcached og Redis håndterede andre opgaver. <a href="https://www.reddit.com/r/RedditEng/comments/1mbqto6/modernizing_reddits_comment_backend_infrastructure/">Reddit Engineering, 2025</a></li>
+    </ul>
+
+    <p>PostgreSQL er ikke nødvendigvis den hurtigste database til alle opgaver, og store systemer bruger ofte flere forskellige databaseteknologier. Men dens alsidighed, stabilitet, åbne arkitektur og store udbredelse gør den til et stærkt valg.</p>
+
+    <h3>Hvorfor lærer vi databasesikkerhed med PostgreSQL?</h3>
+
+    <p>Vi bruger PostgreSQL i systemsikkerhed, fordi vi kan arbejde praktisk med <strong>grundlæggende sikkerhedsprincipper, der også gælder for andre DBMS'er</strong>, eksempelvis MySQL, MariaDB, Microsoft SQL Server, Oracle og til dels NoSQL-databaser som MongoDB.</p>
+
+    <p>Vi kommer blandt andet til at arbejde med:</p>
+
+    <ul>
+        <li><strong>Autentifikation:</strong> Hvem må forbinde til databasen? Stærke adgangskoder, SCRAM-SHA-256 og adgangsregler i <code>pg_hba.conf</code>.</li>
+        <li><strong>Autorisation og Least Privilege:</strong> Hvad må forskellige brugere og services gøre? Roller, rettigheder, <code>GRANT</code>, <code>REVOKE</code> og Row-Level Security.</li>
+        <li><strong>Netværkssikkerhed:</strong> Begrænsning af adgang, krypterede forbindelser med TLS og reduktion af angrebsfladen.</li>
+        <li><strong>Hardening og baseline security:</strong> Sikring af standardkonfigurationen med udgangspunkt i anerkendte anbefalinger og sikkerhedsbenchmarks.</li>
+        <li><strong>Logging og overvågning:</strong> Registrering og analyse af databaseaktiviteter, fejl og mistænkelig adfærd.</li>
+        <li><strong>Backup og recovery:</strong> Sikring af dataintegritet, tilgængelighed og mulighed for at genskabe data efter fejl eller angreb.</li>
+        <li><strong>SQL Injection:</strong> berøres i faget Softwaresikkerhed...</li>
+    </ul>
+
+    <p>Når I kan analysere en usikker PostgreSQL-installation, identificere sårbarheder, vurdere risici, implementere modforanstaltninger og dokumentere jeres arbejde, har I opnået færdigheder, der i høj grad kan overføres til andre databasesystemer.</p>
+
+    <p>Kommandoer, konfigurationsfiler og sikkerhedsfunktioner varierer mellem DBMS'er, men de grundlæggende principper er stort set de samme: <strong>beskyt data, begræns adgang, registrer hændelser, sikr tilgængelighed, og verificér at sikkerhedsforanstaltningerne faktisk virker.</strong></p>
+
+    <p>Det er disse generelle kompetencer, vi træner.</p>
+
+    <h2>Du skal bruge</h2>
+    <ul>
+        <li>Docker Desktop eller Podman</li>
+        <li>Minimum 8 GB RAM anbefalet</li>
         <li>Grundlæggende kendskab til SQL og terminal</li>
         <li><code>openssl</code> og <code>psql</code> på hosten (kun øvelse 13)</li>
     </ul>
 
     <h2>Øvelser</h2>
 
-    <p class="meta">Sikkerhedsaspekt: <strong>CIA</strong> = fortrolighed/integritet/tilgængelighed (C/I/A). <strong>E.x</strong> = designprincip i Appendix E ("Principles for Trustworthy Secure Design") i <a href="https://doi.org/10.6028/NIST.SP.800-160v1r1">NIST SP 800-160 Vol. 1 Rev. 1</a>.</p>
-    <ul class="exercise-list">
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/01-benchmark-tuning/OEVELSE.md" class="exercise-link">01: Benchmarking og hukommelseskonfiguration med pgbench</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-A · E.18 Loss Margins · E.29 Substantiated Trustworthiness</span>
-                <span><span class="badge">Let</span> 30-45 min</span>
-                <span>Performance-tuning med pgbench og konfiguration</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md" class="exercise-link">02: Statistik og ANALYZE til bedre query-planer</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">fundament · E.8 Continuous Protection</span>
-                <span><span class="badge">Let</span> 30 min</span>
-                <span>ANALYZE og query-planlægning</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/03-eksekveringsplan/OEVELSE.md" class="exercise-link">03: Læsning af eksekveringsplaner med EXPLAIN</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">fundament · E.1 Anomaly Detection</span>
-                <span><span class="badge">Let</span> 45 min</span>
-                <span>EXPLAIN, Seq Scan, Nested Loop, Hash Join</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/04-indeksoekonomi/OEVELSE.md" class="exercise-link">04: Indekser: hurtigere læsning, langsommere skrivning</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-A · E.3 Commensurate Protection · E.18 Loss Margins</span>
-                <span><span class="badge">Let</span> 45 min</span>
-                <span>Indekser, læse- vs skriveperformance</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/05-normalisering-3nf/OEVELSE.md" class="exercise-link">05: Normalisering til 3NF og bevidst denormalisering</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-I · E.25 Reduced Complexity · E.28 Structured Decomposition & Composition</span>
-                <span><span class="badge">Middel</span> 60 min</span>
-                <span>Normalisering, denormalisering</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/06-pg-stat-activity/OEVELSE.md" class="exercise-link">06: Overvågning af forbindelser og queries med pg_stat_activity</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">E.1 Anomaly Detection · E.8 Continuous Protection · overvågning</span>
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>Overvågning af aktive forbindelser</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/07-logging/OEVELSE.md" class="exercise-link">07: Logging og audit af databaseaktivitet</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">E.1 Anomaly Detection · E.29 Substantiated Trustworthiness · audit & log</span>
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>PostgreSQL-log, log_statement, fejlfinding</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/08-roller-rls/OEVELSE.md" class="exercise-link">08: Brugeradministration og rettigheder (roller, GRANT/REVOKE, RLS)</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">E.16 Least Privilege · E.19 Mediated Access · E.12 Domain Separation (RLS)</span>
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>Roller, GRANT/REVOKE, Row Level Security</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/09-transaktioner/OEVELSE.md" class="exercise-link">09: Transaktioner, isolation og savepoints</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-I · E.23 Protective Failure · E.12 Domain Separation</span>
-                <span><span class="badge">Middel</span> 60 min</span>
-                <span>ACID, isolationsniveauer, to sessioner</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/10-triggere-audit/OEVELSE.md" class="exercise-link">10: Triggers og audit-log</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">E.9 Defense in Depth · E.29 Substantiated Trustworthiness · audit via triggers</span>
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>Trigger-funktioner, BEFORE/AFTER</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/11-kryptering/OEVELSE.md" class="exercise-link">11: Kryptering med pgcrypto</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-C · E.17 Least Sharing · E.9 Defense in Depth (kryptering i hvile)</span>
-                <span><span class="badge">Middel</span> 45 min</span>
-                <span>pgp_sym_encrypt, password-hash med crypt</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/12-backup-pitr/OEVELSE.md" class="exercise-link">12: Backup og point-in-time recovery (PITR)</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-A · E.24 Protective Recovery · E.26 Redundancy (backup/PITR)</span>
-                <span><span class="badge">Svær</span> 75 min</span>
-                <span>pg_basebackup, WAL-arkivering, recovery_target_time</span>
-            </div>
-        </li>
-        <li>
-            <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/13-hardening/OEVELSE.md" class="exercise-link">13: PostgreSQL Hardening: Network Access, Authentication, TLS & Secrets</a>
-            <div class="meta">
-                <span class="badge" style="background:#dff0d8;">CIA-C · E.9 Defense in Depth · E.14 Least Functionality · E.22 Protective Defaults</span>
-                <span><span class="badge">Svær</span> 60 min</span>
-                <span>SSL-certifikater, pg_hba hostnossl, Docker secrets</span>
-            </div>
-        </li>
-    </ul>
+    <table>
+        <thead>
+            <tr><th>Nr</th><th>Titel</th><th>Tier</th><th>Tid</th><th>Docker</th><th>Beskrivelse</th><th>Sikkerhedsaspekt</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>01</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/01-benchmark-tuning/OEVELSE.md">Benchmarking og hukommelseskonfiguration med pgbench</a></td>
+                <td>Tier 1 · Begynder</td>
+                <td>30-45 min</td>
+                <td>🐳</td>
+                <td>Performance-tuning med pgbench og konfiguration</td>
+                <td><span class="badge security">CIA-A · E.18 Loss Margins · E.29 Substantiated Trustworthiness</span></td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/02-statistik-er-ikke-et-fyord/OEVELSE.md">Statistik og ANALYZE til bedre query-planer</a></td>
+                <td>Tier 1 · Begynder</td>
+                <td>30 min</td>
+                <td>🐳</td>
+                <td>ANALYZE og query-planlægning</td>
+                <td><span class="badge security">fundament · E.8 Continuous Protection</span></td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/03-eksekveringsplan/OEVELSE.md">Læsning af eksekveringsplaner med EXPLAIN</a></td>
+                <td>Tier 1 · Begynder</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>EXPLAIN, seq scan, nested loop, hash join</td>
+                <td><span class="badge security">fundament · E.1 Anomaly Detection</span></td>
+            </tr>
+            <tr>
+                <td>04</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/04-indeksoekonomi/OEVELSE.md">Indekser: hurtigere læsning, langsommere skrivning</a></td>
+                <td>Tier 1 · Begynder</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>Indekser, læse- vs skriveperformance</td>
+                <td><span class="badge security">CIA-A · E.3 Commensurate Protection · E.18 Loss Margins</span></td>
+            </tr>
+            <tr>
+                <td>05</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/05-normalisering-3nf/OEVELSE.md">Normalisering til 3NF og bevidst denormalisering</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>60 min</td>
+                <td>🐳</td>
+                <td>Normalisering, denormalisering</td>
+                <td><span class="badge security">CIA-I · E.25 Reduced Complexity · E.28 Structured Decomposition &amp; Composition</span></td>
+            </tr>
+            <tr>
+                <td>06</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/06-pg-stat-activity/OEVELSE.md">Overvågning af forbindelser og queries med pg_stat_activity</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>Overvågning af aktive forbindelser</td>
+                <td><span class="badge security">E.1 Anomaly Detection · E.8 Continuous Protection · overvågning</span></td>
+            </tr>
+            <tr>
+                <td>07</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/07-logging/OEVELSE.md">Logging og audit af databaseaktivitet</a></td>
+                <td>Tier 1 · Begynder</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>PostgreSQL-log, log_statement, fejlfinding</td>
+                <td><span class="badge security">E.1 Anomaly Detection · E.29 Substantiated Trustworthiness · audit &amp; log</span></td>
+            </tr>
+            <tr>
+                <td>08</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/08-roller-rls/OEVELSE.md">Brugeradministration og rettigheder</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>Roller, GRANT/REVOKE, Row Level Security</td>
+                <td><span class="badge security">E.16 Least Privilege · E.19 Mediated Access · E.12 Domain Separation (RLS)</span></td>
+            </tr>
+            <tr>
+                <td>09</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/09-transaktioner/OEVELSE.md">Transaktioner, isolation og savepoints</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>60 min</td>
+                <td>🐳</td>
+                <td>ACID, isolationsniveauer, to sessioner</td>
+                <td><span class="badge security">CIA-I · E.23 Protective Failure · E.12 Domain Separation (isolation)</span></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/10-triggere-audit/OEVELSE.md">Triggers og audit-log</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>Trigger-funktioner, BEFORE/AFTER</td>
+                <td><span class="badge security">E.9 Defense in Depth · E.29 Substantiated Trustworthiness · audit via triggers</span></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/11-kryptering/OEVELSE.md">Kryptering med pgcrypto</a></td>
+                <td>Tier 2 · Øvet</td>
+                <td>45 min</td>
+                <td>🐳</td>
+                <td>pgp_sym_encrypt, password-hash med crypt</td>
+                <td><span class="badge security">CIA-C · E.17 Least Sharing · E.9 Defense in Depth (kryptering i hvile)</span></td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/12-backup-pitr/OEVELSE.md">Backup og point-in-time recovery (PITR)</a></td>
+                <td>Tier 3 · Ekspert</td>
+                <td>75 min</td>
+                <td>🐳🐳</td>
+                <td>pg_basebackup, WAL-arkivering, recovery_target_time</td>
+                <td><span class="badge security">CIA-A · E.24 Protective Recovery · E.26 Redundancy (backup/PITR)</span></td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td><a href="https://github.com/andracs/postgres-sec-exercises/blob/main/oevelser/13-hardening/OEVELSE.md">PostgreSQL Hardening: Network Access, Authentication, TLS &amp; Secrets</a></td>
+                <td>Tier 3 · Ekspert</td>
+                <td>60-90 min</td>
+                <td>🐳🐳</td>
+                <td>SSL-certifikater, pg_hba hostnossl, Docker secrets</td>
+                <td><span class="badge security">CIA-C · E.9 Defense in Depth · E.14 Least Functionality · E.22 Protective Defaults</span></td>
+            </tr>
+        </tbody>
+    </table>
 
-    <h2>Læringsstier</h2>
+    <p class="meta"><em>Sikkerhedsaspekt: <strong>CIA</strong> = fortrolighed (C), integritet (I), tilgængelighed (A). <strong>E.x</strong> henviser til designprincipper i Appendix E, "Principles for Trustworthy Secure Design", i <a href="https://doi.org/10.6028/NIST.SP.800-160v1r1">NIST SP 800-160 Vol. 1 Rev. 1</a>. Principper brugt i tabellen: E.1 Anomaly Detection, E.3 Commensurate Protection, E.8 Continuous Protection, E.9 Defense in Depth, E.12 Domain Separation, E.14 Least Functionality, E.16 Least Privilege, E.17 Least Sharing, E.18 Loss Margins, E.19 Mediated Access, E.22 Protective Defaults, E.23 Protective Failure, E.24 Protective Recovery, E.25 Reduced Complexity, E.26 Redundancy, E.28 Structured Decomposition and Composition, E.29 Substantiated Trustworthiness.</em></p>
+
+    <h2>🧭 Læringsstier (ca. 5 timer)</h2>
+
     <p>
         Usikker på hvor du skal starte? Vælg en sti. Detaljer findes i
         <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md">LEARNING_PATHS.md</a>.
@@ -267,31 +380,127 @@
             <a class="path-card" href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md#sti-3-drift--data" style="--accent: #8250df;">
                 <div class="icon">⚙️</div>
                 <h3>Sti 3: Drift &amp; data</h3>
-                <div class="meta">DBA'er / udviklere &middot; ~4,5 t</div>
+                <div class="meta">Viderekomne &middot; ~4,5 t</div>
                 <div class="exercises">05 · 09 · 12 · 13</div>
             </a>
         </li>
     </ul>
 
-    <h2>Brug</h2>
-    <p>
-        Klon repositoryet og naviger til den ønskede øvelse:
-    </p>
-    <pre><code>git clone https://github.com/andracs/postgres-sec-exercises.git
-cd postgres-sec-exercises/oevelser/01-benchmark-tuning
-docker compose up -d
-# Vent på database
-docker compose exec postgres pg_isready -U studie
-# Følg instruktionerne i OEVELSE.md
-# Ryd op
-docker compose down -v</code></pre>
+    <p><strong>PBA IT-sikkerhed: anbefalet forløb (5 timer i klassen + 3 timer hjemme)</strong><br>
+    Vælg efter temperament - og få hands on træning i sikker DB-administration.</p>
 
-    <h2>Login</h2>
-    <p>
-        Øvelse 01-12 bruger: <code>studie</code> / password <code>studie</code> / database <code>studiebase</code>
-        på <code>localhost:5432</code>.<br>
-        Øvelse 13 (TLS/secrets) henter password fra Docker secret — se <code>secrets/db_password.txt</code> efter <code>./scripts/setup.sh</code>.
-    </p>
+    <h2>Brugsanvisning</h2>
+
+    <p>Klon repositoryet, hvis du ikke allerede har gjort det:</p>
+    <pre><code>git clone https://github.com/andracs/postgres-sec-exercises.git
+cd postgres-sec-exercises</code></pre>
+
+    <h3>For studerende:</h3>
+    <ol>
+        <li><strong>Vælg en øvelse</strong> fra listen ovenfor</li>
+        <li>
+            Naviger til den ønskede øvelsesmappe:
+            <pre><code>cd oevelser/07-logging   # eller en anden øvelse fra tabellen ovenfor</code></pre>
+        </li>
+        <li>
+            Start øvelsen:
+            <pre><code>docker compose up -d</code></pre>
+        </li>
+        <li>
+            Vent på, at databasen er klar (ca. 10-15 sekunder):
+            <pre><code>docker compose exec postgres pg_isready -U studie</code></pre>
+            Forventet output: <code>/var/run/postgresql:5432 - accepting connections</code>
+        </li>
+        <li>
+            Koble til databasen:
+            <pre><code>docker compose exec postgres psql -U studie -d studiebase</code></pre>
+        </li>
+        <li>Følg instruktionerne i <code>OEVELSE.md</code></li>
+        <li>
+            <strong>VIGTIGT</strong>: Ryd op efter hver øvelse:
+            <pre><code>docker compose down -v</code></pre>
+            Dette fjerner containere, volumener og netværk.
+        </li>
+    </ol>
+
+    <h3>Facit (løsninger) til alle øvelser</h3>
+    <ul>
+        <li>Facit findes i <a href="https://github.com/andracs/postgres-sec-exercises/tree/main/facit"><code>facit/</code></a> mappen</li>
+        <li>Hver facit-fil indeholder forventede outputs og svar på refleksionsspørgsmål</li>
+        <li>Al data er deterministiske (fast seed), så resultater kan reproduceres</li>
+    </ul>
+
+    <h3>Generelle tips</h3>
+    <ul>
+        <li><strong>Alle øvelser</strong> bruger det samme login:
+            <ul>
+                <li>Bruger: <code>studie</code></li>
+                <li>Password: <code>studie</code></li>
+                <li>Database: <code>studiebase</code></li>
+                <li>Port: <code>5432</code></li>
+            </ul>
+        </li>
+        <li><strong>Øvelse 13 (TLS/secrets)</strong> henter password fra Docker secret — se <code>secrets/db_password.txt</code> efter <code>./scripts/setup.sh</code>.</li>
+        <li><strong>Port konflikter</strong>: Kør kun én øvelse ad gangen, da alle bruger port 5432</li>
+        <li><strong>Ventetid</strong>: Containerne tager 10-30 sekunder at starte, afhængigt af om Docker images allerede er downloadet</li>
+        <li><strong>Deterministiske data</strong>: Alle seed-scripts bruger <code>SET seed = 0.42;</code> for at sikre reproducerbare resultater</li>
+    </ul>
+
+    <h3>For øvelser med to sessioner (09):</h3>
+    <pre><code># Start to sessioner
+./scripts/to-sessioner.sh
+
+# Eller manuelt:
+docker compose exec -it postgres psql -U studie -d studiebase &amp;
+docker compose exec -it postgres psql -U studie -d studiebase</code></pre>
+
+    <h2>Fejlfinding</h2>
+
+    <h3>"Port is already allocated"</h3>
+    <p><strong>Årsag</strong>: En anden container bruger port 5432<br>
+    <strong>Løsning</strong>:</p>
+    <pre><code># Stop den forrige øvelse
+cd ../[forrige-oevelse]
+docker compose down
+
+# Prøv igen
+cd ../[ny-oevelse]
+docker compose up -d</code></pre>
+
+    <h3>"Database does not exist"</h3>
+    <p><strong>Årsag</strong>: Containeren er ikke færdig med at initialisere<br>
+    <strong>Løsning</strong>: Vent 10-15 sekunder og prøv:</p>
+    <pre><code>docker compose exec postgres pg_isready -U studie</code></pre>
+
+    <h3>"Connection refused"</h3>
+    <p><strong>Årsag</strong>: Containeren kører ikke<br>
+    <strong>Løsning</strong>: Tjek status:</p>
+    <pre><code>docker compose ps</code></pre>
+    <p>Hvis containeren ikke kører, start den:</p>
+    <pre><code>docker compose start</code></pre>
+
+    <h3>"Permission denied" på scripts</h3>
+    <p><strong>Løsning</strong>: Gør scriptet eksekverbart:</p>
+    <pre><code>chmod +x scripts/to-sessioner.sh</code></pre>
+
+    <h2>Docker images brugt</h2>
+    <ul>
+        <li><strong>PostgreSQL</strong>: <code>postgres:18</code> til alle øvelser (øvelse 11 bruger også <code>pgcrypto</code> fra contrib, som følger med i imagen)</li>
+    </ul>
+
+    <h2>Bidrag og rapportering</h2>
+    <ul>
+        <li>Rapportér fejl via <a href="https://github.com/andracs/postgres-sec-exercises/issues">GitHub Issues</a></li>
+        <li>Alle init-scripts er verificeret automatisk (køres to gange uden fejl); øvelserne er testet med Docker på macOS/Linux/Windows</li>
+        <li>8 GB RAM anbefalet</li>
+    </ul>
+
+    <h2>Versioner</h2>
+    <ul>
+        <li>PostgreSQL: 18.7</li>
+        <li>Docker Compose: v2+</li>
+        <li>Sidst opdateret: November 2026</li>
+    </ul>
 
     <h2>Dokumentation</h2>
     <p>
@@ -299,6 +508,18 @@ docker compose down -v</code></pre>
         <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/LEARNING_PATHS.md">LEARNING_PATHS.md</a> — læringsstier<br>
         <a href="https://github.com/andracs/postgres-sec-exercises/blob/main/facit/README.md">facit/README.md</a> — løsninger (kun til undervisere)
     </p>
+
+    <h2>Kilder og videre læsning</h2>
+    <ol>
+        <li><a href="https://survey.stackoverflow.co/2026/technology/data/databases">Stack Overflow Developer Survey 2026: Databases</a></li>
+        <li><a href="https://openai.com/index/scaling-postgresql/">OpenAI (2026): Scaling PostgreSQL to power 800 million ChatGPT users</a></li>
+        <li><a href="https://www.reddit.com/r/RedditEng/comments/1mbqto6/modernizing_reddits_comment_backend_infrastructure/">Reddit Engineering (2025): Modernizing Reddit's Comment Backend Infrastructure</a></li>
+        <li><a href="https://github.com/pgvector/pgvector">pgvector: Open-source vector similarity search for PostgreSQL</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/auth-pg-hba-conf.html">PostgreSQL: Client Authentication og pg_hba.conf</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL: Row-Level Security</a></li>
+        <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet">OWASP: SQL Injection Prevention Cheat Sheet</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/runtime-config-logging.html">PostgreSQL: Logging</a></li>
+    </ol>
 
     <footer>
         <p>
