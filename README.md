@@ -1,9 +1,11 @@
-
 # PostgreSQL sikkerhed - øvelsessamling
 
 En samling af øvelser til undervisning i PostgreSQL-administration, -optimering og -udvikling. 
 
 ![Postgres](https://github.com/andracs/postgres-sec-exercises/blob/main/docs/postgres.jpg?raw=true)
+
+Slides som præsenterer denne øvelsesrække: https://docs.google.com/presentation/d/1Mr1iYKhL4rX2Dnwv1KxYlFvM5yIz7RGx/edit?slide=id.p1#slide=id.p1 
+
 
 ## Hvorfor lige PostgreSQL?
 
